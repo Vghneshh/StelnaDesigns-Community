@@ -3,7 +3,7 @@ import SearchBar from './components/SearchBar'
 import ResultCard from './components/ResultCard'
 import LoadingGrid from './components/LoadingGrid'
 
-const SITES = ['Thingiverse', 'Printables', 'Cults3D', 'MyMiniFactory', 'CGTrader', 'Sketchfab']
+const SITES = ['Thingiverse', 'Cults3D', 'MyMiniFactory', 'CGTrader', 'Sketchfab']
 
 export default function App() {
   const [results, setResults] = useState([])
@@ -32,7 +32,7 @@ export default function App() {
     setQuery(q)
     const start = Date.now()
 
-    const es = new EventSource(`http://localhost:5000/api/search/stream?q=${encodeURIComponent(q)}`)
+    const es = new EventSource(`${import.meta.env.VITE_API_URL}/api/search/stream?q=${encodeURIComponent(q)}`)
     esRef.current = es
 
     es.onmessage = (e) => {
