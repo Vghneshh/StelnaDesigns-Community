@@ -1,3 +1,7 @@
+// Root route for Render health check
+app.get("/", (req, res) => {
+  res.send("Backend is running 🚀");
+});
 require('dotenv').config()
 
 const express = require('express')
