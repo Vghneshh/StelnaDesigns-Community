@@ -1,7 +1,4 @@
-// Root route for Render health check
-app.get("/", (req, res) => {
-  res.send("Backend is running 🚀");
-});
+
 require('dotenv').config()
 
 const express = require('express')
@@ -11,6 +8,11 @@ const { scrapeAll, searchSketchfab, searchThingiverse, searchMyMiniFactory, sear
 
 const app = express()
 const PORT = 5000
+
+// Root route for Render health check
+app.get("/", (req, res) => {
+  res.send("Backend is running 🚀");
+});
 
 // Middleware
 app.use(cors({ origin: 'http://localhost:5173' }))
