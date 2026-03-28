@@ -3,7 +3,7 @@ require('dotenv').config()
 const express = require('express')
 const cors = require('cors')
 const rateLimit = require('express-rate-limit')
-const { scrapeAll, searchSketchfab, searchThingiverse, searchPrintables, searchMyMiniFactory, searchCults3D } = require('./scraper')
+const { scrapeAll, searchSketchfab, searchThingiverse, searchMyMiniFactory, searchCults3D } = require('./scraper')
 
 const app = express()
 const PORT = 5000
@@ -59,7 +59,6 @@ app.get('/api/search/stream', async (req, res) => {
   const sources = [
     searchSketchfab(query).then(r => send('sketchfab', r)).catch(() => {}),
     searchThingiverse(query).then(r => send('thingiverse', r)).catch(() => {}),
-    searchPrintables(query).then(r => send('printables', r)).catch(() => {}),
     searchMyMiniFactory(query).then(r => send('myminifactory', r)).catch(() => {}),
     searchCults3D(query).then(r => send('cults3d', r)).catch(() => {}),
   ]
