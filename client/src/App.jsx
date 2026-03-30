@@ -119,7 +119,7 @@ export default function App() {
           </div>
 
 
-          <h1 style={{
+          <h1 className="hero-headline" style={{
             fontFamily: 'var(--sans)',
             fontSize: 'clamp(32px, 5vw, 52px)',
             fontWeight: '700',
@@ -128,8 +128,8 @@ export default function App() {
             marginBottom: '12px',
             color: 'var(--text)',
           }}>
-            One search.<br />
-            <span style={{ color: 'var(--amber)' }}>Every 3D CAD library.</span>
+            <div>One search.</div>
+            <div><span style={{ color: 'var(--amber)' }}>Every 3D CAD library.</span></div>
           </h1>
 
           <p style={{
@@ -146,30 +146,35 @@ export default function App() {
           <SearchBar onSearch={handleSearch} loading={loading} />
 
           {/* Sites strip */}
-          <div style={{
-            display: 'flex',
+          <div className="sites-strip-wrapper" style={{
             marginTop: '28px',
             border: '1px solid var(--border)',
             borderRadius: '6px',
-            overflow: 'hidden',
+            overflow: 'auto',
+            WebkitOverflowScrolling: 'touch',
           }}>
-            {SITES.map(s => (
-              <div key={s} style={{
-                flex: 1,
-                padding: '7px 4px',
-                textAlign: 'center',
-                fontFamily: 'var(--mono)',
-                fontSize: '9px',
-                color: 'var(--text3)',
-                letterSpacing: '0.3px',
-                borderRight: '1px solid var(--border)',
-                whiteSpace: 'nowrap',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-              }}>
-                {s}
-              </div>
-            ))}
+            <div style={{
+              display: 'flex',
+              minWidth: '340px',
+            }}>
+              {SITES.map(s => (
+                <div key={s} style={{
+                  flexShrink: 0,
+                  padding: '7px 12px',
+                  textAlign: 'center',
+                  fontFamily: 'var(--mono)',
+                  fontSize: '9px',
+                  color: 'var(--text3)',
+                  letterSpacing: '0.3px',
+                  borderRight: '1px solid var(--border)',
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                }}>
+                  {s}
+                </div>
+              ))}
+            </div>
           </div>
         </section>
 
@@ -367,7 +372,8 @@ export default function App() {
           padding: '24px 0',
           borderTop: '1px solid var(--border)',
           display: 'flex',
-          justifyContent: 'space-between',
+          flexDirection: 'column',
+          gap: '6px',
           fontFamily: 'var(--mono)',
           fontSize: '10px',
           color: 'var(--text3)',
@@ -379,6 +385,23 @@ export default function App() {
         </footer>
 
       </div>
+      {/* Responsive styles for hero, sites strip, and footer */}
+      <style>{`
+        @media (max-width: 480px) {
+          .hero-headline {
+            font-size: 28px !important;
+            letter-spacing: -0.5px !important;
+          }
+          .footer {
+            flex-direction: column !important;
+            gap: 8px !important;
+            align-items: flex-start !important;
+          }
+          .sites-strip-wrapper > div {
+            min-width: 320px !important;
+          }
+        }
+      `}</style>
     </div>
   )
 }
