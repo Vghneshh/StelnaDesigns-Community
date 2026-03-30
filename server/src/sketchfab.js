@@ -32,6 +32,7 @@ async function searchSketchfab(query) {
         const description = model.description
           ? model.description.replace(/<[^>]*>/g, '').trim().slice(0, 300)
           : null
+        const detectedTypes = detectFileTypes({ title, description }) || [];
         return {
           title,
           description,
@@ -39,11 +40,7 @@ async function searchSketchfab(query) {
           url: model.viewerUrl || `https://sketchfab.com/models/${model.uid}`,
           source: 'sketchfab.com',
           author: model.user?.displayName || null,
-          fileTypes: detectFileTypes({
-            title,
-            description,
-            files: model.files || [],
-          }),
+          fileTypes: detectedTypes.length > 0 ? detectedTypes : ['STL', 'OBJ', 'FBX'],
           downloads: model.downloadCount || 0,
         }
       })

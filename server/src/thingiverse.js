@@ -27,17 +27,18 @@ async function searchThingiverse(query) {
       const description = thing.description
         ? thing.description.replace(/<[^>]*>/g, '').trim().slice(0, 300)
         : null
-      return {
-        title,
-        description,
-        tags: thing.tags?.map(t => t.name) || [],
-        imageUrl: thing.preview_image || thing.thumbnail || null,
-        url: thing.public_url || `https://www.thingiverse.com/thing:${thing.id}`,
-        source: 'thingiverse.com',
-        author: thing.creator?.name || null,
-        fileTypes: detectFileTypes({ title, description }),
-        downloads: thing.download_count || 0,
-      }
+        const detectedTypes = detectFileTypes({ title, description }) || [];
+        return {
+          title,
+          description,
+          tags: thing.tags?.map(t => t.name) || [],
+          imageUrl: thing.preview_image || thing.thumbnail || null,
+          url: thing.public_url || `https://www.thingiverse.com/thing:${thing.id}`,
+          source: 'thingiverse.com',
+          author: thing.creator?.name || null,
+          fileTypes: detectedTypes.length > 0 ? detectedTypes : ['STL'],
+          downloads: thing.download_count || 0,
+        }
     })
 
     console.log(`[Thingiverse API] ${results.length} results for "${query}"`)
