@@ -118,6 +118,7 @@ export default function App() {
             {/* intentionally left blank for clean hero */}
           </div>
 
+
           <h1 style={{
             fontFamily: 'var(--sans)',
             fontSize: 'clamp(32px, 5vw, 52px)',
@@ -127,7 +128,8 @@ export default function App() {
             marginBottom: '12px',
             color: 'var(--text)',
           }}>
-            One search. <span style={{ color: 'var(--amber)' }}>Every 3D CAD library.</span>
+            One search.<br />
+            <span style={{ color: 'var(--amber)' }}>Every 3D CAD library.</span>
           </h1>
 
           <p style={{
