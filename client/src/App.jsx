@@ -101,7 +101,7 @@ export default function App() {
             color: 'var(--text3)',
             letterSpacing: '1px',
           }}>
-            7 SOURCES // v0.1.0
+            v0.1.0
           </span>
         </header>
 
@@ -212,7 +212,7 @@ export default function App() {
               flexShrink: 0,
               animation: 'pulse 1s ease-in-out infinite',
             }} />
-            Searching more sources...
+            Querying all sources in parallel
           </div>
         )}
 
