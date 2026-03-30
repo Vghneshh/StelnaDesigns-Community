@@ -1,7 +1,7 @@
 const axios = require('axios')
 
 const SKETCHFAB_API_KEY = process.env.SKETCHFAB_API_KEY
-const { detectFileTypes } = require('./scraper')
+const { detectFileTypes } = require('./utils')
 
 async function searchSketchfab(query) {
   try {
@@ -10,7 +10,7 @@ async function searchSketchfab(query) {
         type: 'models',
         q: query,
         downloadable: true,
-        count: 6,
+        count: 20,
         sort_by: '-relevance',
       },
       headers: {
@@ -20,12 +20,6 @@ async function searchSketchfab(query) {
     })
 
     const results = response.data.results
-      .filter(model => {
-        const title = (model.name || '').toLowerCase()
-        const queryWords = query.toLowerCase().split(' ').filter(w => w.length > 2)
-        // Title must contain at least one query word
-        return queryWords.some(word => title.includes(word))
-      })
       .map(model => {
         const title = model.name || ''
         const description = model.description

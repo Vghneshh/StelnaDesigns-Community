@@ -1,45 +1,4 @@
-// Unified file type detection utility
-function detectFileTypes({ title = '', description = '', softwares = [], files = [] }) {
-  const typeMap = {
-    'stl': 'STL', 'step': 'STEP', 'stp': 'STEP', 'step / iges': 'STEP',
-    'p21': 'STEP', 'iges': 'STEP', 'igs': 'STEP', 'obj': 'OBJ',
-    'fbx': 'FBX', 'blend': 'FBX', '3dm': 'OBJ', 'solidworks': 'STEP',
-    'sldprt': 'STEP', 'sldasm': 'STEP', 'catia': 'STEP', 'catpart': 'STEP',
-    'catproduct': 'STEP', 'fusion': 'STEP', 'f3d': 'STEP', 'freecad': 'STEP',
-    'ptc creo': 'STEP', 'creo': 'STEP', 'solid edge': 'STEP', 'inventor': 'STEP',
-    'nx': 'STEP', 'siemens': 'STEP', 'parasolid': 'STEP', 'x_t': 'STEP',
-    'x_b': 'STEP', 'rendering': null, 'text file': null,
-  }
-  const found = new Set()
-  // Check softwares array
-  softwares.forEach(s => {
-    const name = s.name?.toLowerCase?.() || ''
-    Object.keys(typeMap).forEach(key => {
-      if (name.includes(key) && typeMap[key] !== null) found.add(typeMap[key])
-    })
-  })
-  // Check files array (for file extensions and filenames)
-  files.forEach(f => {
-    // Try fileExtension property
-    let ext = f.fileExtension?.toLowerCase?.() || ''
-    if (ext && typeMap[ext] !== undefined && typeMap[ext] !== null) found.add(typeMap[ext])
-    // Try extracting extension from filename
-    if (f.fileName) {
-      const match = f.fileName.toLowerCase().match(/\.([a-z0-9]+)$/)
-      if (match && typeMap[match[1]] !== undefined && typeMap[match[1]] !== null) found.add(typeMap[match[1]])
-    }
-  })
-  // Check title/description text
-  const text = (title + ' ' + description).toLowerCase()
-  Object.keys(typeMap).forEach(key => {
-    if (text.includes(key) && typeMap[key] !== null) found.add(typeMap[key])
-  })
-  // Debug logging
-  if (process.env.DEBUG_FILETYPES === '1') {
-    console.log('[detectFileTypes]', { title, description, softwares, files, detected: Array.from(found) })
-  }
-  return Array.from(found)
-}
+const { detectFileTypes } = require('./utils')
 require('dotenv').config()
 const axios = require('axios')
 const cheerio = require('cheerio')
@@ -65,11 +24,7 @@ function buildQuery(userQuery) {
 }
 
 function isCADResult(title = '', description = '', query = '') {
-  if (!title) return false
-  const text = (title + ' ' + description).toLowerCase()
-  const queryWords = query.toLowerCase().split(' ').filter(w => w.length > 2)
-  if (queryWords.length === 0) return true
-  return queryWords.some(word => text.includes(word))
+  return !!title
 }
 
 function extractMeta(html, sourceUrl) {
@@ -103,29 +58,7 @@ function extractMeta(html, sourceUrl) {
   }
 }
 
-function extractFileTypesFromSoftwares(softwares) {
-  const typeMap = {
-    'stl': 'STL', 'step': 'STEP', 'stp': 'STEP', 'step / iges': 'STEP',
-    'p21': 'STEP', 'iges': 'STEP', 'igs': 'STEP', 'obj': 'OBJ',
-    'fbx': 'FBX', 'blend': 'FBX', '3dm': 'OBJ', 'solidworks': 'STEP',
-    'sldprt': 'STEP', 'sldasm': 'STEP', 'catia': 'STEP', 'catpart': 'STEP',
-    'catproduct': 'STEP', 'fusion': 'STEP', 'f3d': 'STEP', 'freecad': 'STEP',
-    'ptc creo': 'STEP', 'creo': 'STEP', 'solid edge': 'STEP', 'inventor': 'STEP',
-    'nx': 'STEP', 'siemens': 'STEP', 'parasolid': 'STEP', 'x_t': 'STEP',
-    'x_b': 'STEP', 'rendering': null, 'text file': null,
-  }
 
-  const found = new Set()
-  softwares.forEach(s => {
-    const name = s.name.toLowerCase()
-    Object.keys(typeMap).forEach(key => {
-      if (name.includes(key) && typeMap[key] !== null) {
-        found.add(typeMap[key])
-      }
-    })
-  })
-  return Array.from(found)
-}
 
 async function searchMyMiniFactory(query) {
   const apiKey = process.env.MMF_API_KEY
@@ -282,14 +215,15 @@ function rankResults(results, query) {
 
     if (result.imageUrl) score += 1
 
-    const trustedSources = ['sketchfab.com', 'myminifactory.com', 'cults3d.com']
+    const trustedSources = ['sketchfab.com', 'thingiverse.com', 'myminifactory.com', 'cults3d.com']
     if (trustedSources.includes(result.source)) score += 2
 
     return { ...result, score }
   })
 
+  const exemptSources = ['thingiverse.com', 'myminifactory.com', 'cults3d.com', 'sketchfab.com'];
   return scored
-    .filter(r => r.score >= 0 || ['myminifactory.com', 'cults3d.com'].includes(r.source))
+    .filter(r => r.score >= 0 || exemptSources.includes(r.source))
     .sort((a, b) => b.score - a.score)
     .slice(0, 100)
 }

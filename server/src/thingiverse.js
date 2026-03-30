@@ -1,5 +1,5 @@
 const axios = require('axios')
-const { detectFileTypes } = require('./scraper')
+const { detectFileTypes } = require('./utils')
 
 const THINGIVERSE_TOKEN = process.env.THINGIVERSE_TOKEN
 
@@ -10,7 +10,7 @@ async function searchThingiverse(query) {
       {
         params: {
           type: 'things',
-          per_page: 6,
+          per_page: 20,
           sort: 'relevant',
         },
         headers: {
@@ -26,10 +26,11 @@ async function searchThingiverse(query) {
       const title = thing.name || ''
       const description = thing.description
         ? thing.description.replace(/<[^>]*>/g, '').trim().slice(0, 300)
-        : `Tagged: ${thing.tags?.map(t => t.name).join(', ') || ''}`
+        : null
       return {
         title,
         description,
+        tags: thing.tags?.map(t => t.name) || [],
         imageUrl: thing.preview_image || thing.thumbnail || null,
         url: thing.public_url || `https://www.thingiverse.com/thing:${thing.id}`,
         source: 'thingiverse.com',
