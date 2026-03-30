@@ -115,7 +115,7 @@ export default function App() {
             textTransform: 'uppercase',
             marginBottom: '14px',
           }}>
-            // engineering model search
+            {/* intentionally left blank for clean hero */}
           </div>
 
           <h1 style={{
@@ -127,8 +127,7 @@ export default function App() {
             marginBottom: '12px',
             color: 'var(--text)',
           }}>
-            One search.<br />
-            <span style={{ color: 'var(--amber)' }}>Every</span> CAD library.
+            One search. <span style={{ color: 'var(--amber)' }}>Every 3D CAD library.</span>
           </h1>
 
           <p style={{
@@ -139,8 +138,7 @@ export default function App() {
             marginBottom: '36px',
             maxWidth: '460px',
           }}>
-            Real models only — STL, STEP, OBJ, FBX.<br />
-            7 sources. Parallel searching. Zero noise.
+            STL, STEP, OBJ, FBX — from engineering parts to printable collectibles.
           </p>
 
           <SearchBar onSearch={handleSearch} loading={loading} />
