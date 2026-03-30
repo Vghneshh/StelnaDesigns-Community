@@ -68,7 +68,7 @@ async function searchMyMiniFactory(query) {
   }
   try {
     const response = await axios.get('https://www.myminifactory.com/api/v2/search', {
-      params: { q: query, per_page: 10 },
+      params: { q: query, per_page: 20 },
       headers: { 'X-API-Key': apiKey },
       timeout: 8000,
     })
@@ -232,7 +232,8 @@ async function scrapeAll(query) {
   console.log(`\n[SEARCH] "${query}" — scraping all sources`)
   const start = Date.now()
 
-  const jsSites = CAD_SITES.filter(s => s.type === 'js')
+  // const jsSites = CAD_SITES.filter(s => s.type === 'js')
+  const jsSites = [] // Puppeteer/CGTrader scraping disabled for performance
 
   const [sketchfabResults, thingiverseResults, mmfResults, cults3dResults] = await Promise.all([
     searchSketchfab(query),

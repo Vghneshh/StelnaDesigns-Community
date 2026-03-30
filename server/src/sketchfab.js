@@ -19,7 +19,14 @@ async function searchSketchfab(query) {
       timeout: 8000,
     })
 
+    const queryWords = query.toLowerCase().split(' ').filter(w => w.length > 2)
     const results = response.data.results
+      .filter(model => {
+        if (!model.name) return false
+        const title = model.name.toLowerCase()
+        const desc = (model.description || '').toLowerCase()
+        return queryWords.some(word => title.includes(word) || desc.includes(word))
+      })
       .map(model => {
         const title = model.name || ''
         const description = model.description
