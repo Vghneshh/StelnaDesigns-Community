@@ -127,82 +127,6 @@ function extractFileTypesFromSoftwares(softwares) {
   return Array.from(found)
 }
 
-
-async function searchPrintables(query) {
-  const start = Date.now()
-  let browser
-  try {
-    browser = await puppeteer.launch({
-      headless: 'new',
-      args: ['--no-sandbox', '--disable-setuid-sandbox'],
-    })
-    const page = await browser.newPage()
-    await page.setUserAgent(HEADERS['User-Agent'])
-
-    await page.goto('https://www.printables.com', {
-      waitUntil: 'domcontentloaded',
-      timeout: 10000,
-    })
-    console.log(`[Printables] Page loaded in ${((Date.now() - start) / 1000).toFixed(2)}s`)
-
-    const items = await page.evaluate(async (query) => {
-      try {
-        const response = await fetch('https://api.printables.com/graphql/', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'Origin': 'https://www.printables.com',
-          },
-          body: JSON.stringify({
-            operationName: 'QuickSearch',
-            query: `query QuickSearch($query: String!) {
-              models: quickSearchPrints(query: $query, printType: print, paid: free) {
-                totalCount
-                items {
-                  id
-                  name
-                  slug
-                  image { filePath }
-                  __typename
-                }
-              }
-            }`,
-            variables: { query },
-          }),
-        })
-        const data = await response.json()
-        return data?.data?.models?.items || []
-      } catch (e) {
-        return []
-      }
-    }, query)
-
-    console.log(`[Printables] ${items.length} results in ${((Date.now() - start) / 1000).toFixed(2)}s`)
-
-    return items
-      .filter(item => item.name && item.slug)
-      .map(item => ({
-        title: item.name,
-        description: null,
-        imageUrl: item.image?.filePath
-          ? `https://media.printables.com/${item.image.filePath}`
-          : null,
-        url: `https://www.printables.com/model/${item.id}-${item.slug}`,
-        source: 'printables.com',
-        fileTypes: ['STL'],
-        downloads: 0,
-      }))
-      .filter(r => isCADResult(r.title, r.description, query))
-
-  } catch (err) {
-    console.log(`[Printables error] ${err.message}`)
-    return []
-  } finally {
-    if (browser) await browser.close()
-  }
-}
-
 async function searchMyMiniFactory(query) {
   const apiKey = process.env.MMF_API_KEY
   if (!apiKey) {
@@ -248,7 +172,7 @@ async function searchCults3D(query) {
       'https://cults3d.com/graphql',
       {
         query: `{
-          creationsSearchBatch(query: "${query.replace(/"/g, '')}", limit: 6) {
+          creationsSearchBatch(query: "${query.replace(/"/g, '')}", limit: 20) {
             results {
               name(locale: EN)
               shortUrl
@@ -358,16 +282,16 @@ function rankResults(results, query) {
 
     if (result.imageUrl) score += 1
 
-    const trustedSources = ['sketchfab.com', 'printables.com', 'myminifactory.com', 'cults3d.com']
+    const trustedSources = ['sketchfab.com', 'myminifactory.com', 'cults3d.com']
     if (trustedSources.includes(result.source)) score += 2
 
     return { ...result, score }
   })
 
   return scored
-    .filter(r => r.score > 0 || ['printables.com', 'myminifactory.com', 'cults3d.com'].includes(r.source))
+    .filter(r => r.score >= 0 || ['myminifactory.com', 'cults3d.com'].includes(r.source))
     .sort((a, b) => b.score - a.score)
-    .slice(0, 50)
+    .slice(0, 100)
 }
 
 async function scrapeAll(query) {
@@ -376,10 +300,9 @@ async function scrapeAll(query) {
 
   const jsSites = CAD_SITES.filter(s => s.type === 'js')
 
-  const [sketchfabResults, thingiverseResults, printablesResults, mmfResults, cults3dResults] = await Promise.all([
+  const [sketchfabResults, thingiverseResults, mmfResults, cults3dResults] = await Promise.all([
     searchSketchfab(query),
     searchThingiverse(query),
-    searchPrintables(query),
     searchMyMiniFactory(query),
     searchCults3D(query),
   ])
@@ -417,7 +340,6 @@ async function scrapeAll(query) {
   const merged = [
     ...sketchfabResults,
     ...thingiverseResults,
-    ...printablesResults,
     ...mmfResults,
     ...cults3dResults,
     ...jsResults,
@@ -436,7 +358,6 @@ module.exports = {
   scrapeAll,
   searchSketchfab,
   searchThingiverse,
-  searchPrintables,
   searchMyMiniFactory,
   searchCults3D,
   detectFileTypes,
