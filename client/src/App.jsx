@@ -5,6 +5,24 @@ import LoadingGrid from './components/LoadingGrid'
 
 const SITES = ['Thingiverse', 'Cults3D', 'MyMiniFactory', 'Sketchfab']
 
+const Footer = () => (
+  <footer style={{
+    padding: '24px 0',
+    borderTop: '1px solid var(--border)',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '6px',
+    fontFamily: 'var(--sans)',
+    fontSize: '12px',
+    fontWeight: '500',
+    color: 'var(--text2)',
+    letterSpacing: '0.2px',
+    marginTop: '20px',
+  }}>
+    <span>Bhuve.com © owned by Stelna Designs LLP</span>
+  </footer>
+)
+
 export default function App() {
   const [currentPage, setCurrentPage] = useState('home')
   const [results, setResults] = useState([])
@@ -132,7 +150,7 @@ I will share an image of the part. Please help me identify it and suggest the co
     }
 
     return (
-      <div style={{ padding: '30px 0 60px', maxWidth: '500px', margin: '0 auto' }}>
+      <div style={{ padding: '30px 0 60px', maxWidth: '560px', margin: '0 auto' }}>
         <h1 style={{ fontFamily: 'var(--sans)', fontSize: '36px', fontWeight: '700', marginBottom: '10px', color: 'var(--text)', textAlign: 'center' }}>
           Manufacture
         </h1>
@@ -156,7 +174,7 @@ I will share an image of the part. Please help me identify it and suggest the co
           </div>
         )}
 
-        <form onSubmit={handleSubmit} style={{ maxWidth: '500px', margin: '0 auto', padding: '40px', border: '1px solid var(--border)', borderRadius: '12px', background: '#fff', boxShadow: '0 2px 8px rgba(0,0,0,0.06)' }}>
+        <form onSubmit={handleSubmit} style={{ maxWidth: '560px', margin: '0 auto', padding: '40px', border: '1px solid var(--border)', borderRadius: '12px', background: '#fff', boxShadow: '0 2px 8px rgba(0,0,0,0.06)' }}>
           {/* Name */}
           <div style={{ marginBottom: '20px' }}>
             <label style={{ fontFamily: 'var(--sans)', fontSize: '14px', color: 'var(--text)', fontWeight: '700', display: 'block', marginBottom: '10px', letterSpacing: '0.3px' }}>
@@ -405,6 +423,7 @@ I will share an image of the part. Please help me identify it and suggest the co
             {mfgLoading ? 'Submitting...' : 'Submit Request'}
           </button>
         </form>
+        <Footer />
       </div>
     )
   }
@@ -704,6 +723,7 @@ I will share an image of the part. Please help me identify it and suggest the co
             {designLoading ? 'Submitting...' : 'Submit Design Request'}
           </button>
         </form>
+        <Footer />
       </div>
     )
   }
@@ -744,23 +764,84 @@ I will share an image of the part. Please help me identify it and suggest the co
 
       <div style={{
         border: '1px solid var(--border)',
-        borderRadius: '10px',
-        overflow: 'hidden',
-        background: '#fff',
+        borderRadius: '12px',
+        background: 'linear-gradient(180deg, rgba(217,119,6,0.08) 0%, #fff 45%)',
+        padding: '24px',
       }}>
-        <iframe
-          title="Stelna Designs About"
-          src="https://www.stelnadesigns.com/about"
+        <p style={{
+          fontFamily: 'var(--sans)',
+          fontSize: '15px',
+          lineHeight: '1.9',
+          color: 'var(--text)',
+          marginBottom: '20px',
+          maxWidth: '900px',
+        }}>
+          Stelna Designs helps teams move from concept to production with practical hardware design, CAD support, and manufacturing guidance.
+          This quick view keeps the experience clean here, and you can open the full About page for complete details.
+        </p>
+
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+          gap: '12px',
+          marginBottom: '20px',
+        }}>
+          {[
+            { title: 'Design Support', text: 'Custom CAD workflows and engineering collaboration.' },
+            { title: 'Manufacturing Focus', text: 'Practical, production-ready decision support.' },
+            { title: 'Hardware Mindset', text: 'Built by teams that understand real hardware constraints.' },
+          ].map((item) => (
+            <div key={item.title} style={{
+              padding: '14px',
+              border: '1px solid var(--border)',
+              borderRadius: '10px',
+              background: '#fff',
+            }}>
+              <h3 style={{
+                fontFamily: 'var(--sans)',
+                fontSize: '16px',
+                fontWeight: '700',
+                color: 'var(--text)',
+                marginBottom: '8px',
+              }}>
+                {item.title}
+              </h3>
+              <p style={{
+                fontFamily: 'var(--mono)',
+                fontSize: '12px',
+                color: 'var(--text2)',
+                lineHeight: '1.7',
+                margin: 0,
+              }}>
+                {item.text}
+              </p>
+            </div>
+          ))}
+        </div>
+
+        <a
+          href="https://www.stelnadesigns.com/about"
+          target="_blank"
+          rel="noreferrer"
           style={{
-            width: '100%',
-            minHeight: '78vh',
-            border: 'none',
-            display: 'block',
+            display: 'inline-flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '10px 18px',
+            borderRadius: '8px',
+            background: 'var(--amber)',
+            color: '#fff',
+            textDecoration: 'none',
+            fontFamily: 'var(--sans)',
+            fontSize: '13px',
+            fontWeight: '700',
+            letterSpacing: '0.4px',
           }}
-          loading="lazy"
-          referrerPolicy="no-referrer-when-downgrade"
-        />
+        >
+          View Full About Page ↗
+        </a>
       </div>
+      <Footer />
     </div>
   )
 
@@ -902,6 +983,7 @@ I will share an image of the part. Please help me identify it and suggest the co
           ))}
         </div>
       </div>
+      <Footer />
     </div>
   )
 
@@ -967,113 +1049,128 @@ I will share an image of the part. Please help me identify it and suggest the co
       }
     }
 
+    const labelStyle = {
+      fontSize: '12px',
+      fontWeight: '600',
+      color: '#374151',
+      marginBottom: '6px',
+      display: 'block',
+      letterSpacing: '0.3px',
+      fontFamily: 'var(--sans)',
+    }
+
+    const inputStyle = {
+      width: '100%',
+      padding: '14px 16px',
+      borderRadius: '10px',
+      border: '1px solid #e5e7eb',
+      background: '#ffffff',
+      fontSize: '14px',
+      transition: 'all 0.2s ease',
+      outline: 'none',
+      boxSizing: 'border-box',
+      fontFamily: 'var(--sans)',
+      color: 'var(--text)',
+    }
+
+    const handleFieldFocus = (e) => {
+      e.target.style.borderColor = '#1e6bb3'
+      e.target.style.boxShadow = '0 0 0 3px rgba(30,107,179,0.1)'
+    }
+
+    const handleFieldBlur = (e) => {
+      e.target.style.borderColor = '#e5e7eb'
+      e.target.style.boxShadow = 'none'
+    }
+
     return (
-      <div style={{ padding: '30px 0 60px', maxWidth: '500px', margin: '0 auto' }}>
-        <h1 style={{ fontFamily: 'var(--sans)', fontSize: '36px', fontWeight: '700', marginBottom: '12px', color: 'var(--text)', textAlign: 'center' }}>
-          Contact
-        </h1>
-        <p style={{ fontFamily: 'var(--mono)', fontSize: '14px', color: 'var(--text2)', lineHeight: '1.8', marginBottom: '12px', textAlign: 'center' }}>
-          Plan a demo or request more information on our services.
-        </p>
-        <p style={{ fontFamily: 'var(--mono)', fontSize: '14px', color: 'var(--text2)', lineHeight: '1.8', marginBottom: '40px', textAlign: 'center' }}>
-          Fill in the form below and we will get back to you.
-        </p>
+      <div style={{ maxWidth: '640px', margin: '24px auto', animation: 'fadeUp 420ms ease both' }}>
+        <div style={{
+          padding: '12px 20px',
+          borderRadius: '16px',
+          background: 'linear-gradient(180deg, rgba(30,107,179,0.035) 0%, rgba(30,107,179,0.01) 40%, #fff 100%)',
+          border: '1px solid #e5e7eb',
+          textAlign: 'center',
+          marginBottom: '14px',
+          animation: 'fadeUp 520ms ease both',
+        }}>
+          <h1 style={{ fontFamily: 'var(--sans)', fontSize: '32px', fontWeight: '700', marginBottom: '8px', color: 'var(--text)' }}>
+            Contact
+          </h1>
+          <p style={{ fontFamily: 'var(--sans)', fontSize: '14px', color: 'var(--text3)', lineHeight: '1.7', marginBottom: '4px', opacity: 0.8 }}>
+            Plan a demo or request more information on our services.
+          </p>
+          <p style={{ fontFamily: 'var(--sans)', fontSize: '13px', color: 'var(--text3)', lineHeight: '1.6', marginBottom: '0', opacity: 0.8 }}>
+            Fill in the form below and we will get back to you.
+          </p>
+        </div>
 
         {contactMessage && (
           <div style={{
             padding: '14px 16px',
             marginBottom: '24px',
-            borderRadius: '8px',
+            borderRadius: '10px',
             background: contactMessage.type === 'success' ? 'rgba(34, 197, 94, 0.05)' : 'rgba(239, 68, 68, 0.05)',
             border: `1px solid ${contactMessage.type === 'success' ? '#22c55e' : '#ef4444'}`,
             color: contactMessage.type === 'success' ? '#15803d' : '#991b1b',
-            fontFamily: 'var(--mono)',
+            fontFamily: 'var(--sans)',
             fontSize: '13px',
             lineHeight: '1.6',
+            animation: 'fadeUp 360ms ease both',
           }}>
             {contactMessage.text}
           </div>
         )}
 
-        <form onSubmit={handleContactSubmit} style={{ maxWidth: '500px', margin: '0 auto', padding: '40px', border: '1px solid var(--border)', borderRadius: '12px', background: '#fff', boxShadow: '0 2px 8px rgba(0,0,0,0.06)' }}>
-
-          {/* First Name */}
-          <div style={{ marginBottom: '20px' }}>
-            <label style={{ fontFamily: 'var(--sans)', fontSize: '14px', color: 'var(--text)', fontWeight: '700', display: 'block', marginBottom: '10px', letterSpacing: '0.3px' }}>
-              First Name
-            </label>
-            <input
-              type="text"
-              name="firstName"
-              value={contactForm.firstName}
-              onChange={handleContactChange}
-              required
-              placeholder="Enter your first name"
-              style={{
-                width: '100%',
-                padding: '12px 14px',
-                fontFamily: 'var(--sans)',
-                fontSize: '14px',
-                border: '1px solid #e0e0e0',
-                borderRadius: '6px',
-                background: '#fff',
-                color: 'var(--text)',
-                boxSizing: 'border-box',
-                transition: 'all 0.2s',
-                outline: 'none',
-              }}
-              onFocus={(e) => {
-                e.target.style.borderColor = 'var(--amber)'
-                e.target.style.boxShadow = '0 0 0 3px rgba(217,119,6,0.08)'
-              }}
-              onBlur={(e) => {
-                e.target.style.borderColor = '#e0e0e0'
-                e.target.style.boxShadow = 'none'
-              }}
-            />
+        <form
+          onSubmit={handleContactSubmit}
+          style={{
+            padding: '24px',
+            borderRadius: '16px',
+            background: '#ffffff',
+            border: '1px solid #e5e7eb',
+            boxShadow: '0 8px 24px rgba(0,0,0,0.04)',
+            animation: 'fadeUp 560ms ease both',
+          }}
+        >
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+            gap: '16px',
+            marginBottom: '20px',
+          }}>
+            <div>
+              <label style={labelStyle}>First Name</label>
+              <input
+                type="text"
+                name="firstName"
+                value={contactForm.firstName}
+                onChange={handleContactChange}
+                required
+                placeholder="Enter your first name"
+                style={inputStyle}
+                onFocus={handleFieldFocus}
+                onBlur={handleFieldBlur}
+              />
+            </div>
+            <div>
+              <label style={labelStyle}>Last Name</label>
+              <input
+                type="text"
+                name="lastName"
+                value={contactForm.lastName}
+                onChange={handleContactChange}
+                required
+                placeholder="Enter your last name"
+                style={inputStyle}
+                onFocus={handleFieldFocus}
+                onBlur={handleFieldBlur}
+              />
+            </div>
           </div>
 
-          {/* Last Name */}
           <div style={{ marginBottom: '20px' }}>
-            <label style={{ fontFamily: 'var(--sans)', fontSize: '14px', color: 'var(--text)', fontWeight: '700', display: 'block', marginBottom: '10px', letterSpacing: '0.3px' }}>
-              Last Name
-            </label>
-            <input
-              type="text"
-              name="lastName"
-              value={contactForm.lastName}
-              onChange={handleContactChange}
-              required
-              placeholder="Enter your last name"
-              style={{
-                width: '100%',
-                padding: '12px 14px',
-                fontFamily: 'var(--sans)',
-                fontSize: '14px',
-                border: '1px solid #e0e0e0',
-                borderRadius: '6px',
-                background: '#fff',
-                color: 'var(--text)',
-                boxSizing: 'border-box',
-                transition: 'all 0.2s',
-                outline: 'none',
-              }}
-              onFocus={(e) => {
-                e.target.style.borderColor = 'var(--amber)'
-                e.target.style.boxShadow = '0 0 0 3px rgba(217,119,6,0.08)'
-              }}
-              onBlur={(e) => {
-                e.target.style.borderColor = '#e0e0e0'
-                e.target.style.boxShadow = 'none'
-              }}
-            />
-          </div>
-
-          {/* Email */}
-          <div style={{ marginBottom: '20px' }}>
-            <label style={{ fontFamily: 'var(--sans)', fontSize: '14px', color: 'var(--text)', fontWeight: '700', display: 'block', marginBottom: '10px', letterSpacing: '0.3px' }}>
-              Your Email Address
-            </label>
+            <label style={labelStyle}>Your Email Address</label>
             <input
               type="email"
               name="email"
@@ -1081,35 +1178,14 @@ I will share an image of the part. Please help me identify it and suggest the co
               onChange={handleContactChange}
               required
               placeholder="your.email@example.com"
-              style={{
-                width: '100%',
-                padding: '12px 14px',
-                fontFamily: 'var(--sans)',
-                fontSize: '14px',
-                border: '1px solid #e0e0e0',
-                borderRadius: '6px',
-                background: '#fff',
-                color: 'var(--text)',
-                boxSizing: 'border-box',
-                transition: 'all 0.2s',
-                outline: 'none',
-              }}
-              onFocus={(e) => {
-                e.target.style.borderColor = 'var(--amber)'
-                e.target.style.boxShadow = '0 0 0 3px rgba(217,119,6,0.08)'
-              }}
-              onBlur={(e) => {
-                e.target.style.borderColor = '#e0e0e0'
-                e.target.style.boxShadow = 'none'
-              }}
+              style={inputStyle}
+              onFocus={handleFieldFocus}
+              onBlur={handleFieldBlur}
             />
           </div>
 
-          {/* Company */}
           <div style={{ marginBottom: '20px' }}>
-            <label style={{ fontFamily: 'var(--sans)', fontSize: '14px', color: 'var(--text)', fontWeight: '700', display: 'block', marginBottom: '10px', letterSpacing: '0.3px' }}>
-              Your Company Name<span style={{ color: 'var(--red)' }}>*</span>
-            </label>
+            <label style={labelStyle}>Your Company Name<span style={{ color: 'var(--red)' }}>*</span></label>
             <input
               type="text"
               name="company"
@@ -1117,35 +1193,14 @@ I will share an image of the part. Please help me identify it and suggest the co
               onChange={handleContactChange}
               required
               placeholder="Enter your company name"
-              style={{
-                width: '100%',
-                padding: '12px 14px',
-                fontFamily: 'var(--sans)',
-                fontSize: '14px',
-                border: '1px solid #e0e0e0',
-                borderRadius: '6px',
-                background: '#fff',
-                color: 'var(--text)',
-                boxSizing: 'border-box',
-                transition: 'all 0.2s',
-                outline: 'none',
-              }}
-              onFocus={(e) => {
-                e.target.style.borderColor = 'var(--amber)'
-                e.target.style.boxShadow = '0 0 0 3px rgba(217,119,6,0.08)'
-              }}
-              onBlur={(e) => {
-                e.target.style.borderColor = '#e0e0e0'
-                e.target.style.boxShadow = 'none'
-              }}
+              style={inputStyle}
+              onFocus={handleFieldFocus}
+              onBlur={handleFieldBlur}
             />
           </div>
 
-          {/* Inquiry */}
           <div style={{ marginBottom: '20px' }}>
-            <label style={{ fontFamily: 'var(--sans)', fontSize: '14px', color: 'var(--text)', fontWeight: '700', display: 'block', marginBottom: '10px', letterSpacing: '0.3px' }}>
-              Tell us more about your inquiry.<span style={{ color: 'var(--red)' }}>*</span> <span style={{ fontFamily: 'var(--mono)', fontSize: '12px', color: 'var(--text3)' }}>(Required)</span>
-            </label>
+            <label style={labelStyle}>Tell us more about your inquiry.<span style={{ color: 'var(--red)' }}>*</span></label>
             <textarea
               name="inquiry"
               value={contactForm.inquiry}
@@ -1153,23 +1208,16 @@ I will share an image of the part. Please help me identify it and suggest the co
               required
               placeholder="Please describe your inquiry or request..."
               style={{
-                width: '100%',
-                padding: '12px',
-                fontFamily: 'var(--mono)',
-                fontSize: '14px',
-                border: '1px solid var(--border)',
-                borderRadius: '6px',
-                background: 'var(--bg2)',
-                color: 'var(--text)',
-                boxSizing: 'border-box',
+                ...inputStyle,
                 minHeight: '120px',
                 resize: 'vertical',
               }}
+              onFocus={handleFieldFocus}
+              onBlur={handleFieldBlur}
             />
           </div>
 
-          {/* Agreement Checkbox */}
-          <div style={{ marginBottom: '30px', display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
+          <div style={{ marginBottom: '20px', display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
             <input
               type="checkbox"
               name="agreeToEmails"
@@ -1186,50 +1234,51 @@ I will share an image of the part. Please help me identify it and suggest the co
             <label
               htmlFor="agreeToEmails"
               style={{
-                fontFamily: 'var(--mono)',
+                fontFamily: 'var(--sans)',
                 fontSize: '13px',
                 color: 'var(--text2)',
-                lineHeight: '1.6',
+                lineHeight: '1.7',
                 cursor: 'pointer',
               }}
             >
-              I agree to receive emails and/or SMS text messages, with the understanding that I may easily opt-out of these communications at any time after signing up.
+              I agree to receive emails and/or SMS text messages regarding my inquiry, and I understand I can opt out of these communications at any time.
             </label>
           </div>
 
-          {/* Submit Button */}
           <button
             type="submit"
             disabled={contactLoading}
             style={{
-              fontFamily: 'var(--mono)',
-              fontSize: '14px',
-              padding: '12px 28px',
-              background: contactLoading ? '#cccccc' : 'var(--amber)',
+              width: '100%',
+              padding: '14px',
+              borderRadius: '10px',
+              background: contactLoading ? '#bfc7d2' : 'linear-gradient(135deg, #1e6bb3, #2c88d9)',
               color: '#fff',
               border: 'none',
-              borderRadius: '6px',
-              cursor: contactLoading ? 'not-allowed' : 'pointer',
               fontWeight: '600',
-              letterSpacing: '1px',
-              transition: 'all 0.2s',
+              fontSize: '14px',
+              cursor: contactLoading ? 'not-allowed' : 'pointer',
+              transition: 'all 0.2s ease',
+              marginTop: '10px',
+              fontFamily: 'var(--sans)',
             }}
             onMouseEnter={(e) => {
               if (!contactLoading) {
-                e.target.style.background = '#cc6a00'
-                e.target.style.transform = 'translateY(-2px)'
+                e.target.style.transform = 'translateY(-1px)'
+                e.target.style.boxShadow = '0 10px 20px rgba(30,107,179,0.2)'
               }
             }}
             onMouseLeave={(e) => {
               if (!contactLoading) {
-                e.target.style.background = 'var(--amber)'
                 e.target.style.transform = 'translateY(0)'
+                e.target.style.boxShadow = 'none'
               }
             }}
           >
             {contactLoading ? 'Submitting...' : 'Submit'}
           </button>
         </form>
+        <Footer />
       </div>
     )
   }
@@ -1291,6 +1340,7 @@ I will share an image of the part. Please help me identify it and suggest the co
           </div>
         ))}
       </div>
+      <Footer />
     </div>
   )
 
@@ -1308,17 +1358,26 @@ I will share an image of the part. Please help me identify it and suggest the co
         top: 0,
         zIndex: 100,
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }} onClick={() => setCurrentPage('home')}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '4px', cursor: 'pointer' }} onClick={() => setCurrentPage('home')}>
           <img
-            src="/bhuve-logo.png"
+            src="/bhuveblue.png"
             alt="BHUVE"
             style={{
-              height: '36px',
-              width: 'auto',
+              height: '56px',
+              width: '56px',
               objectFit: 'contain',
               display: 'block',
             }}
           />
+          <span style={{
+            fontFamily: 'var(--sans)',
+            fontSize: '18px',
+            fontWeight: '800',
+            letterSpacing: '-0.5px',
+            color: '#000',
+          }}>
+            BHUVE
+          </span>
         </div>
 
         <div style={{ display: 'flex', gap: '24px', alignItems: 'center' }}>
@@ -1327,12 +1386,18 @@ I will share an image of the part. Please help me identify it and suggest the co
             { label: 'Search Parts', page: 'search' },
             { label: 'Manufacture', page: 'manufacture' },
             { label: 'Case Studies', page: 'case-studies' },
-            { label: 'About', page: 'about' },
+            { label: 'About', page: 'about', externalUrl: 'https://www.stelnadesigns.com/about' },
             { label: 'Contact', page: 'contact' }
           ].map(item => (
             <button
               key={item.page}
-              onClick={() => setCurrentPage(item.page)}
+              onClick={() => {
+                if (item.externalUrl) {
+                  window.location.href = item.externalUrl
+                  return
+                }
+                setCurrentPage(item.page)
+              }}
               style={{
                 background: 'none',
                 border: 'none',

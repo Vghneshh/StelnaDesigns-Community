@@ -104,37 +104,49 @@ export default function HomeApp() {
             STL, STEP, OBJ, FBX — from engineering parts to printable collectibles.
           </p>
 
-          <SearchBar onSearch={handleSearch} loading={loading} />
-
-          {/* Sites strip */}
-          <div className="sites-strip-wrapper" style={{
-            marginTop: '28px',
-            border: '1px solid var(--border)',
-            borderRadius: '6px',
-            overflow: 'auto',
-            WebkitOverflowScrolling: 'touch',
+          <div style={{
+            maxWidth: '760px',
+            margin: '0 auto',
+            background: '#E8E3DC',
+            borderRadius: '20px',
+            padding: '48px 40px',
+            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.06), 0 8px 24px rgba(0, 0, 0, 0.12)',
+            border: '1px solid rgba(0, 0, 0, 0.05)',
+            transition: 'box-shadow 0.3s ease',
           }}>
-            <div style={{
-              display: 'flex',
-              minWidth: '340px',
+            <SearchBar onSearch={handleSearch} loading={loading} />
+
+            {/* Sites strip */}
+            <div className="sites-strip-wrapper" style={{
+              marginTop: '20px',
+              border: '1px solid var(--border)',
+              borderRadius: '6px',
+              overflow: 'auto',
+              WebkitOverflowScrolling: 'touch',
+              background: 'rgba(255,255,255,0.72)',
             }}>
-              {SITES.map(s => (
-                <div key={s} style={{
-                  flexShrink: 0,
-                  padding: '7px 12px',
-                  textAlign: 'center',
-                  fontFamily: 'var(--mono)',
-                  fontSize: '9px',
-                  color: 'var(--text3)',
-                  letterSpacing: '0.3px',
-                  borderRight: '1px solid var(--border)',
-                  whiteSpace: 'nowrap',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                }}>
-                  {s}
-                </div>
-              ))}
+              <div style={{
+                display: 'flex',
+                minWidth: '340px',
+              }}>
+                {SITES.map(s => (
+                  <div key={s} style={{
+                    flexShrink: 0,
+                    padding: '7px 12px',
+                    textAlign: 'center',
+                    fontFamily: 'var(--mono)',
+                    fontSize: '9px',
+                    color: 'var(--text3)',
+                    letterSpacing: '0.3px',
+                    borderRight: '1px solid var(--border)',
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                  }}>
+                    {s}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </section>
@@ -360,6 +372,9 @@ export default function HomeApp() {
           }
           .sites-strip-wrapper > div {
             min-width: 320px !important;
+          }
+          .search-card {
+            padding: 32px 24px !important;
           }
         }
       `}</style>
