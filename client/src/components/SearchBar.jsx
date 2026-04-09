@@ -20,27 +20,27 @@ export default function SearchBar({ onSearch, loading }) {
   }
 
   return (
-    <div style={{ maxWidth: '680px', margin: '0 auto' }}>
+    <div style={{ maxWidth: '700px', margin: '0 auto' }}>
 
       {/* Search bar */}
       <div style={{
         display: 'flex',
         alignItems: 'center',
         gap: '10px',
-        background: focused ? '#fff' : 'var(--bg3)',
-        border: `1.5px solid ${focused ? 'var(--amber)' : 'transparent'}`,
+        background: '#fff',
+        border: `1.5px solid ${focused ? 'var(--amber)' : 'var(--border)'}`,
         borderRadius: '12px',
-        padding: '12px 18px',
+        padding: '8px 10px 8px 12px',
         marginBottom: '12px',
-        transition: 'all 0.2s',
-        boxShadow: focused ? '0 0 0 3px var(--amber-dim)' : 'none',
+        transition: 'all 0.2s ease',
+        boxShadow: focused ? '0 0 0 4px var(--amber-dim), 0 8px 20px rgba(0,0,0,0.05)' : '0 2px 8px rgba(0,0,0,0.04)',
       }}>
 
         {/* Search icon */}
         <span style={{ color: 'var(--text3)', flexShrink: 0, display: 'flex' }}>
-          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-            <circle cx="7.5" cy="7.5" r="5.5" stroke="currentColor" strokeWidth="1.5"/>
-            <path d="M13 13L16 16" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+          <svg width="18" height="18" viewBox="0 0 20 20" fill="none">
+            <circle cx="8.5" cy="8.5" r="6.5" stroke="currentColor" strokeWidth="1.6" />
+            <path d="M14 14L17.5 17.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
           </svg>
         </span>
 
@@ -64,64 +64,71 @@ export default function SearchBar({ onSearch, loading }) {
             outline: 'none',
             background: 'transparent',
             fontFamily: 'var(--sans)',
-            fontSize: '15px',
+            fontSize: '14px',
+            lineHeight: '1.4',
             color: 'var(--text)',
           }}
         />
 
-        {/* Enter hint or loading */}
-        {loading ? (
-          <span style={{
-            fontFamily: 'var(--mono)',
-            fontSize: '10px',
-            color: 'var(--amber)',
-            flexShrink: 0,
-            animation: 'pulse 1s ease-in-out infinite',
-          }}>
-            searching...
-          </span>
-        ) : (
-          <span style={{
-            fontFamily: 'var(--mono)',
-            fontSize: '10px',
-            color: 'var(--text3)',
-            border: '1px solid var(--border)',
-            borderRadius: '4px',
-            padding: '2px 6px',
-            flexShrink: 0,
+        <button
+          onClick={handleSearch}
+          disabled={loading || !query.trim()}
+          style={{
+            border: '1px solid transparent',
+            borderRadius: '10px',
+            background: loading || !query.trim() ? 'var(--bg3)' : 'var(--amber)',
+            color: loading || !query.trim() ? 'var(--text3)' : '#fff',
+            fontFamily: 'var(--sans)',
+            fontSize: '12px',
+            fontWeight: '600',
+            padding: '8px 12px',
+            cursor: loading || !query.trim() ? 'not-allowed' : 'pointer',
+            transition: 'all 0.2s ease',
             whiteSpace: 'nowrap',
-          }}>
-            ↵ enter
-          </span>
-        )}
+          }}
+          onMouseEnter={(e) => {
+            if (!loading && query.trim()) {
+              e.currentTarget.style.filter = 'brightness(0.95)'
+            }
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.filter = 'brightness(1)'
+          }}
+        >
+          {loading ? 'Searching...' : 'Search'}
+        </button>
       </div>
 
       {/* Hint chips */}
-      <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+      <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
         {HINTS.map(hint => (
           <button
             key={hint}
             onClick={() => handleHint(hint)}
             style={{
-              background: 'var(--bg2)',
+              background: '#fff',
               border: '1px solid var(--border)',
-              borderRadius: '20px',
-              padding: '5px 14px',
+              borderRadius: '999px',
+              padding: '6px 13px',
               fontSize: '12px',
+              fontWeight: '500',
               color: 'var(--text2)',
               cursor: 'pointer',
-              fontFamily: 'var(--mono)',
-              transition: 'all 0.15s',
+              fontFamily: 'var(--sans)',
+              lineHeight: '1.3',
+              transition: 'all 0.18s ease',
             }}
             onMouseEnter={e => {
               e.currentTarget.style.borderColor = 'var(--amber)'
               e.currentTarget.style.color = 'var(--amber)'
               e.currentTarget.style.background = 'var(--amber-light)'
+              e.currentTarget.style.transform = 'translateY(-1px)'
             }}
             onMouseLeave={e => {
               e.currentTarget.style.borderColor = 'var(--border)'
               e.currentTarget.style.color = 'var(--text2)'
-              e.currentTarget.style.background = 'var(--bg2)'
+              e.currentTarget.style.background = '#fff'
+              e.currentTarget.style.transform = 'translateY(0)'
             }}
           >
             {hint}

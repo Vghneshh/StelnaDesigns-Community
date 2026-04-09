@@ -342,7 +342,7 @@ export default function HomeApp() {
           letterSpacing: '0.5px',
           marginTop: '20px',
         }}>
-          <span>CADSearch // engineering model search</span>
+          <span>BHUVE // engineering model search</span>
           <span>STL · STEP · OBJ · FBX · BLEND · IGES</span>
         </footer>
 

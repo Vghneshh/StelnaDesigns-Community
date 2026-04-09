@@ -3,7 +3,7 @@ import SearchBar from './components/SearchBar'
 import ResultCard from './components/ResultCard'
 import LoadingGrid from './components/LoadingGrid'
 
-const SITES = ['Thingiverse', 'Cults3D', 'MyMiniFactory', 'CGTrader', 'Sketchfab']
+const SITES = ['Thingiverse', 'Cults3D', 'MyMiniFactory', 'Sketchfab']
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState('home')
@@ -709,13 +709,58 @@ I will share an image of the part. Please help me identify it and suggest the co
   }
 
   const LearnMorePage = () => (
-    <div style={{ padding: '60px 0', maxWidth: '800px', margin: '0 auto' }}>
-      <h1 style={{ fontFamily: 'var(--sans)', fontSize: '36px', fontWeight: '700', marginBottom: '20px', color: 'var(--text)', textAlign: 'center' }}>
-        Learn More
-      </h1>
-      <p style={{ fontFamily: 'var(--mono)', fontSize: '14px', color: 'var(--text2)', lineHeight: '1.8', textAlign: 'center' }}>
-        Explore documentation, tutorials, and resources to get started with CADSearch.
-      </p>
+    <div style={{ padding: '28px 0 40px' }}>
+      <div style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        gap: '12px',
+        marginBottom: '14px',
+        flexWrap: 'wrap',
+      }}>
+        <h1 style={{
+          fontFamily: 'var(--sans)',
+          fontSize: '28px',
+          fontWeight: '700',
+          color: 'var(--text)',
+        }}>
+          About Stelna Designs
+        </h1>
+        <a
+          href="https://www.stelnadesigns.com/about"
+          target="_blank"
+          rel="noreferrer"
+          style={{
+            fontFamily: 'var(--sans)',
+            fontSize: '13px',
+            color: 'var(--amber)',
+            textDecoration: 'none',
+            fontWeight: '600',
+          }}
+        >
+          Open original page ↗
+        </a>
+      </div>
+
+      <div style={{
+        border: '1px solid var(--border)',
+        borderRadius: '10px',
+        overflow: 'hidden',
+        background: '#fff',
+      }}>
+        <iframe
+          title="Stelna Designs About"
+          src="https://www.stelnadesigns.com/about"
+          style={{
+            width: '100%',
+            minHeight: '78vh',
+            border: 'none',
+            display: 'block',
+          }}
+          loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
+        />
+      </div>
     </div>
   )
 
@@ -757,12 +802,13 @@ I will share an image of the part. Please help me identify it and suggest the co
             marginRight: 'auto',
             animation: 'fadeUp 420ms ease both',
           }}>
-            Upload your Spare part image. Get expert analysis in <span style={{ color: 'var(--amber)' }}>4 hours.</span>
+            Upload spare-parts image. Get expert analysis in <span style={{ color: 'var(--amber)' }}>4 hours.</span>
           </h1>
 
           <p style={{
-            fontFamily: 'var(--mono)',
-            fontSize: '13px',
+            fontFamily: 'var(--sans)',
+            fontSize: '14px',
+            fontWeight: '400',
             color: 'var(--text2)',
             lineHeight: '1.9',
             maxWidth: '720px',
@@ -778,32 +824,40 @@ I will share an image of the part. Please help me identify it and suggest the co
           <button
             onClick={openWhatsApp}
             style={{
-              fontFamily: 'var(--mono)',
-              fontSize: '12px',
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              minHeight: '52px',
+              padding: '14px 24px',
+              fontFamily: 'var(--sans)',
+              fontSize: '13px',
               fontWeight: '700',
-              letterSpacing: '1px',
+              letterSpacing: '0.9px',
               textTransform: 'uppercase',
-              border: 'none',
-              borderRadius: '10px',
-              padding: '12px 20px',
-              background: 'var(--amber)',
+              border: '1px solid rgba(255,255,255,0.28)',
+              borderRadius: '999px',
+              background: 'linear-gradient(135deg, #1e6bb3 0%, #2c88d9 100%)',
               color: '#fff',
               cursor: 'pointer',
-              boxShadow: '0 8px 18px rgba(217,119,6,0.22)',
-              animation: 'fadeUp 580ms ease both, ctaBreath 2.2s ease-in-out 900ms infinite',
+              boxShadow: '0 14px 28px rgba(30, 107, 179, 0.24), 0 2px 0 rgba(255,255,255,0.14) inset',
+              animation: 'fadeUp 580ms ease both',
               animationDelay: '140ms',
-              transition: 'transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease',
+              transition: 'transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease, background 0.2s ease',
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.background = '#cc6a00'
-              e.currentTarget.style.transform = 'translateY(-1px)'
+              e.currentTarget.style.transform = 'translateY(-2px)'
+              e.currentTarget.style.boxShadow = '0 18px 34px rgba(30, 107, 179, 0.32), 0 2px 0 rgba(255,255,255,0.14) inset'
+              e.currentTarget.style.filter = 'brightness(1.03)'
+              e.currentTarget.style.background = 'linear-gradient(135deg, #165a98 0%, #2477c7 100%)'
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.background = 'var(--amber)'
+              e.currentTarget.style.background = 'linear-gradient(135deg, #1e6bb3 0%, #2c88d9 100%)'
               e.currentTarget.style.transform = 'translateY(0)'
+              e.currentTarget.style.boxShadow = '0 14px 28px rgba(30, 107, 179, 0.24), 0 2px 0 rgba(255,255,255,0.14) inset'
+              e.currentTarget.style.filter = 'brightness(1)'
             }}
           >
-            Send Photo on WhatsApp
+            <span>Send Photo on WhatsApp</span>
           </button>
         </div>
 
@@ -815,8 +869,8 @@ I will share an image of the part. Please help me identify it and suggest the co
         }}>
           {[
             { t: 'Just send a photo', d: 'Any angle is fine. Include a ruler for scale if possible.' },
-            { t: 'Fast turnaround', d: 'We respond within 4 hours (business hours).' },
-            { t: 'Actionable outcome', d: 'Part identification + recommended match or solution.' },
+            { t: 'Fast turnaround', d: 'We respond within 4 hours.\n(business hours).' },
+            { t: 'Actionable outcome', d: 'Manufacturability Design and simulation needs. Tentative Pricing.' },
           ].map((card, index) => (
             <div
               key={card.t}
@@ -843,7 +897,7 @@ I will share an image of the part. Please help me identify it and suggest the co
               }}
             >
               <div style={{ fontFamily: 'var(--sans)', fontWeight: '700', fontSize: '18px', color: 'var(--text)', marginBottom: '8px' }}>{card.t}</div>
-              <div style={{ fontFamily: 'var(--mono)', fontSize: '13px', color: '#8a8a8a', lineHeight: '1.7' }}>{card.d}</div>
+              <div style={{ fontFamily: 'var(--sans)', fontSize: '13px', color: '#8a8a8a', lineHeight: '1.7', whiteSpace: 'pre-line' }}>{card.d}</div>
             </div>
           ))}
         </div>
@@ -1186,14 +1240,14 @@ I will share an image of the part. Please help me identify it and suggest the co
         Case Studies
       </h1>
       <p style={{ fontFamily: 'var(--mono)', fontSize: '14px', color: 'var(--text2)', lineHeight: '1.8', marginBottom: '40px', textAlign: 'center' }}>
-        Explore how organizations have successfully used CADSearch to streamline their workflows.
+        Explore how organizations have successfully used BHUVE to streamline their workflows.
       </p>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '24px' }}>
         {[
           {
             title: 'Aerospace Manufacturing',
-            description: 'Reduced design time by 40% using CADSearch to source and manage engineering components.',
+            description: 'Reduced design time by 40% using BHUVE to source and manage engineering components.',
             company: 'TechAero Solutions'
           },
           {
@@ -1255,21 +1309,16 @@ I will share an image of the part. Please help me identify it and suggest the co
         zIndex: 100,
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }} onClick={() => setCurrentPage('home')}>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '3px', width: '22px' }}>
-            {[100, 66, 33].map((w, i) => (
-              <span key={i} style={{ display: 'block', height: '2px', width: `${w}%`, background: 'var(--amber)' }} />
-            ))}
-          </div>
-          <span style={{
-            fontFamily: 'var(--mono)',
-            fontSize: '16px',
-            fontWeight: '600',
-            letterSpacing: '2px',
-            textTransform: 'uppercase',
-            color: 'var(--text)',
-          }}>
-            CAD<span style={{ color: 'var(--amber)' }}>Search</span>
-          </span>
+          <img
+            src="/bhuve-logo.png"
+            alt="BHUVE"
+            style={{
+              height: '36px',
+              width: 'auto',
+              objectFit: 'contain',
+              display: 'block',
+            }}
+          />
         </div>
 
         <div style={{ display: 'flex', gap: '24px', alignItems: 'center' }}>
@@ -1287,24 +1336,24 @@ I will share an image of the part. Please help me identify it and suggest the co
               style={{
                 background: 'none',
                 border: 'none',
-                fontFamily: 'var(--mono)',
-                fontSize: '12px',
+                fontFamily: 'var(--sans)',
+                fontSize: '13px',
                 color: currentPage === item.page ? 'var(--amber)' : 'var(--text2)',
                 cursor: 'pointer',
-                letterSpacing: '0.5px',
-                padding: '4px 8px',
-                transition: 'all 0.2s',
-                fontWeight: currentPage === item.page ? '600' : '400',
-                borderBottom: currentPage === item.page ? '2px solid var(--amber)' : 'none',
+                letterSpacing: '0.2px',
+                padding: '6px 10px',
+                transition: 'color 0.2s ease, border-color 0.2s ease',
+                fontWeight: '600',
+                borderBottom: `2px solid ${currentPage === item.page ? 'var(--amber)' : 'transparent'}`,
               }}
               onMouseEnter={(e) => {
                 if (currentPage !== item.page) {
-                  e.target.style.color = 'var(--amber)'
+                  e.currentTarget.style.color = 'var(--amber)'
                 }
               }}
               onMouseLeave={(e) => {
                 if (currentPage !== item.page) {
-                  e.target.style.color = 'var(--text2)'
+                  e.currentTarget.style.color = 'var(--text2)'
                 }
               }}
             >
@@ -1313,14 +1362,6 @@ I will share an image of the part. Please help me identify it and suggest the co
           ))}
         </div>
 
-        <span style={{
-          fontFamily: 'var(--mono)',
-          fontSize: '10px',
-          color: 'var(--text3)',
-          letterSpacing: '1px',
-        }}>
-          v0.1.0
-        </span>
       </nav>
 
       <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 20px', position: 'relative', zIndex: 1, background: 'var(--bg)' }}>
@@ -1329,7 +1370,13 @@ I will share an image of the part. Please help me identify it and suggest the co
 
         {currentPage === 'search' && (
           <>
-            <section style={{ padding: '52px 0 40px', borderBottom: '1px solid var(--border)' }}>
+            <section style={{
+              padding: '48px 0 34px',
+              borderBottom: 'none',
+              background: 'linear-gradient(180deg, rgba(30,107,179,0.035) 0%, rgba(30,107,179,0.01) 40%, transparent 100%)',
+              animation: 'searchSectionIn 420ms ease both',
+            }}>
+              <div style={{ maxWidth: '980px' }}>
               <h1 className="hero-headline" style={{
                 fontFamily: 'var(--sans)',
                 fontSize: 'clamp(32px, 5vw, 52px)',
@@ -1338,48 +1385,63 @@ I will share an image of the part. Please help me identify it and suggest the co
                 letterSpacing: '-2px',
                 marginBottom: '12px',
                 color: 'var(--text)',
+                animation: 'fadeUp 460ms ease both',
               }}>
                 <div>One search.</div>
                 <div><span style={{ color: 'var(--amber)' }}>Every 3D CAD library.</span></div>
               </h1>
 
               <p style={{
-                fontFamily: 'var(--mono)',
-                fontSize: '12px',
+                fontFamily: 'var(--sans)',
+                fontSize: '15px',
+                fontWeight: '400',
                 color: 'var(--text2)',
-                lineHeight: '1.8',
-                marginBottom: '36px',
-                maxWidth: '460px',
+                lineHeight: '1.65',
+                marginBottom: '30px',
+                maxWidth: '680px',
+                animation: 'fadeUp 520ms ease both',
+                animationDelay: '80ms',
               }}>
                 STL, STEP, OBJ, FBX — from engineering parts to printable collectibles.
               </p>
+              </div>
 
-              <SearchBar onSearch={handleSearch} loading={loading} />
+              <div style={{ animation: 'fadeUp 560ms ease both', animationDelay: '120ms' }}>
+                <SearchBar onSearch={handleSearch} loading={loading} />
+              </div>
 
               <div className="sites-strip-wrapper" style={{
-                marginTop: '28px',
+                marginTop: '24px',
                 border: '1px solid var(--border)',
-                borderRadius: '6px',
+                borderRadius: '10px',
                 overflow: 'auto',
                 WebkitOverflowScrolling: 'touch',
+                background: '#fff',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.03)',
+                animation: 'fadeUp 620ms ease both',
+                animationDelay: '180ms',
               }}>
                 <div style={{
                   display: 'flex',
                   minWidth: '340px',
+                  width: '100%',
                 }}>
-                  {SITES.map(s => (
+                  {SITES.map((s, idx) => (
                     <div key={s} style={{
-                      flexShrink: 0,
-                      padding: '7px 12px',
+                      flex: '1 0 140px',
+                      padding: '10px 14px',
                       textAlign: 'center',
-                      fontFamily: 'var(--mono)',
-                      fontSize: '9px',
-                      color: 'var(--text3)',
-                      letterSpacing: '0.3px',
+                      fontFamily: 'var(--sans)',
+                      fontSize: '11px',
+                      color: 'var(--text2)',
+                      fontWeight: '500',
+                      letterSpacing: '0.1px',
                       borderRight: '1px solid var(--border)',
                       whiteSpace: 'nowrap',
                       overflow: 'hidden',
                       textOverflow: 'ellipsis',
+                      animation: 'fadeUp 420ms ease both',
+                      animationDelay: `${260 + (idx * 70)}ms`,
                     }}>
                       {s}
                     </div>
@@ -1414,10 +1476,11 @@ I will share an image of the part. Please help me identify it and suggest the co
                 display: 'flex',
                 alignItems: 'center',
                 gap: '8px',
-                padding: '12px 0 0',
+                padding: '16px 0 0',
                 fontFamily: 'var(--mono)',
-                fontSize: '11px',
+                fontSize: '12px',
                 color: 'var(--amber)',
+                animation: 'fadeUp 300ms ease both',
               }}>
                 <span style={{
                   width: '6px', height: '6px',
@@ -1435,34 +1498,51 @@ I will share an image of the part. Please help me identify it and suggest the co
                 display: 'flex',
                 alignItems: 'center',
                 gap: '8px',
-                padding: '16px 0 0',
+                padding: '20px 0 0',
                 flexWrap: 'wrap',
+                animation: 'fadeUp 320ms ease both',
               }}>
                 <span style={{
                   fontFamily: 'var(--mono)',
-                  fontSize: '10px',
+                  fontSize: '11px',
                   color: 'var(--text3)',
                   letterSpacing: '1px',
                   textTransform: 'uppercase',
                 }}>
                   Filter:
                 </span>
-                {['ALL', 'STL', 'STEP', 'OBJ', 'FBX', 'BLEND', 'IGES'].map(ft => (
+                {['ALL', 'STL', 'STEP', 'OBJ', 'FBX', 'BLEND', 'IGES'].map((ft, idx) => (
                   <button
                     key={ft}
                     onClick={() => setFileFilter(ft)}
                     style={{
-                      fontFamily: 'var(--mono)',
-                      fontSize: '10px',
-                      padding: '4px 12px',
+                      fontFamily: 'var(--sans)',
+                      fontSize: '12px',
+                      padding: '7px 14px',
                       border: `1px solid ${fileFilter === ft ? 'var(--amber)' : 'var(--border)'}`,
-                      background: fileFilter === ft ? 'var(--amber-light)' : 'var(--bg2)',
-                      color: fileFilter === ft ? 'var(--amber)' : 'var(--text3)',
-                      borderRadius: '4px',
+                      background: fileFilter === ft ? 'var(--amber-light)' : '#fff',
+                      color: fileFilter === ft ? 'var(--amber)' : 'var(--text2)',
+                      borderRadius: '999px',
                       cursor: 'pointer',
-                      letterSpacing: '1px',
-                      transition: 'all 0.15s',
+                      letterSpacing: '0.2px',
+                      transition: 'all 0.2s ease',
                       fontWeight: fileFilter === ft ? '600' : '400',
+                      animation: 'filterChipIn 280ms ease both',
+                      animationDelay: `${idx * 40}ms`,
+                    }}
+                    onMouseEnter={(e) => {
+                      if (fileFilter !== ft) {
+                        e.currentTarget.style.borderColor = 'var(--amber-border)'
+                        e.currentTarget.style.color = 'var(--amber)'
+                        e.currentTarget.style.transform = 'translateY(-1px)'
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (fileFilter !== ft) {
+                        e.currentTarget.style.borderColor = 'var(--border)'
+                        e.currentTarget.style.color = 'var(--text2)'
+                        e.currentTarget.style.transform = 'translateY(0)'
+                      }
                     }}
                   >
                     {ft}
@@ -1476,13 +1556,15 @@ I will share an image of the part. Please help me identify it and suggest the co
                 display: 'flex',
                 alignItems: 'center',
                 gap: '16px',
-                padding: '14px 0',
+                padding: '14px 0 18px',
                 borderBottom: '1px solid var(--border)',
-                marginTop: '8px',
+                marginTop: '10px',
                 marginBottom: '24px',
-                fontFamily: 'var(--mono)',
-                fontSize: '11px',
+                fontFamily: 'var(--sans)',
+                fontSize: '13px',
                 color: 'var(--text3)',
+                lineHeight: '1.4',
+                animation: 'fadeUp 320ms ease both',
               }}>
                 <span style={{
                   width: '6px', height: '6px',
@@ -1493,14 +1575,6 @@ I will share an image of the part. Please help me identify it and suggest the co
                 <span>
                   <span style={{ color: 'var(--amber)', fontWeight: '600' }}>{results.length}</span> models found
                 </span>
-                {!loading && (
-                  <>
-                    <span>·</span>
-                    <span>
-                      <span style={{ color: 'var(--green)', fontWeight: '600' }}>{time}s</span> search time
-                    </span>
-                  </>
-                )}
                 <span>·</span>
                 <span style={{ color: 'var(--text2)' }}>"{query}"</span>
               </div>
@@ -1509,28 +1583,36 @@ I will share an image of the part. Please help me identify it and suggest the co
             {searched && results.length > 0 && (
               <div style={{
                 display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
-                gap: '16px',
-                paddingBottom: '60px',
+                gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+                gap: '18px',
+                paddingBottom: '56px',
               }}>
                 {results
                   .slice()
                   .sort((a, b) => (b.downloads || 0) - (a.downloads || 0))
                   .filter(result => {
                     if (fileFilter === 'ALL') return true
-                    const hasType = result.fileTypes && result.fileTypes.includes(fileFilter)
+                    const normalize = (value = '') => value.toString().trim().toLowerCase()
                     const text = ((result.title || '') + ' ' + (result.description || '')).toLowerCase()
-                    const extensionMap = {
-                      'STL': ['stl'],
-                      'STEP': ['step', 'stp', 'p21', 'solidworks', 'catia', 'fusion', 'creo'],
-                      'OBJ': ['obj', '3dm'],
-                      'FBX': ['fbx'],
-                      'BLEND': ['blend'],
-                      'IGES': ['iges', 'igs'],
+                    const extensionAliases = {
+                      STL: ['stl'],
+                      STEP: ['step', 'stp', 'p21'],
+                      OBJ: ['obj', '3dm'],
+                      FBX: ['fbx'],
+                      BLEND: ['blend'],
+                      IGES: ['iges', 'igs'],
                     }
-                    const extensions = extensionMap[fileFilter] || [fileFilter.toLowerCase()]
-                    const hasText = extensions.some(ext => text.includes(ext))
-                    return hasType || hasText
+
+                    const normalizedFromPayload = Array.isArray(result.fileTypes)
+                      ? result.fileTypes.map(normalize)
+                      : []
+
+                    const detectedFromText = Object.entries(extensionAliases)
+                      .filter(([, aliases]) => aliases.some(alias => text.includes(alias)))
+                      .map(([key]) => key.toLowerCase())
+
+                    const typeSet = new Set([...normalizedFromPayload, ...detectedFromText])
+                    return typeSet.has(fileFilter.toLowerCase())
                   })
                   .map((result, i) => (
                     <ResultCard key={result.url || i} result={result} index={i} />
@@ -1577,14 +1659,14 @@ I will share an image of the part. Please help me identify it and suggest the co
               display: 'flex',
               flexDirection: 'column',
               gap: '6px',
-              fontFamily: 'var(--mono)',
-              fontSize: '10px',
-              color: 'var(--text3)',
-              letterSpacing: '0.5px',
+              fontFamily: 'var(--sans)',
+              fontSize: '12px',
+              fontWeight: '500',
+              color: 'var(--text2)',
+              letterSpacing: '0.2px',
               marginTop: '20px',
             }}>
-              <span>CADSearch // engineering model search</span>
-              <span>STL · STEP · OBJ · FBX</span>
+              <span>Bhuve.com © owned by Stelna Designs LLP</span>
             </footer>
           </>
         )}
