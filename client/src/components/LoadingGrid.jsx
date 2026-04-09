@@ -68,7 +68,7 @@ export default function LoadingGrid() {
           animation: 'pulse 1s ease-in-out infinite',
           flexShrink: 0,
         }}/>
-        Searching 7 CAD sources in parallel
+        Searching  CAD sources in parallel
         <span style={{ color: 'var(--amber)', animation: 'pulse 1s step-end infinite' }}>_</span>
       </div>
 

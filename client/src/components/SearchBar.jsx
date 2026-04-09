@@ -47,6 +47,7 @@ export default function SearchBar({ onSearch, loading }) {
         {/* Input */}
         <input
           type="text"
+          list="empty-datalist"
           value={query}
           onChange={e => setQuery(e.target.value)}
           onKeyDown={handleKey}
@@ -54,6 +55,8 @@ export default function SearchBar({ onSearch, loading }) {
           onBlur={() => setFocused(false)}
           placeholder="Search CAD models, parts, assemblies..."
           autoComplete="off"
+          autoCorrect="off"
+          autoCapitalize="off"
           spellCheck="false"
           style={{
             flex: 1,
@@ -125,6 +128,9 @@ export default function SearchBar({ onSearch, loading }) {
           </button>
         ))}
       </div>
+
+      {/* Empty datalist to prevent browser autocomplete */}
+      <datalist id="empty-datalist"></datalist>
     </div>
   )
 }
