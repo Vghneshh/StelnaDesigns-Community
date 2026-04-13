@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 
 export default function RotatingWord() {
-  const words = ['spare-parts', 'components', 'broken-parts']
+  const words = ['spare parts', 'components', 'broken parts']
   const [index, setIndex] = useState(0)
 
   useEffect(() => {
