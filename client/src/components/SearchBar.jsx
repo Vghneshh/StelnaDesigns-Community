@@ -140,31 +140,46 @@ export default function SearchBar({ onSearch, loading }) {
       {/* CAPTCHA Modal - Only show when explicitly triggered by search click */}
       {showCaptcha && (
         <div style={{
-          background: '#fff',
-          border: '1px solid var(--border)',
-          borderRadius: '12px',
-          padding: '20px',
-          marginBottom: '12px',
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          background: 'rgba(0,0,0,0.5)',
           display: 'flex',
-          flexDirection: 'column',
+          justifyContent: 'center',
           alignItems: 'center',
-          gap: '12px',
+          zIndex: 9999,
           animation: 'slideDown 0.3s ease',
         }}>
-          <p style={{
-            fontSize: '13px',
-            color: 'var(--text2)',
-            margin: '0 0 8px 0',
-            fontFamily: 'var(--sans)',
+          <div style={{
+            background: '#fff',
+            border: '1px solid var(--border)',
+            borderRadius: '12px',
+            padding: '30px',
+            maxWidth: '400px',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '20px',
+            boxShadow: '0 20px 60px rgba(0,0,0,0.15)',
           }}>
-            Verify you're human to search
-          </p>
-          <ReCAPTCHA
-            ref={recaptchaRef}
-            sitekey={import.meta.env.VITE_RECAPTCHA_SITEKEY}
-            onChange={handleCaptchaChange}
-            theme="light"
-          />
+            <p style={{
+              fontSize: '14px',
+              fontWeight: '500',
+              color: 'var(--text)',
+              margin: 0,
+              fontFamily: 'var(--sans)',
+            }}>
+              Quick verification 🔒
+            </p>
+            <ReCAPTCHA
+              ref={recaptchaRef}
+              sitekey={import.meta.env.VITE_RECAPTCHA_SITEKEY}
+              onChange={handleCaptchaChange}
+              theme="light"
+            />
+          </div>
         </div>
       )}
 
