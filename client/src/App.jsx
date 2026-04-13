@@ -164,7 +164,7 @@ I will share an image of the part. Please help me identify it and suggest the co
     }
 
     return (
-      <div style={{ padding: '30px 0 60px', maxWidth: '560px', margin: '0 auto' }}>
+      <div style={{ padding: 'clamp(20px, 5vw, 30px) 0 clamp(40px, 10vw, 60px)', maxWidth: 'clamp(300px, 90%, 560px)', margin: '0 auto' }}>
         <h1 style={{ fontFamily: 'var(--sans)', fontSize: '36px', fontWeight: '700', marginBottom: '10px', color: 'var(--text)', textAlign: 'center' }}>
           Manufacture
         </h1>
@@ -188,7 +188,7 @@ I will share an image of the part. Please help me identify it and suggest the co
           </div>
         )}
 
-        <form onSubmit={handleSubmit} style={{ maxWidth: '560px', margin: '0 auto', padding: '40px', border: '1px solid var(--border)', borderRadius: '12px', background: '#fff', boxShadow: '0 2px 8px rgba(0,0,0,0.06)' }}>
+        <form onSubmit={handleSubmit} style={{ maxWidth: 'clamp(300px, 95%, 560px)', margin: '0 auto', padding: 'clamp(20px, 5vw, 40px)', border: '1px solid var(--border)', borderRadius: '12px', background: '#fff', boxShadow: '0 2px 8px rgba(0,0,0,0.06)' }}>
           {/* Name */}
           <div style={{ marginBottom: '20px' }}>
             <label style={{ fontFamily: 'var(--sans)', fontSize: '14px', color: 'var(--text)', fontWeight: '700', display: 'block', marginBottom: '10px', letterSpacing: '0.3px' }}>
@@ -500,7 +500,7 @@ I will share an image of the part. Please help me identify it and suggest the co
     }
 
     return (
-      <div style={{ padding: '30px 0 60px', maxWidth: '500px', margin: '0 auto' }}>
+      <div style={{ padding: 'clamp(20px, 5vw, 30px) 0 clamp(40px, 10vw, 60px)', maxWidth: 'clamp(300px, 90%, 500px)', margin: '0 auto' }}>
         <h1 style={{ fontFamily: 'var(--sans)', fontSize: '36px', fontWeight: '700', marginBottom: '10px', color: 'var(--text)', textAlign: 'center' }}>
           Custom Design
         </h1>
@@ -743,7 +743,7 @@ I will share an image of the part. Please help me identify it and suggest the co
   }
 
   const LearnMorePage = () => (
-    <div style={{ padding: '28px 0 40px' }}>
+    <div style={{ padding: 'clamp(20px, 5vw, 28px) 0 clamp(30px, 10vw, 40px)' }}>
       <div style={{
         display: 'flex',
         alignItems: 'center',
@@ -860,9 +860,9 @@ I will share an image of the part. Please help me identify it and suggest the co
   )
 
   const LandingPage = () => (
-    <div style={{ padding: '36px 0 60px' }}>
+    <div style={{ padding: 'clamp(20px, 5vw, 36px) 0 clamp(40px, 10vw, 60px)' }}>
       <div style={{
-        maxWidth: '900px',
+        maxWidth: 'clamp(300px, 90%, 900px)',
         margin: '0 auto',
       }}>
         <div style={{
@@ -1206,7 +1206,7 @@ I will share an image of the part. Please help me identify it and suggest the co
     }
 
     return (
-      <div style={{ maxWidth: '640px', margin: '24px auto', animation: 'fadeUp 420ms ease both' }}>
+      <div style={{ maxWidth: 'clamp(300px, 90%, 640px)', margin: '24px auto', animation: 'fadeUp 420ms ease both' }}>
         <div style={{
           padding: '12px 20px',
           borderRadius: '16px',
@@ -1257,7 +1257,7 @@ I will share an image of the part. Please help me identify it and suggest the co
         >
           <div style={{
             display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
             gap: '16px',
             marginBottom: '20px',
           }}>
@@ -1406,7 +1406,7 @@ I will share an image of the part. Please help me identify it and suggest the co
   }
 
   const CaseStudiesPage = () => (
-    <div style={{ padding: '60px 0', maxWidth: '1000px', margin: '0 auto' }}>
+    <div style={{ padding: 'clamp(40px, 8vw, 60px) 0', maxWidth: 'clamp(300px, 90%, 1000px)', margin: '0 auto' }}>
       <h1 style={{ fontFamily: 'var(--sans)', fontSize: '36px', fontWeight: '700', marginBottom: '20px', color: 'var(--text)', textAlign: 'center' }}>
         Case Studies
       </h1>
@@ -1549,7 +1549,7 @@ I will share an image of the part. Please help me identify it and suggest the co
 
       </nav>
 
-      <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 clamp(12px, 3vw, 24px)', position: 'relative', zIndex: 1, background: 'var(--bg)' }}>
+      <div style={{ maxWidth: 'clamp(300px, 90%, 1100px)', margin: '0 auto', padding: '0 clamp(12px, 3vw, 24px)', position: 'relative', zIndex: 1, background: 'var(--bg)' }}>
 
         {currentPage === 'home' && <LandingPage />}
 

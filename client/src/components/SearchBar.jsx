@@ -20,7 +20,7 @@ export default function SearchBar({ onSearch, loading }) {
   }
 
   return (
-    <div style={{ maxWidth: '700px', margin: '0 auto' }}>
+    <div style={{ maxWidth: 'clamp(300px, 90%, 700px)', margin: '0 auto' }}>
 
       {/* Search bar */}
       <div style={{
