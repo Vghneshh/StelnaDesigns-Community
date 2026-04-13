@@ -1936,7 +1936,6 @@ I will share an image of the part. Please help me identify it and suggest the co
           }
         }
       `}</style>
-      </div>
     </div>
   )
 }
