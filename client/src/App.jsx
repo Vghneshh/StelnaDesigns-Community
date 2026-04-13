@@ -1,6 +1,7 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import SearchBar from './components/SearchBar'
 import ResultCard from './components/ResultCard'
+import RotatingWord from './components/RotatingWord'
 import LoadingGrid from './components/LoadingGrid'
 
 const SITES = ['Thingiverse', 'Cults3D', 'MyMiniFactory', 'Sketchfab']
@@ -34,6 +35,16 @@ export default function App() {
   const [fileFilter, setFileFilter] = useState('ALL')
   const esRef = useRef(null)
 
+  // Load page from URL hash on mount
+  useEffect(() => {
+    const hash = window.location.hash.slice(1) || 'home'
+    setCurrentPage(hash)
+    window.addEventListener('hashchange', () => {
+      const newHash = window.location.hash.slice(1) || 'home'
+      setCurrentPage(newHash)
+    })
+  }, [])
+
   function openWhatsApp() {
     const message = encodeURIComponent(`Hello, I would like to request a part analysis.
 
@@ -47,6 +58,9 @@ I will share an image of the part. Please help me identify it and suggest the co
       esRef.current.close()
       esRef.current = null
     }
+
+    // Update URL with search page
+    window.location.hash = 'search'
 
     setLoading(true)
     setResults([])
@@ -883,78 +897,170 @@ I will share an image of the part. Please help me identify it and suggest the co
             marginRight: 'auto',
             animation: 'fadeUp 420ms ease both',
           }}>
-            Upload spare-parts image. Get expert analysis in <span style={{ color: 'var(--amber)' }}>4 hours.</span>
+            Upload <RotatingWord /> images. Get Manufacturability Analysis in <br /> <span style={{ color: 'var(--amber)' }}>4 Hours.</span>
           </h1>
 
           <p style={{
-            fontFamily: 'var(--sans)',
-            fontSize: '14px',
-            fontWeight: '400',
-            color: 'var(--text2)',
-            lineHeight: '1.9',
-            maxWidth: '720px',
-            marginBottom: '30px',
-            marginLeft: 'auto',
-            marginRight: 'auto',
-            animation: 'fadeUp 520ms ease both',
-            animationDelay: '80ms',
+            fontFamily: 'Caveat, cursive',
+            fontSize: '24px',
+            fontWeight: '700',
+            color: 'var(--text)',
+            marginTop: '12px',
+            marginBottom: '24px',
+            textAlign: 'center',
+            animation: 'fadeUp 450ms ease both',
+            animationDelay: '60ms',
           }}>
-            Send us a photo of your part. Our experts will analyze it and help you identify the exact match or the best solution.
+            Your Partner from Insight to <span style={{ color: 'var(--amber)' }}>Manufacturing.</span>
           </p>
 
-          <button
+          <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '2px',
+          }}>
+            <button
             onClick={openWhatsApp}
             style={{
               display: 'inline-flex',
               alignItems: 'center',
               justifyContent: 'center',
-              minHeight: '52px',
-              padding: '14px 24px',
+              gap: '8px',
+              padding: '10px 20px',
               fontFamily: 'var(--sans)',
-              fontSize: '13px',
-              fontWeight: '700',
-              letterSpacing: '0.9px',
-              textTransform: 'uppercase',
-              border: '1px solid rgba(255,255,255,0.28)',
-              borderRadius: '999px',
-              background: 'linear-gradient(135deg, #1e6bb3 0%, #2c88d9 100%)',
-              color: '#fff',
+              fontSize: '12px',
+              fontWeight: '600',
+              letterSpacing: '0.2px',
+              border: '2px solid #d0d0d0',
+              borderRadius: '24px',
+              background: '#fff',
+              color: '#1a1a1a',
               cursor: 'pointer',
-              boxShadow: '0 14px 28px rgba(30, 107, 179, 0.24), 0 2px 0 rgba(255,255,255,0.14) inset',
-              animation: 'fadeUp 580ms ease both',
-              animationDelay: '140ms',
-              transition: 'transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease, background 0.2s ease',
+              animation: 'buttonPop 0.35s ease-out both',
+              animationDelay: '80ms',
+              transition: 'all 0.2s ease',
+              boxShadow: '0 2px 12px rgba(0, 0, 0, 0.08)',
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'translateY(-2px)'
-              e.currentTarget.style.boxShadow = '0 18px 34px rgba(30, 107, 179, 0.32), 0 2px 0 rgba(255,255,255,0.14) inset'
-              e.currentTarget.style.filter = 'brightness(1.03)'
-              e.currentTarget.style.background = 'linear-gradient(135deg, #165a98 0%, #2477c7 100%)'
+              e.currentTarget.style.transform = 'translateY(-4px) scale(1.05)'
+              e.currentTarget.style.boxShadow = '0 12px 32px rgba(0, 0, 0, 0.2)'
+              e.currentTarget.style.background = '#f5f5f5'
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.background = 'linear-gradient(135deg, #1e6bb3 0%, #2c88d9 100%)'
-              e.currentTarget.style.transform = 'translateY(0)'
-              e.currentTarget.style.boxShadow = '0 14px 28px rgba(30, 107, 179, 0.24), 0 2px 0 rgba(255,255,255,0.14) inset'
-              e.currentTarget.style.filter = 'brightness(1)'
+              e.currentTarget.style.transform = 'translateY(0) scale(1)'
+              e.currentTarget.style.boxShadow = '0 2px 12px rgba(0, 0, 0, 0.08)'
+              e.currentTarget.style.background = '#fff'
             }}
           >
+            <img
+              src="/WHATSAPP.png"
+              alt="WhatsApp"
+              style={{
+                height: '24px',
+                width: '24px',
+                objectFit: 'contain',
+                display: 'block',
+                flexShrink: 0,
+                borderRadius: '50%',
+              }}
+            />
             <span>Send Photo on WhatsApp</span>
+            <span>→</span>
           </button>
+          </div>
+
+          <div style={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            gap: '12px',
+            marginTop: '12px',
+            justifyContent: 'center',
+          }}>
+            <a
+            href="tel:+919110440617"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              fontFamily: 'var(--sans)',
+              fontSize: '13px',
+              fontWeight: '600',
+              color: 'var(--text2)',
+              textDecoration: 'none',
+              transition: 'all 0.2s ease',
+              padding: '4px 6px',
+              borderRadius: '4px',
+              opacity: 0.8,
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.color = 'var(--amber)'
+              e.currentTarget.style.backgroundColor = '#f5f5f5'
+              e.currentTarget.style.transform = 'translateY(-1px)'
+              e.currentTarget.style.opacity = '1'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.color = 'var(--text2)'
+              e.currentTarget.style.backgroundColor = 'transparent'
+              e.currentTarget.style.transform = 'translateY(0)'
+              e.currentTarget.style.opacity = '0.8'
+            }}
+          >
+            <span style={{ filter: 'hue-rotate(220deg)' }}>📞</span>
+            <span>+91 9110 440617</span>
+          </a>
+
+          <span style={{ color: '#d0d0d0', opacity: 0.8 }}>•</span>
+
+          <a
+            href="mailto:pilot@bhuve.com"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              fontFamily: 'var(--sans)',
+              fontSize: '13px',
+              fontWeight: '600',
+              color: 'var(--text2)',
+              textDecoration: 'none',
+              transition: 'all 0.2s ease',
+              padding: '4px 6px',
+              borderRadius: '4px',
+              opacity: 0.8,
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.color = 'var(--amber)'
+              e.currentTarget.style.backgroundColor = '#f5f5f5'
+              e.currentTarget.style.transform = 'translateY(-1px)'
+              e.currentTarget.style.opacity = '1'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.color = 'var(--text2)'
+              e.currentTarget.style.backgroundColor = 'transparent'
+              e.currentTarget.style.transform = 'translateY(0)'
+              e.currentTarget.style.opacity = '0.8'
+            }}
+          >
+            <span style={{ filter: 'hue-rotate(220deg)' }}>✉</span>
+            <span>pilot@bhuve.com</span>
+          </a>
+          </div>
         </div>
 
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
           gap: '12px',
           marginTop: '14px',
         }}>
           {[
-            { t: 'Just send a photo', d: 'Any angle is fine. Include a ruler for scale if possible.' },
-            { t: 'Fast turnaround', d: 'We respond within 4 hours.\n(business hours).' },
-            { t: 'Actionable outcome', d: 'Manufacturability Design and simulation needs. Tentative Pricing.' },
+            { t: 'Just send a photo', d: 'Photo from different angle will be helpful, Include a ruler for scale if possible.' },
+            { t: 'Fast turnaround', d: 'We respond within 4 hours\n(business hours).' },
+            { t: 'Actionable outcome', d: 'Manufacturability, Design, Simulation needs & Tentative Pricing.' },
           ].map((card, index) => (
-            <div
-              key={card.t}
+            <div key={card.t}>
+              <div
               style={{
                 padding: '16px 16px 14px',
                 border: '1px solid #e6e6e6',
@@ -965,6 +1071,7 @@ I will share an image of the part. Please help me identify it and suggest the co
                 animationDelay: `${220 + (index * 70)}ms`,
                 transition: 'transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease',
                 cursor: 'pointer',
+                position: 'relative',
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.transform = 'translateY(-3px)'
@@ -979,6 +1086,21 @@ I will share an image of the part. Please help me identify it and suggest the co
             >
               <div style={{ fontFamily: 'var(--sans)', fontWeight: '700', fontSize: '18px', color: 'var(--text)', marginBottom: '8px' }}>{card.t}</div>
               <div style={{ fontFamily: 'var(--sans)', fontSize: '13px', color: '#8a8a8a', lineHeight: '1.7', whiteSpace: 'pre-line' }}>{card.d}</div>
+              {index < 2 && (
+                <div style={{
+                  position: 'absolute',
+                  right: '-22px',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  fontSize: '18px',
+                  color: '#d0d0d0',
+                  animation: 'fadeUp 520ms ease both',
+                  animationDelay: `${220 + (index * 70) + 35}ms`,
+                }}>
+                  →
+                </div>
+              )}
+            </div>
             </div>
           ))}
         </div>
@@ -1292,7 +1414,7 @@ I will share an image of the part. Please help me identify it and suggest the co
         Explore how organizations have successfully used BHUVE to streamline their workflows.
       </p>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '24px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '24px' }}>
         {[
           {
             title: 'Aerospace Manufacturing',
@@ -1358,7 +1480,7 @@ I will share an image of the part. Please help me identify it and suggest the co
         top: 0,
         zIndex: 100,
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '4px', cursor: 'pointer' }} onClick={() => setCurrentPage('home')}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '4px', cursor: 'pointer' }} onClick={() => window.location.hash = 'home'}>
           <img
             src="/bhuveblue.png"
             alt="BHUVE"
@@ -1384,19 +1506,17 @@ I will share an image of the part. Please help me identify it and suggest the co
           {[
             { label: 'Home', page: 'home' },
             { label: 'Search Parts', page: 'search' },
-            { label: 'Manufacture', page: 'manufacture' },
             { label: 'Case Studies', page: 'case-studies' },
-            { label: 'About', page: 'about', externalUrl: 'https://www.stelnadesigns.com/about' },
-            { label: 'Contact', page: 'contact' }
+            { label: 'About', page: 'about', externalUrl: 'https://www.stelnadesigns.com/about' }
           ].map(item => (
             <button
               key={item.page}
               onClick={() => {
                 if (item.externalUrl) {
-                  window.location.href = item.externalUrl
+                  window.open(item.externalUrl, '_blank')
                   return
                 }
-                setCurrentPage(item.page)
+                window.location.hash = item.page
               }}
               style={{
                 background: 'none',
@@ -1429,7 +1549,7 @@ I will share an image of the part. Please help me identify it and suggest the co
 
       </nav>
 
-      <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 20px', position: 'relative', zIndex: 1, background: 'var(--bg)' }}>
+      <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 clamp(12px, 3vw, 24px)', position: 'relative', zIndex: 1, background: 'var(--bg)' }}>
 
         {currentPage === 'home' && <LandingPage />}
 
@@ -1467,7 +1587,7 @@ I will share an image of the part. Please help me identify it and suggest the co
                 animation: 'fadeUp 520ms ease both',
                 animationDelay: '80ms',
               }}>
-                STL, STEP, OBJ, FBX — from engineering parts to printable collectibles.
+                STL, STEP, OBJ, FBX, BLEND — from engineering parts to printable collectibles.
               </p>
               </div>
 
@@ -1576,7 +1696,7 @@ I will share an image of the part. Please help me identify it and suggest the co
                 }}>
                   Filter:
                 </span>
-                {['ALL', 'STL', 'STEP', 'OBJ', 'FBX', 'BLEND', 'IGES'].map((ft, idx) => (
+                {['ALL', 'STL', 'STEP', 'OBJ', 'FBX', 'BLEND'].map((ft, idx) => (
                   <button
                     key={ft}
                     onClick={() => setFileFilter(ft)}
@@ -1648,7 +1768,7 @@ I will share an image of the part. Please help me identify it and suggest the co
             {searched && results.length > 0 && (
               <div style={{
                 display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+                gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
                 gap: '18px',
                 paddingBottom: '56px',
               }}>
@@ -1739,10 +1859,34 @@ I will share an image of the part. Please help me identify it and suggest the co
         {currentPage === 'manufacture' && <ManufacturePage />}
         {currentPage === 'case-studies' && <CaseStudiesPage />}
         {currentPage === 'about' && <LearnMorePage />}
-        {currentPage === 'contact' && <ContactPage />}
+        {/* {currentPage === 'contact' && <ContactPage />} */}
 
       </div>
       <style>{`
+        @media (max-width: 768px) {
+          nav {
+            padding: 12px 16px !important;
+          }
+          nav > div:last-child {
+            gap: 12px !important;
+            flex-wrap: wrap !important;
+          }
+          nav button {
+            font-size: 12px !important;
+            padding: 4px 8px !important;
+          }
+        }
+
+        @media (max-width: 640px) {
+          nav > div:last-child {
+            gap: 8px !important;
+          }
+          nav button {
+            font-size: 11px !important;
+            padding: 4px 6px !important;
+          }
+        }
+
         @media (max-width: 480px) {
           .hero-headline {
             font-size: 28px !important;
@@ -1755,6 +1899,31 @@ I will share an image of the part. Please help me identify it and suggest the co
           }
           .sites-strip-wrapper > div {
             min-width: 320px !important;
+          }
+          nav > div:first-child {
+            flex: 1 !important;
+          }
+          nav > div:last-child {
+            flex: 1 !important;
+            gap: 6px !important;
+            justify-content: center !important;
+          }
+          nav button {
+            font-size: 10px !important;
+            padding: 3px 4px !important;
+            white-space: nowrap !important;
+          }
+        }
+
+        @media (max-width: 380px) {
+          nav > div:last-child {
+            display: grid !important;
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 6px !important;
+          }
+          nav button {
+            font-size: 10px !important;
+            padding: 6px 8px !important;
           }
         }
       `}</style>
