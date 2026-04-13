@@ -58,6 +58,10 @@ export default function SearchBar({ onSearch, loading }) {
           from { opacity: 0; transform: translateY(-10px); }
           to { opacity: 1; transform: translateY(0); }
         }
+        @keyframes popup {
+          from { opacity: 0; transform: scale(0.95); }
+          to { opacity: 1; transform: scale(1); }
+        }
       `}</style>
 
       {/* Search bar */}
@@ -145,40 +149,48 @@ export default function SearchBar({ onSearch, loading }) {
           left: 0,
           width: '100%',
           height: '100%',
-          background: 'rgba(0,0,0,0.5)',
+          background: 'rgba(0,0,0,0.4)',
+          backdropFilter: 'blur(6px)',
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
           zIndex: 9999,
-          animation: 'slideDown 0.3s ease',
         }}>
           <div style={{
             background: '#fff',
-            border: '1px solid var(--border)',
-            borderRadius: '12px',
-            padding: '30px',
-            maxWidth: '400px',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            gap: '20px',
-            boxShadow: '0 20px 60px rgba(0,0,0,0.15)',
+            padding: '24px',
+            borderRadius: '16px',
+            width: '320px',
+            boxShadow: '0 20px 60px rgba(0,0,0,0.2)',
+            textAlign: 'center',
+            animation: 'popup 0.2s ease forwards',
           }}>
-            <p style={{
-              fontSize: '14px',
-              fontWeight: '500',
+            <h3 style={{
+              margin: '0 0 10px 0',
+              fontSize: '18px',
+              fontWeight: '600',
               color: 'var(--text)',
-              margin: 0,
               fontFamily: 'var(--sans)',
             }}>
-              Quick verification 🔒
+              🔒 Verify you're human
+            </h3>
+            <p style={{
+              fontSize: '14px',
+              color: 'var(--text2)',
+              margin: '0 0 20px 0',
+              fontFamily: 'var(--sans)',
+              lineHeight: '1.5',
+            }}>
+              This helps us prevent bots
             </p>
-            <ReCAPTCHA
-              ref={recaptchaRef}
-              sitekey={import.meta.env.VITE_RECAPTCHA_SITEKEY}
-              onChange={handleCaptchaChange}
-              theme="light"
-            />
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <ReCAPTCHA
+                ref={recaptchaRef}
+                sitekey={import.meta.env.VITE_RECAPTCHA_SITEKEY}
+                onChange={handleCaptchaChange}
+                theme="light"
+              />
+            </div>
           </div>
         </div>
       )}
