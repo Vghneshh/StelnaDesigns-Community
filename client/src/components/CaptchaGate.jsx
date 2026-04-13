@@ -46,12 +46,25 @@ export default function CaptchaGate({ children }) {
   return (
     <div style={{
       display: 'flex',
+      flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
       minHeight: '100vh',
-      background: '#fff',
+      background: '#ffffff',
       padding: '20px',
+      gap: '24px',
     }}>
+      <p style={{
+        fontSize: '14px',
+        color: '#666666',
+        textAlign: 'center',
+        maxWidth: '400px',
+        fontFamily: 'var(--sans)',
+        lineHeight: '1.6',
+      }}>
+        Search CAD models, request design analysis via WhatsApp, or contact us for manufacturing & custom design services.
+      </p>
+
       <div style={{ opacity: loading ? 0.5 : 1, pointerEvents: loading ? 'none' : 'auto' }}>
         <ReCAPTCHA
           sitekey={import.meta.env.VITE_RECAPTCHA_SITEKEY}
