@@ -353,6 +353,41 @@ app.get('/api/search', async (req, res) => {
   }
 })
 
+// CAPTCHA verification endpoint
+app.post('/api/verify-captcha', async (req, res) => {
+  const { token } = req.body
+
+  if (!token) {
+    return res.status(400).json({ success: false, error: 'No CAPTCHA token provided' })
+  }
+
+  const secretKey = process.env.RECAPTCHA_SECRET_KEY
+
+  if (!secretKey) {
+    console.error('❌ RECAPTCHA_SECRET_KEY not configured')
+    return res.status(500).json({ success: false, error: 'CAPTCHA not configured' })
+  }
+
+  try {
+    const response = await fetch('https://www.google.com/recaptcha/api/siteverify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: `secret=${secretKey}&response=${token}`,
+    })
+
+    const data = await response.json()
+
+    if (data.success && data.score > 0.5) {
+      res.json({ success: true })
+    } else {
+      res.json({ success: false, error: 'CAPTCHA verification failed' })
+    }
+  } catch (err) {
+    console.error('CAPTCHA verification error:', err)
+    res.status(500).json({ success: false, error: 'Verification failed' })
+  }
+})
+
 app.listen(PORT, () => {
   console.log(`CADSearch server running on http://localhost:${PORT}`)
 })

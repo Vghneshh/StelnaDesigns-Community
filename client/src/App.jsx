@@ -3,6 +3,7 @@ import SearchBar from './components/SearchBar'
 import ResultCard from './components/ResultCard'
 import RotatingWord from './components/RotatingWord'
 import LoadingGrid from './components/LoadingGrid'
+import CaptchaGate from './components/CaptchaGate'
 
 const SITES = ['Thingiverse', 'Cults3D', 'MyMiniFactory', 'Sketchfab']
 
@@ -1467,7 +1468,8 @@ I will share an image of the part. Please help me identify it and suggest the co
   )
 
   return (
-    <div style={{ minHeight: '100vh', background: 'var(--bg)', position: 'relative', zIndex: 1 }}>
+    <CaptchaGate>
+      <div style={{ minHeight: '100vh', background: 'var(--bg)', position: 'relative', zIndex: 1 }}>
       {/* Navigation Bar */}
       <nav style={{
         display: 'flex',
@@ -1927,6 +1929,7 @@ I will share an image of the part. Please help me identify it and suggest the co
           }
         }
       `}</style>
-    </div>
+      </div>
+    </CaptchaGate>
   )
 }
