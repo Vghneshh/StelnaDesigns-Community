@@ -1,13 +1,34 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
+import ReCAPTCHA from 'react-google-recaptcha'
 
 const HINTS = ['motor assembly', 'spur gear', 'robotic arm', 'ball bearing', 'heat sink', 'Enclosure']
 
 export default function SearchBar({ onSearch, loading }) {
   const [query, setQuery] = useState('')
   const [focused, setFocused] = useState(false)
+  const [showCaptcha, setShowCaptcha] = useState(false)
+  const [captchaToken, setCaptchaToken] = useState(null)
+  const recaptchaRef = useRef(null)
 
   function handleSearch() {
-    if (query.trim() && !loading) onSearch(query.trim())
+    if (query.trim() && !loading) {
+      // Show CAPTCHA if not already verified
+      if (!captchaToken) {
+        setShowCaptcha(true)
+        return
+      }
+      // Token exists, proceed with search
+      performSearch()
+    }
+  }
+
+  function performSearch() {
+    if (captchaToken) {
+      onSearch(query.trim(), captchaToken)
+      setCaptchaToken(null)
+      setShowCaptcha(false)
+      recaptchaRef.current?.reset()
+    }
   }
 
   function handleKey(e) {
@@ -16,7 +37,18 @@ export default function SearchBar({ onSearch, loading }) {
 
   function handleHint(hint) {
     setQuery(hint)
-    onSearch(hint)
+    // Reset CAPTCHA for new search
+    setCaptchaToken(null)
+    setShowCaptcha(false)
+    recaptchaRef.current?.reset()
+  }
+
+  function handleCaptchaChange(token) {
+    setCaptchaToken(token)
+    if (token) {
+      // Auto-search when CAPTCHA is completed
+      performSearch()
+    }
   }
 
   return (
@@ -98,6 +130,36 @@ export default function SearchBar({ onSearch, loading }) {
           {loading ? 'Searching...' : 'Search'}
         </button>
       </div>
+
+      {/* CAPTCHA Modal */}
+      {showCaptcha && (
+        <div style={{
+          background: '#fff',
+          border: '1px solid var(--border)',
+          borderRadius: '12px',
+          padding: '20px',
+          marginBottom: '12px',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: '12px',
+        }}>
+          <p style={{
+            fontSize: '13px',
+            color: 'var(--text2)',
+            margin: '0 0 8px 0',
+            fontFamily: 'var(--sans)',
+          }}>
+            Verify you're human to search
+          </p>
+          <ReCAPTCHA
+            ref={recaptchaRef}
+            sitekey={import.meta.env.VITE_RECAPTCHA_SITEKEY}
+            onChange={handleCaptchaChange}
+            theme="light"
+          />
+        </div>
+      )}
 
       {/* Hint chips */}
       <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>

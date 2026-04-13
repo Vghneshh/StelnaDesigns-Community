@@ -3,7 +3,6 @@ import SearchBar from './components/SearchBar'
 import ResultCard from './components/ResultCard'
 import RotatingWord from './components/RotatingWord'
 import LoadingGrid from './components/LoadingGrid'
-import CaptchaGate from './components/CaptchaGate'
 
 const SITES = ['Thingiverse', 'Cults3D', 'MyMiniFactory', 'Sketchfab']
 
@@ -54,7 +53,7 @@ I will share an image of the part. Please help me identify it and suggest the co
     window.open(whatsappUrl, "_blank")
   }
 
-  function handleSearch(q) {
+  function handleSearch(q, token = null) {
     if (esRef.current) {
       esRef.current.close()
       esRef.current = null
@@ -71,7 +70,11 @@ I will share an image of the part. Please help me identify it and suggest the co
     setQuery(q)
     const start = Date.now()
 
-    const es = new EventSource(`${import.meta.env.VITE_API_URL}/api/search/stream?q=${encodeURIComponent(q)}`)
+    const searchUrl = token
+      ? `${import.meta.env.VITE_API_URL}/api/search/stream?q=${encodeURIComponent(q)}&token=${encodeURIComponent(token)}`
+      : `${import.meta.env.VITE_API_URL}/api/search/stream?q=${encodeURIComponent(q)}`
+
+    const es = new EventSource(searchUrl)
     esRef.current = es
 
     es.onmessage = (e) => {
@@ -1468,8 +1471,7 @@ I will share an image of the part. Please help me identify it and suggest the co
   )
 
   return (
-    <CaptchaGate>
-      <div style={{ minHeight: '100vh', background: 'var(--bg)', position: 'relative', zIndex: 1 }}>
+    <div style={{ minHeight: '100vh', background: 'var(--bg)', position: 'relative', zIndex: 1 }}>
       {/* Navigation Bar */}
       <nav style={{
         display: 'flex',
@@ -1930,6 +1932,6 @@ I will share an image of the part. Please help me identify it and suggest the co
         }
       `}</style>
       </div>
-    </CaptchaGate>
+    </div>
   )
 }
