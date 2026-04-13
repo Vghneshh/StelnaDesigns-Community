@@ -63,13 +63,13 @@ body {
 
 .flip-container {
   display: inline-block;
-  width: 280px;
+  width: 320px;
   height: 1.2em;
   overflow: hidden;
   vertical-align: bottom;
   text-align: center;
   white-space: nowrap;
-  margin: 0 -10px;
+  margin: 0 8px;
 }
 
 .flip-word {
