@@ -35,6 +35,11 @@ export default function App() {
   const [fileFilter, setFileFilter] = useState('ALL')
   const esRef = useRef(null)
 
+  // Clear old CAPTCHA session state on app load
+  useEffect(() => {
+    sessionStorage.removeItem('captcha_verified')
+  }, [])
+
   // Load page from URL hash on mount
   useEffect(() => {
     const hash = window.location.hash.slice(1) || 'home'
