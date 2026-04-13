@@ -63,13 +63,15 @@ body {
 
 .flip-container {
   display: inline-block;
-  width: clamp(200px, 20vw, 400px);
+  min-width: 180px;
+  width: auto;
+  max-width: 100%;
   height: 1.2em;
   overflow: visible;
   vertical-align: bottom;
   text-align: center;
   white-space: nowrap;
-  margin: 0 clamp(-5px, -1vw, -15px);
+  margin: 0 -12px;
 }
 
 .flip-word {
