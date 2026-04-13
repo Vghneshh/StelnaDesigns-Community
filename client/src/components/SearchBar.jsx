@@ -1,33 +1,14 @@
-import { useState, useRef } from 'react'
-import ReCAPTCHA from 'react-google-recaptcha'
+import { useState } from 'react'
 
 const HINTS = ['motor assembly', 'spur gear', 'robotic arm', 'ball bearing', 'heat sink', 'Enclosure']
 
 export default function SearchBar({ onSearch, loading }) {
   const [query, setQuery] = useState('')
   const [focused, setFocused] = useState(false)
-  const [showCaptcha, setShowCaptcha] = useState(false)
-  const [captchaToken, setCaptchaToken] = useState(null)
-  const recaptchaRef = useRef(null)
 
   function handleSearch() {
     if (query.trim() && !loading) {
-      // Show CAPTCHA if not already verified
-      if (!captchaToken) {
-        setShowCaptcha(true)
-        return
-      }
-      // Token exists, proceed with search
-      performSearch()
-    }
-  }
-
-  function performSearch() {
-    if (captchaToken) {
-      onSearch(query.trim(), captchaToken)
-      setCaptchaToken(null)
-      setShowCaptcha(false)
-      recaptchaRef.current?.reset()
+      onSearch(query.trim())
     }
   }
 
@@ -37,18 +18,6 @@ export default function SearchBar({ onSearch, loading }) {
 
   function handleHint(hint) {
     setQuery(hint)
-    // Reset CAPTCHA for new search
-    setCaptchaToken(null)
-    setShowCaptcha(false)
-    recaptchaRef.current?.reset()
-  }
-
-  function handleCaptchaChange(token) {
-    setCaptchaToken(token)
-    if (token) {
-      // Auto-search when CAPTCHA is completed
-      performSearch()
-    }
   }
 
   return (
@@ -141,59 +110,7 @@ export default function SearchBar({ onSearch, loading }) {
         </button>
       </div>
 
-      {/* CAPTCHA Modal - Only show when explicitly triggered by search click */}
-      {showCaptcha && (
-        <div style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          background: 'rgba(0,0,0,0.4)',
-          backdropFilter: 'blur(6px)',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          zIndex: 9999,
-        }}>
-          <div style={{
-            background: '#fff',
-            padding: '24px',
-            borderRadius: '16px',
-            width: '320px',
-            boxShadow: '0 20px 60px rgba(0,0,0,0.2)',
-            textAlign: 'center',
-            animation: 'popup 0.2s ease forwards',
-          }}>
-            <h3 style={{
-              margin: '0 0 10px 0',
-              fontSize: '18px',
-              fontWeight: '600',
-              color: 'var(--text)',
-              fontFamily: 'var(--sans)',
-            }}>
-              🔒 Verify you're human
-            </h3>
-            <p style={{
-              fontSize: '14px',
-              color: 'var(--text2)',
-              margin: '0 0 20px 0',
-              fontFamily: 'var(--sans)',
-              lineHeight: '1.5',
-            }}>
-              This helps us prevent bots
-            </p>
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
-              <ReCAPTCHA
-                ref={recaptchaRef}
-                sitekey={import.meta.env.VITE_RECAPTCHA_SITEKEY}
-                onChange={handleCaptchaChange}
-                theme="light"
-              />
-            </div>
-          </div>
-        </div>
-      )}
+      {/* CAPTCHA Modal Removed */}
 
       {/* Hint chips */}
       <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>

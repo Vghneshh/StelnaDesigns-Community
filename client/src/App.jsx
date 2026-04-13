@@ -58,7 +58,7 @@ I will share an image of the part. Please help me identify it and suggest the co
     window.open(whatsappUrl, "_blank")
   }
 
-  function handleSearch(q, token = null) {
+  function handleSearch(q) {
     if (esRef.current) {
       esRef.current.close()
       esRef.current = null
@@ -75,9 +75,7 @@ I will share an image of the part. Please help me identify it and suggest the co
     setQuery(q)
     const start = Date.now()
 
-    const searchUrl = token
-      ? `${import.meta.env.VITE_API_URL}/api/search/stream?q=${encodeURIComponent(q)}&token=${encodeURIComponent(token)}`
-      : `${import.meta.env.VITE_API_URL}/api/search/stream?q=${encodeURIComponent(q)}`
+    const searchUrl = `${import.meta.env.VITE_API_URL}/api/search/stream?q=${encodeURIComponent(q)}`
 
     const es = new EventSource(searchUrl)
     esRef.current = es

@@ -281,31 +281,10 @@ app.use((err, req, res, next) => {
 
 // ✅ Streaming search endpoint — sends results as each source finishes
 app.get('/api/search/stream', async (req, res) => {
-  const { q, token } = req.query
+  const { q } = req.query
 
   if (!q || q.trim().length < 2) {
     return res.status(400).json({ error: 'Query too short' })
-  }
-
-  // Verify CAPTCHA token if provided
-  if (token) {
-    const secretKey = process.env.RECAPTCHA_SECRET_KEY
-    try {
-      const response = await fetch('https://www.google.com/recaptcha/api/siteverify', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: `secret=${secretKey}&response=${token}`,
-      })
-
-      const data = await response.json()
-
-      if (!data.success || data.score <= 0.5) {
-        return res.status(403).json({ error: 'CAPTCHA verification failed' })
-      }
-    } catch (err) {
-      console.error('CAPTCHA verification error:', err)
-      return res.status(500).json({ error: 'CAPTCHA verification failed' })
-    }
   }
 
   const query = q.trim()
