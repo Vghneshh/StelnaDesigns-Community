@@ -63,9 +63,9 @@ body {
 
 .flip-container {
   display: inline-block;
-  width: clamp(180px, 18vw, 350px);
+  width: clamp(200px, 20vw, 400px);
   height: 1.2em;
-  overflow: hidden;
+  overflow: visible;
   vertical-align: bottom;
   text-align: center;
   white-space: nowrap;
