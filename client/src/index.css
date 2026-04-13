@@ -63,7 +63,7 @@ body {
 
 .flip-container {
   display: inline-block;
-  width: clamp(150px, 15vw, 300px);
+  width: clamp(180px, 18vw, 350px);
   height: 1.2em;
   overflow: hidden;
   vertical-align: bottom;
