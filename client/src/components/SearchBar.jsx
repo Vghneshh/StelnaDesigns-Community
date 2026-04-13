@@ -53,6 +53,12 @@ export default function SearchBar({ onSearch, loading }) {
 
   return (
     <div style={{ maxWidth: 'clamp(300px, 90%, 700px)', margin: '0 auto' }}>
+      <style>{`
+        @keyframes slideDown {
+          from { opacity: 0; transform: translateY(-10px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+      `}</style>
 
       {/* Search bar */}
       <div style={{
@@ -131,7 +137,7 @@ export default function SearchBar({ onSearch, loading }) {
         </button>
       </div>
 
-      {/* CAPTCHA Modal */}
+      {/* CAPTCHA Modal - Only show when explicitly triggered by search click */}
       {showCaptcha && (
         <div style={{
           background: '#fff',
@@ -143,6 +149,7 @@ export default function SearchBar({ onSearch, loading }) {
           flexDirection: 'column',
           alignItems: 'center',
           gap: '12px',
+          animation: 'slideDown 0.3s ease',
         }}>
           <p style={{
             fontSize: '13px',
