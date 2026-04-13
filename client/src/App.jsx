@@ -1856,7 +1856,7 @@ I will share an image of the part. Please help me identify it and suggest the co
           </>
         )}
 
-        {currentPage === 'manufacture' && <ManufacturePage />}
+        {/* {currentPage === 'manufacture' && <ManufacturePage />} */}
         {currentPage === 'case-studies' && <CaseStudiesPage />}
         {currentPage === 'about' && <LearnMorePage />}
         {/* {currentPage === 'contact' && <ContactPage />} */}
