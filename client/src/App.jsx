@@ -524,7 +524,7 @@ I will share an image of the part. Please help me identify it and suggest the co
           </div>
         )}
 
-        <form onSubmit={handleDesignSubmit} style={{ maxWidth: '500px', margin: '0 auto', padding: '40px', border: '1px solid var(--border)', borderRadius: '12px', background: '#fff', boxShadow: '0 2px 8px rgba(0,0,0,0.06)' }}>
+        <form onSubmit={handleDesignSubmit} style={{ maxWidth: 'clamp(300px, 95%, 500px)', margin: '0 auto', padding: 'clamp(20px, 5vw, 40px)', border: '1px solid var(--border)', borderRadius: '12px', background: '#fff', boxShadow: '0 2px 8px rgba(0,0,0,0.06)' }}>
           {/* Name */}
           <div style={{ marginBottom: '20px' }}>
             <label style={{ fontFamily: 'var(--sans)', fontSize: '14px', color: 'var(--text)', fontWeight: '700', display: 'block', marginBottom: '10px', letterSpacing: '0.3px' }}>
@@ -788,7 +788,7 @@ I will share an image of the part. Please help me identify it and suggest the co
           lineHeight: '1.9',
           color: 'var(--text)',
           marginBottom: '20px',
-          maxWidth: '900px',
+          maxWidth: 'clamp(280px, 95%, 900px)',
         }}>
           Stelna Designs helps teams move from concept to production with practical hardware design, CAD support, and manufacturing guidance.
           This quick view keeps the experience clean here, and you can open the full About page for complete details.
@@ -892,7 +892,7 @@ I will share an image of the part. Please help me identify it and suggest the co
             color: 'var(--text)',
             marginTop: '18px',
             marginBottom: '18px',
-            maxWidth: '760px',
+            maxWidth: 'clamp(250px, 95%, 760px)',
             marginLeft: 'auto',
             marginRight: 'auto',
             animation: 'fadeUp 420ms ease both',
@@ -1561,7 +1561,7 @@ I will share an image of the part. Please help me identify it and suggest the co
               background: 'linear-gradient(180deg, rgba(30,107,179,0.035) 0%, rgba(30,107,179,0.01) 40%, transparent 100%)',
               animation: 'searchSectionIn 420ms ease both',
             }}>
-              <div style={{ maxWidth: '980px' }}>
+              <div style={{ maxWidth: 'clamp(300px, 95%, 980px)' }}>
               <h1 className="hero-headline" style={{
                 fontFamily: 'var(--sans)',
                 fontSize: 'clamp(32px, 5vw, 52px)',
@@ -1583,7 +1583,7 @@ I will share an image of the part. Please help me identify it and suggest the co
                 color: 'var(--text2)',
                 lineHeight: '1.65',
                 marginBottom: '30px',
-                maxWidth: '680px',
+                maxWidth: 'clamp(280px, 95%, 680px)',
                 animation: 'fadeUp 520ms ease both',
                 animationDelay: '80ms',
               }}>
