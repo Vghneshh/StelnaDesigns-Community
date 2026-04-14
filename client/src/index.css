@@ -204,13 +204,11 @@ input:-webkit-autofill {
     font-size: inherit;
   }
 
-  /* Responsive headline - ensure 3 lines max on mobile */
+  /* Responsive headline on mobile - full text visible, fits 3 lines max */
   h1 {
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 4;
-    -webkit-box-orient: vertical;
-    text-overflow: ellipsis;
+    font-size: clamp(16px, 3.5vw, 44px) !important;
+    white-space: normal;
+    word-wrap: break-word;
   }
 
   /* Improve touch targets on mobile */
