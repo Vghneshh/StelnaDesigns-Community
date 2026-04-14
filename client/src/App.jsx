@@ -1504,15 +1504,16 @@ I will share an image of the part. Please help me identify it and suggest the co
   }
 
   const CaseStudiesPage = () => (
-    <div style={{ padding: 'clamp(40px, 8vw, 60px) 0', maxWidth: 'clamp(300px, 90%, 1000px)', margin: '0 auto' }}>
-      <h1 style={{ fontFamily: 'var(--sans)', fontSize: '36px', fontWeight: '700', marginBottom: '20px', color: 'var(--text)', textAlign: 'center' }}>
-        Case Studies
-      </h1>
-      <p style={{ fontFamily: 'var(--mono)', fontSize: '14px', color: 'var(--text2)', lineHeight: '1.8', marginBottom: '40px', textAlign: 'center' }}>
-        Explore how we've helped teams transform concepts into manufacturing-ready products.
-      </p>
+    <div style={{ padding: 'clamp(40px, 8vw, 60px) clamp(12px, 3vw, 24px)', maxWidth: '100%', boxSizing: 'border-box' }}>
+      <div style={{ maxWidth: 'clamp(300px, 90%, 1000px)', margin: '0 auto', width: '100%', boxSizing: 'border-box' }}>
+        <h1 style={{ fontFamily: 'var(--sans)', fontSize: '36px', fontWeight: '700', marginBottom: '20px', color: 'var(--text)', textAlign: 'center' }}>
+          Case Studies
+        </h1>
+        <p style={{ fontFamily: 'var(--mono)', fontSize: '14px', color: 'var(--text2)', lineHeight: '1.8', marginBottom: '40px', textAlign: 'center' }}>
+          Explore how we've helped teams transform concepts into manufacturing-ready products.
+        </p>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '24px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '24px' }}>
         {[
           {
             id: 'helmet-mask',
@@ -1711,6 +1712,7 @@ I will share an image of the part. Please help me identify it and suggest the co
             </div>
           </div>
         ))}
+      </div>
       </div>
       <Footer />
     </div>
