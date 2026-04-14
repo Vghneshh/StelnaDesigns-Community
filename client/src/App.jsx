@@ -1584,8 +1584,10 @@ I will share an image of the part. Please help me identify it and suggest the co
       </nav>
 
       {/* Mobile Menu Drawer */}
-      {mobileMenuOpen && (
-        <div style={{
+      {/* Mobile Menu Drawer */}
+      <div
+        className="mobile-menu-drawer"
+        style={{
           position: 'absolute',
           top: '100%',
           right: 0,
@@ -1594,10 +1596,10 @@ I will share an image of the part. Please help me identify it and suggest the co
           borderBottom: '1px solid var(--border)',
           boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
           zIndex: 99,
-          animation: 'slideDown 200ms ease forwards',
+          animation: mobileMenuOpen ? 'slideDown 200ms ease forwards' : 'none',
+          display: mobileMenuOpen ? 'block' : 'none',
         }}
-        className="mobile-menu-drawer"
-        >
+      >
           <div style={{
             display: 'flex',
             flexDirection: 'column',
@@ -1646,7 +1648,6 @@ I will share an image of the part. Please help me identify it and suggest the co
             ))}
           </div>
         </div>
-      )}
 
       <div style={{ maxWidth: 'clamp(300px, 90%, 1100px)', margin: '0 auto', padding: '0 clamp(12px, 3vw, 24px)', position: 'relative', zIndex: 1, background: 'var(--bg)' }}>
 
@@ -1973,34 +1974,32 @@ I will share an image of the part. Please help me identify it and suggest the co
           }
         }
 
+        /* Desktop Default */
         .desktop-nav {
-          display: flex !important;
-          gap: 24px !important;
-          align-items: center !important;
+          display: flex;
+          gap: 24px;
+          align-items: center;
         }
 
         .mobile-menu-btn {
-          display: none !important;
+          display: none;
         }
 
         .mobile-menu-drawer {
-          display: none !important;
+          display: none;
         }
 
         /* Mobile breakpoint - show hamburger, hide desktop nav */
-        @media (max-width: 900px) {
+        @media screen and (max-width: 900px) {
           .desktop-nav {
             display: none !important;
           }
           .mobile-menu-btn {
             display: block !important;
           }
-          .mobile-menu-drawer {
-            display: block !important;
-          }
         }
 
-        @media (max-width: 768px) {
+        @media screen and (max-width: 768px) {
           nav {
             padding: 12px 16px !important;
           }
@@ -2010,12 +2009,9 @@ I will share an image of the part. Please help me identify it and suggest the co
           .mobile-menu-btn {
             display: block !important;
           }
-          .mobile-menu-drawer {
-            display: block !important;
-          }
         }
 
-        @media (max-width: 640px) {
+        @media screen and (max-width: 640px) {
           nav {
             padding: 12px 16px !important;
           }
@@ -2025,12 +2021,9 @@ I will share an image of the part. Please help me identify it and suggest the co
           .mobile-menu-btn {
             display: block !important;
           }
-          .mobile-menu-drawer {
-            display: block !important;
-          }
         }
 
-        @media (max-width: 480px) {
+        @media screen and (max-width: 480px) {
           .hero-headline {
             font-size: 28px !important;
             letter-spacing: -0.5px !important;
@@ -2049,19 +2042,13 @@ I will share an image of the part. Please help me identify it and suggest the co
           .mobile-menu-btn {
             display: block !important;
           }
-          .mobile-menu-drawer {
-            display: block !important;
-          }
         }
 
-        @media (max-width: 380px) {
+        @media screen and (max-width: 380px) {
           .desktop-nav {
             display: none !important;
           }
           .mobile-menu-btn {
-            display: block !important;
-          }
-          .mobile-menu-drawer {
             display: block !important;
           }
         }
