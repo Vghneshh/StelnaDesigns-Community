@@ -34,7 +34,17 @@ export default function App() {
   const [error, setError] = useState(null)
   const [fileFilter, setFileFilter] = useState('ALL')
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 900)
   const esRef = useRef(null)
+
+  // Handle mobile responsive
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 900)
+    }
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
 
   // Clear old CAPTCHA session state on app load
   useEffect(() => {
@@ -1513,7 +1523,8 @@ I will share an image of the part. Please help me identify it and suggest the co
           </span>
         </div>
 
-        {/* Desktop Navigation */}
+        {/* Desktop Navigation - only show on desktop */}
+        {!isMobile && (
         <div style={{ display: 'flex', gap: '24px', alignItems: 'center' }} className="desktop-nav">
           {[
             { label: 'Home', page: 'home' },
@@ -1558,8 +1569,10 @@ I will share an image of the part. Please help me identify it and suggest the co
             </button>
           ))}
         </div>
+        )}
 
-        {/* Mobile Hamburger Button */}
+        {/* Mobile Hamburger Button - only show on mobile */}
+        {isMobile && (
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           style={{
@@ -1581,10 +1594,12 @@ I will share an image of the part. Please help me identify it and suggest the co
         >
           ☰
         </button>
+        )}
       </nav>
 
       {/* Mobile Menu Drawer */}
-      {/* Mobile Menu Drawer */}
+      {/* Mobile Menu Drawer - only show when mobile menu is open */}
+      {isMobile && mobileMenuOpen && (
       <div
         className="mobile-menu-drawer"
         style={{
@@ -1596,8 +1611,7 @@ I will share an image of the part. Please help me identify it and suggest the co
           borderBottom: '1px solid var(--border)',
           boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
           zIndex: 99,
-          animation: mobileMenuOpen ? 'slideDown 200ms ease forwards' : 'none',
-          display: mobileMenuOpen ? 'block' : 'none',
+          animation: 'slideDown 200ms ease forwards',
         }}
       >
           <div style={{
@@ -1648,6 +1662,7 @@ I will share an image of the part. Please help me identify it and suggest the co
             ))}
           </div>
         </div>
+      )}
 
       <div style={{ maxWidth: 'clamp(300px, 90%, 1100px)', margin: '0 auto', padding: '0 clamp(12px, 3vw, 24px)', position: 'relative', zIndex: 1, background: 'var(--bg)' }}>
 
