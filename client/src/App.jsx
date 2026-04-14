@@ -993,7 +993,7 @@ I will share an image of the part. Please help me identify it and suggest the co
             marginRight: 'auto',
             animation: 'fadeUp 420ms ease both',
           }}>
-            Upload <RotatingWord />{' '}images. Get Manufacturability Analysis in <br /> <span style={{ color: 'var(--amber)' }}>4 Hours.</span>
+            Upload <RotatingWord />{' '}images. Get Manufacturability Analysis in <br /> <span style={{ color: 'var(--amber)', display: 'inline-block', whiteSpace: 'nowrap' }}>4 Hours.</span>
           </h1>
 
           <p style={{
