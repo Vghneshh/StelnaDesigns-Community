@@ -2,12 +2,12 @@ import { useState } from 'react'
 
 const HINTS = ['motor assembly', 'spur gear', 'robotic arm', 'ball bearing', 'heat sink', 'Enclosure']
 
-export default function SearchBar({ onSearch, loading }) {
+export default function SearchBar({ onSearch, loading, rateLimitExceeded }) {
   const [query, setQuery] = useState('')
   const [focused, setFocused] = useState(false)
 
   function handleSearch() {
-    if (query.trim() && !loading) {
+    if (query.trim() && !loading && !rateLimitExceeded) {
       onSearch(query.trim())
     }
   }

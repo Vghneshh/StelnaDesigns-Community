@@ -6,6 +6,7 @@ const cors = require('cors')
 const rateLimit = require('express-rate-limit')
 const nodemailer = require('nodemailer')
 const { scrapeAll, searchSketchfab, searchThingiverse, searchMyMiniFactory, searchCults3D } = require('./scraper')
+const searchRateLimiter = require('./rateLimiter')
 
 const app = express()
 const PORT = 5000
@@ -279,8 +280,27 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'Internal server error.' })
 })
 
+// Search-specific rate limiting middleware
+function searchRateLimiterMiddleware(req, res, next) {
+  // SessionId can come from query params (EventSource) or headers (fetch)
+  const sessionId = req.query.sessionId || req.headers['x-session-id'] || req.ip || 'unknown'
+
+  if (!searchRateLimiter.checkLimit(sessionId)) {
+    searchRateLimiter.logRequest(sessionId)
+    return res.status(429).json({
+      error: 'Too many search requests',
+      captchaRequired: true,
+      message: 'You have exceeded the search limit. Please verify you\'re human.'
+    })
+  }
+
+  // Request is within limit, log it and continue
+  searchRateLimiter.logRequest(sessionId)
+  next()
+}
+
 // ✅ Streaming search endpoint — sends results as each source finishes
-app.get('/api/search/stream', async (req, res) => {
+app.get('/api/search/stream', searchRateLimiterMiddleware, async (req, res) => {
   const { q } = req.query
 
   if (!q || q.trim().length < 2) {
@@ -326,7 +346,7 @@ app.get('/api/search/stream', async (req, res) => {
 })
 
 // Original non-streaming endpoint (keep as fallback)
-app.get('/api/search', async (req, res) => {
+app.get('/api/search', searchRateLimiterMiddleware, async (req, res) => {
   const { q } = req.query
 
   if (!q || q.trim().length < 2) {
@@ -382,6 +402,48 @@ app.post('/api/verify-captcha', async (req, res) => {
       res.json({ success: true })
     } else {
       res.json({ success: false, error: 'CAPTCHA verification failed' })
+    }
+  } catch (err) {
+    console.error('CAPTCHA verification error:', err)
+    res.status(500).json({ success: false, error: 'Verification failed' })
+  }
+})
+
+// CAPTCHA verification + rate limit reset endpoint
+app.post('/api/verify-captcha-and-reset', async (req, res) => {
+  const { token, sessionId } = req.body
+
+  if (!token) {
+    return res.status(400).json({ success: false, error: 'No CAPTCHA token provided' })
+  }
+
+  if (!sessionId) {
+    return res.status(400).json({ success: false, error: 'No session ID provided' })
+  }
+
+  const secretKey = process.env.RECAPTCHA_SECRET_KEY
+
+  if (!secretKey) {
+    console.error('❌ RECAPTCHA_SECRET_KEY not configured')
+    return res.status(500).json({ success: false, error: 'CAPTCHA not configured' })
+  }
+
+  try {
+    const response = await fetch('https://www.google.com/recaptcha/api/siteverify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: `secret=${secretKey}&response=${token}`,
+    })
+
+    const data = await response.json()
+
+    if (data.success && data.score > 0.5) {
+      // CAPTCHA verified successfully — reset rate limit for this session
+      searchRateLimiter.resetLimit(sessionId)
+      console.log(`✅ CAPTCHA verified for session ${sessionId}, rate limit reset`)
+      res.json({ success: true, rateLimitReset: true })
+    } else {
+      res.status(400).json({ success: false, error: 'CAPTCHA verification failed' })
     }
   } catch (err) {
     console.error('CAPTCHA verification error:', err)

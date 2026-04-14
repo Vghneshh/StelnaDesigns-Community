@@ -4,6 +4,7 @@ import ResultCard from './components/ResultCard'
 import RotatingWord from './components/RotatingWord'
 import LoadingGrid from './components/LoadingGrid'
 import CaseStudyDetail from './components/CaseStudyDetail'
+import CaptchaModal from './components/CaptchaModal'
 
 const SITES = ['Thingiverse', 'Cults3D', 'MyMiniFactory', 'Sketchfab']
 
@@ -41,6 +42,8 @@ export default function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [isMobile, setIsMobile] = useState(detectMobileView)
   const [selectedCaseStudy, setSelectedCaseStudy] = useState(null)
+  const [sessionId, setSessionId] = useState('')
+  const [rateLimitExceeded, setRateLimitExceeded] = useState(false)
   const esRef = useRef(null)
 
   // Handle mobile responsive
@@ -79,6 +82,18 @@ export default function App() {
     sessionStorage.removeItem('captcha_verified')
   }, [])
 
+  // Generate unique session ID for rate limiting
+  useEffect(() => {
+    const storedId = sessionStorage.getItem('search_session_id')
+    if (storedId) {
+      setSessionId(storedId)
+    } else {
+      const newId = 'sess_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now()
+      sessionStorage.setItem('search_session_id', newId)
+      setSessionId(newId)
+    }
+  }, [])
+
   // Load page from URL hash on mount
   useEffect(() => {
     const hash = window.location.hash.slice(1) || 'home'
@@ -111,10 +126,12 @@ I will share an image of the part. Please help me identify it and suggest the co
     setFileFilter('ALL')
     setSearched(false)
     setError(null)
+    setRateLimitExceeded(false)
     setQuery(q)
     const start = Date.now()
 
-    const searchUrl = `${import.meta.env.VITE_API_URL}/api/search/stream?q=${encodeURIComponent(q)}`
+    const API_BASE = (import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '')
+    const searchUrl = `${API_BASE}/api/search/stream?q=${encodeURIComponent(q)}&sessionId=${encodeURIComponent(sessionId)}`
 
     const es = new EventSource(searchUrl)
     esRef.current = es
@@ -141,11 +158,38 @@ I will share an image of the part. Please help me identify it and suggest the co
       }
     }
 
-    es.onerror = () => {
+    es.onerror = (e) => {
       es.close()
       esRef.current = null
       setLoading(false)
       setSearched(true)
+
+      // Check if it's a rate limit error (429)
+      try {
+        if (e.target && e.target.readyState === EventSource.CLOSED) {
+          // EventSource closed - could be rate limit, check via fallback endpoint
+          checkForRateLimit()
+        }
+      } catch (err) {
+        setError('Could not reach the server. Make sure the backend is running.')
+      }
+    }
+  }
+
+  // Check if user has hit rate limit
+  async function checkForRateLimit() {
+    try {
+      const API_BASE = (import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '')
+      // Make a simple request to check rate limit status
+      const response = await fetch(`${API_BASE}/api/search?q=test&sessionId=${encodeURIComponent(sessionId)}`)
+
+      if (response.status === 429) {
+        setRateLimitExceeded(true)
+        setError(null)
+      } else if (!response.ok) {
+        setError('Search request failed. Please try again.')
+      }
+    } catch (err) {
       setError('Could not reach the server. Make sure the backend is running.')
     }
   }
@@ -1890,7 +1934,7 @@ I will share an image of the part. Please help me identify it and suggest the co
               </div>
 
               <div style={{ animation: 'fadeUp 560ms ease both', animationDelay: '120ms' }}>
-                <SearchBar onSearch={handleSearch} loading={loading} />
+                <SearchBar onSearch={handleSearch} loading={loading} rateLimitExceeded={rateLimitExceeded} />
               </div>
 
               <div className="sites-strip-wrapper" style={{
@@ -1946,6 +1990,17 @@ I will share an image of the part. Please help me identify it and suggest the co
               }}>
                 ⚠ {error}
               </div>
+            )}
+
+            {rateLimitExceeded && (
+              <CaptchaModal
+                sessionId={sessionId}
+                onSuccess={() => {
+                  setRateLimitExceeded(false)
+                  handleSearch(query)
+                }}
+                onClose={() => setRateLimitExceeded(false)}
+              />
             )}
 
             {loading && results.length === 0 && (
