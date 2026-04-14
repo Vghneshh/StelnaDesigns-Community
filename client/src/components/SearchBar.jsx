@@ -35,9 +35,9 @@ export default function SearchBar({ onSearch, loading, rateLimitExceeded }) {
 
       {/* Search bar */}
       <div style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: '10px',
+        position: 'relative',
+        width: '100%',
+        boxSizing: 'border-box',
         background: '#fff',
         border: `1.5px solid ${focused ? 'var(--amber)' : 'var(--border)'}`,
         borderRadius: '12px',
@@ -45,10 +45,12 @@ export default function SearchBar({ onSearch, loading, rateLimitExceeded }) {
         marginBottom: '12px',
         transition: 'all 0.2s ease',
         boxShadow: focused ? '0 0 0 4px var(--amber-dim), 0 8px 20px rgba(0,0,0,0.05)' : '0 2px 8px rgba(0,0,0,0.04)',
+        display: 'flex',
+        alignItems: 'center',
       }}>
 
         {/* Search icon */}
-        <span style={{ color: 'var(--text3)', flexShrink: 0, display: 'flex' }}>
+        <span style={{ color: 'var(--text3)', flexShrink: 0, display: 'flex', marginRight: '8px' }}>
           <svg width="18" height="18" viewBox="0 0 20 20" fill="none">
             <circle cx="8.5" cy="8.5" r="6.5" stroke="currentColor" strokeWidth="1.6" />
             <path d="M14 14L17.5 17.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
@@ -75,27 +77,36 @@ export default function SearchBar({ onSearch, loading, rateLimitExceeded }) {
             outline: 'none',
             background: 'transparent',
             fontFamily: 'var(--sans)',
-            fontSize: '14px',
+            fontSize: 'clamp(13px, 3vw, 14px)',
             lineHeight: '1.4',
             color: 'var(--text)',
+            paddingRight: '60px',
+            boxSizing: 'border-box',
+            width: '100%',
           }}
         />
 
+        {/* Search Button - Positioned Absolutely */}
         <button
           onClick={handleSearch}
           disabled={loading || !query.trim()}
           style={{
+            position: 'absolute',
+            right: '8px',
+            top: '50%',
+            transform: 'translateY(-50%)',
             border: '1px solid transparent',
-            borderRadius: '10px',
+            borderRadius: '8px',
             background: loading || !query.trim() ? 'var(--bg3)' : 'var(--amber)',
             color: loading || !query.trim() ? 'var(--text3)' : '#fff',
             fontFamily: 'var(--sans)',
-            fontSize: '12px',
+            fontSize: 'clamp(11px, 2.5vw, 12px)',
             fontWeight: '600',
-            padding: '8px 12px',
+            padding: 'clamp(6px, 2vw, 8px) clamp(8px, 3vw, 12px)',
             cursor: loading || !query.trim() ? 'not-allowed' : 'pointer',
             transition: 'all 0.2s ease',
             whiteSpace: 'nowrap',
+            boxSizing: 'border-box',
           }}
           onMouseEnter={(e) => {
             if (!loading && query.trim()) {
