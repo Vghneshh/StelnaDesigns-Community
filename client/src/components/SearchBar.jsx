@@ -31,6 +31,16 @@ export default function SearchBar({ onSearch, loading, rateLimitExceeded }) {
           from { opacity: 0; transform: scale(0.95); }
           to { opacity: 1; transform: scale(1); }
         }
+        @media screen and (max-width: 480px) {
+          .search-button-mobile {
+            font-size: 10px !important;
+            padding: 4px 8px !important;
+          }
+          .hint-chip-mobile {
+            font-size: 11px !important;
+            padding: 4px 10px !important;
+          }
+        }
       `}</style>
 
       {/* Search bar */}
@@ -88,6 +98,7 @@ export default function SearchBar({ onSearch, loading, rateLimitExceeded }) {
 
         {/* Search Button - Positioned Absolutely */}
         <button
+          className="search-button-mobile"
           onClick={handleSearch}
           disabled={loading || !query.trim()}
           style={{
@@ -127,6 +138,7 @@ export default function SearchBar({ onSearch, loading, rateLimitExceeded }) {
       <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
         {HINTS.map(hint => (
           <button
+            className="hint-chip-mobile"
             key={hint}
             onClick={() => handleHint(hint)}
             style={{
