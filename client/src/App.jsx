@@ -98,10 +98,16 @@ export default function App() {
   useEffect(() => {
     const hash = window.location.hash.slice(1) || 'home'
     setCurrentPage(hash)
-    window.addEventListener('hashchange', () => {
+    setSelectedCaseStudy(null)
+
+    const handleHashChange = () => {
       const newHash = window.location.hash.slice(1) || 'home'
       setCurrentPage(newHash)
-    })
+      setSelectedCaseStudy(null)
+    }
+
+    window.addEventListener('hashchange', handleHashChange)
+    return () => window.removeEventListener('hashchange', handleHashChange)
   }, [])
 
   function openWhatsApp() {
