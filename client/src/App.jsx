@@ -1563,7 +1563,6 @@ I will share an image of the part. Please help me identify it and suggest the co
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           style={{
-            display: 'none',
             background: 'none',
             border: 'none',
             cursor: 'pointer',
@@ -1587,7 +1586,6 @@ I will share an image of the part. Please help me identify it and suggest the co
       {/* Mobile Menu Drawer */}
       {mobileMenuOpen && (
         <div style={{
-          display: 'none',
           position: 'absolute',
           top: '100%',
           right: 0,
