@@ -1081,7 +1081,7 @@ I will share an image of the part. Please help me identify it and suggest the co
               alignItems: 'center',
               gap: '6px',
               fontFamily: 'var(--sans)',
-              fontSize: '13px',
+              fontSize: 'clamp(11px, 2.5vw, 13px)',
               fontWeight: '600',
               color: 'var(--text2)',
               textDecoration: 'none',
@@ -1089,6 +1089,7 @@ I will share an image of the part. Please help me identify it and suggest the co
               padding: '4px 6px',
               borderRadius: '4px',
               opacity: 0.8,
+              whiteSpace: 'nowrap',
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.color = 'var(--amber)'
@@ -1116,7 +1117,7 @@ I will share an image of the part. Please help me identify it and suggest the co
               alignItems: 'center',
               gap: '6px',
               fontFamily: 'var(--sans)',
-              fontSize: '13px',
+              fontSize: 'clamp(11px, 2.5vw, 13px)',
               fontWeight: '600',
               color: 'var(--text2)',
               textDecoration: 'none',
@@ -1124,6 +1125,7 @@ I will share an image of the part. Please help me identify it and suggest the co
               padding: '4px 6px',
               borderRadius: '4px',
               opacity: 0.8,
+              whiteSpace: 'nowrap',
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.color = 'var(--amber)'
