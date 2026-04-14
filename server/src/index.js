@@ -398,7 +398,10 @@ app.post('/api/verify-captcha', async (req, res) => {
 
     const data = await response.json()
 
-    if (data.success && data.score > 0.5) {
+    // Support both v2 (checkbox - no score) and v3 (score-based)
+    const isValid = data.success && (data.score === undefined || data.score > 0.5)
+
+    if (isValid) {
       res.json({ success: true })
     } else {
       res.json({ success: false, error: 'CAPTCHA verification failed' })
@@ -437,7 +440,10 @@ app.post('/api/verify-captcha-and-reset', async (req, res) => {
 
     const data = await response.json()
 
-    if (data.success && data.score > 0.5) {
+    // Support both v2 (checkbox - no score) and v3 (score-based)
+    const isValid = data.success && (data.score === undefined || data.score > 0.5)
+
+    if (isValid) {
       // CAPTCHA verified successfully — reset rate limit for this session
       searchRateLimiter.resetLimit(sessionId)
       console.log(`✅ CAPTCHA verified for session ${sessionId}, rate limit reset`)
