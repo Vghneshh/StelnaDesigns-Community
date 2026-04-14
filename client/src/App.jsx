@@ -1919,7 +1919,7 @@ I will share an image of the part. Please help me identify it and suggest the co
             }}>
               {/* CAD Background Image */}
               <img
-                className="cad-bg-image"
+                className="cad-bg-image search-bg-image"
                 src="/cad-background.png"
                 alt="CAD Background"
                 style={{
@@ -1927,8 +1927,9 @@ I will share an image of the part. Please help me identify it and suggest the co
                   right: 0,
                   top: '50%',
                   transform: 'translateY(-50%)',
-                  height: '120%',
+                  height: '140%',
                   width: 'auto',
+                  minWidth: '300px',
                   opacity: 0.30,
                   filter: 'brightness(1.15)',
                   zIndex: 0,
@@ -2319,6 +2320,11 @@ I will share an image of the part. Please help me identify it and suggest the co
           .cad-bg-image {
             opacity: 0.02 !important;
             filter: brightness(2.0) !important;
+          }
+
+          .search-bg-image {
+            opacity: 0.15 !important;
+            filter: brightness(1.3) !important;
           }
         }
 
