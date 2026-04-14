@@ -122,7 +122,7 @@ const CaseStudyDetail = ({ caseStudyId, onBack }) => {
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.transform = 'translateX(-2px)'
-              e.currentTarget.style.color = 'var(--amber)'
+              e.currentTarget.style.color = '#3b82f6'
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.transform = 'translateX(0)'
@@ -155,7 +155,7 @@ const CaseStudyDetail = ({ caseStudyId, onBack }) => {
               fontFamily: 'var(--sans)',
               fontSize: '12px',
               fontWeight: '700',
-              color: 'var(--amber)',
+              color: '#3b82f6',
               letterSpacing: '2px',
               textTransform: 'uppercase'
             }}>
@@ -203,7 +203,7 @@ const CaseStudyDetail = ({ caseStudyId, onBack }) => {
             width: '100%',
             height: 'auto',
             minHeight: '350px',
-            background: 'linear-gradient(135deg, #e5d6c3 0%, #d4c4b0 100%)',
+            background: 'linear-gradient(135deg, #e0f2fe 0%, #cce7f7 100%)',
             borderRadius: '12px',
             display: 'flex',
             alignItems: 'center',
