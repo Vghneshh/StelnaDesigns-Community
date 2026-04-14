@@ -76,6 +76,19 @@ body {
   line-height: 1;
 }
 
+@media (max-width: 768px) {
+  .flip-container {
+    width: 140px;
+  }
+}
+
+@media (max-width: 480px) {
+  .flip-container {
+    width: 110px;
+    margin: 0 3px;
+  }
+}
+
 .flip-word {
   display: inline-block;
   animation: flipUp 0.4s ease-in forwards;
