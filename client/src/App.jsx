@@ -33,6 +33,7 @@ export default function App() {
   const [time, setTime] = useState(0)
   const [error, setError] = useState(null)
   const [fileFilter, setFileFilter] = useState('ALL')
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const esRef = useRef(null)
 
   // Clear old CAPTCHA session state on app load
@@ -1487,7 +1488,10 @@ I will share an image of the part. Please help me identify it and suggest the co
         top: 0,
         zIndex: 100,
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '4px', cursor: 'pointer' }} onClick={() => window.location.hash = 'home'}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '4px', cursor: 'pointer' }} onClick={() => {
+          window.location.hash = 'home'
+          setMobileMenuOpen(false)
+        }}>
           <img
             src="/bhuveblue.png"
             alt="BHUVE"
@@ -1509,7 +1513,8 @@ I will share an image of the part. Please help me identify it and suggest the co
           </span>
         </div>
 
-        <div style={{ display: 'flex', gap: '24px', alignItems: 'center' }}>
+        {/* Desktop Navigation */}
+        <div style={{ display: 'flex', gap: '24px', alignItems: 'center' }} className="desktop-nav">
           {[
             { label: 'Home', page: 'home' },
             { label: 'Search Parts', page: 'search' },
@@ -1554,7 +1559,96 @@ I will share an image of the part. Please help me identify it and suggest the co
           ))}
         </div>
 
+        {/* Mobile Hamburger Button */}
+        <button
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          style={{
+            display: 'none',
+            background: 'none',
+            border: 'none',
+            cursor: 'pointer',
+            padding: '8px',
+            color: 'var(--text)',
+            fontSize: '24px',
+            transition: 'transform 0.2s ease',
+          }}
+          className="mobile-menu-btn"
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = 'scale(1.1)'
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = 'scale(1)'
+          }}
+        >
+          ☰
+        </button>
       </nav>
+
+      {/* Mobile Menu Drawer */}
+      {mobileMenuOpen && (
+        <div style={{
+          display: 'none',
+          position: 'absolute',
+          top: '100%',
+          right: 0,
+          left: 0,
+          background: 'var(--bg)',
+          borderBottom: '1px solid var(--border)',
+          boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+          zIndex: 99,
+          animation: 'slideDown 200ms ease forwards',
+        }}
+        className="mobile-menu-drawer"
+        >
+          <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '0',
+            padding: '0',
+          }}>
+            {[
+              { label: 'Home', page: 'home' },
+              { label: 'Search Parts', page: 'search' },
+              { label: 'Case Studies', page: 'case-studies' },
+              { label: 'About', page: 'about', externalUrl: 'https://www.stelnadesigns.com/about' }
+            ].map(item => (
+              <button
+                key={item.page}
+                onClick={() => {
+                  if (item.externalUrl) {
+                    window.open(item.externalUrl, '_blank')
+                    return
+                  }
+                  window.location.hash = item.page
+                  setMobileMenuOpen(false)
+                }}
+                style={{
+                  width: '100%',
+                  padding: '14px 24px',
+                  background: 'none',
+                  border: 'none',
+                  borderBottom: '1px solid var(--border)',
+                  fontFamily: 'var(--sans)',
+                  fontSize: '14px',
+                  color: currentPage === item.page ? 'var(--amber)' : 'var(--text)',
+                  fontWeight: currentPage === item.page ? '600' : '500',
+                  cursor: 'pointer',
+                  textAlign: 'left',
+                  transition: 'background-color 0.2s ease',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = 'rgba(217,119,6,0.05)'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = 'transparent'
+                }}
+              >
+                {item.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
 
       <div style={{ maxWidth: 'clamp(300px, 90%, 1100px)', margin: '0 auto', padding: '0 clamp(12px, 3vw, 24px)', position: 'relative', zIndex: 1, background: 'var(--bg)' }}>
 
@@ -1870,27 +1964,71 @@ I will share an image of the part. Please help me identify it and suggest the co
 
       </div>
       <style>{`
+        @keyframes slideDown {
+          from {
+            opacity: 0;
+            transform: translateY(-10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        .desktop-nav {
+          display: flex !important;
+          gap: 24px !important;
+          align-items: center !important;
+        }
+
+        .mobile-menu-btn {
+          display: none !important;
+        }
+
+        .mobile-menu-drawer {
+          display: none !important;
+        }
+
+        /* Mobile breakpoint - show hamburger, hide desktop nav */
+        @media (max-width: 900px) {
+          .desktop-nav {
+            display: none !important;
+          }
+          .mobile-menu-btn {
+            display: block !important;
+          }
+          .mobile-menu-drawer {
+            display: block !important;
+          }
+        }
+
         @media (max-width: 768px) {
           nav {
             padding: 12px 16px !important;
           }
-          nav > div:last-child {
-            gap: 12px !important;
-            flex-wrap: wrap !important;
+          .desktop-nav {
+            display: none !important;
           }
-          nav button {
-            font-size: 12px !important;
-            padding: 4px 8px !important;
+          .mobile-menu-btn {
+            display: block !important;
+          }
+          .mobile-menu-drawer {
+            display: block !important;
           }
         }
 
         @media (max-width: 640px) {
-          nav > div:last-child {
-            gap: 8px !important;
+          nav {
+            padding: 12px 16px !important;
           }
-          nav button {
-            font-size: 11px !important;
-            padding: 4px 6px !important;
+          .desktop-nav {
+            display: none !important;
+          }
+          .mobile-menu-btn {
+            display: block !important;
+          }
+          .mobile-menu-drawer {
+            display: block !important;
           }
         }
 
@@ -1907,30 +2045,26 @@ I will share an image of the part. Please help me identify it and suggest the co
           .sites-strip-wrapper > div {
             min-width: 320px !important;
           }
-          nav > div:first-child {
-            flex: 1 !important;
+          .desktop-nav {
+            display: none !important;
           }
-          nav > div:last-child {
-            flex: 1 !important;
-            gap: 6px !important;
-            justify-content: center !important;
+          .mobile-menu-btn {
+            display: block !important;
           }
-          nav button {
-            font-size: 10px !important;
-            padding: 3px 4px !important;
-            white-space: nowrap !important;
+          .mobile-menu-drawer {
+            display: block !important;
           }
         }
 
         @media (max-width: 380px) {
-          nav > div:last-child {
-            display: grid !important;
-            grid-template-columns: repeat(2, 1fr) !important;
-            gap: 6px !important;
+          .desktop-nav {
+            display: none !important;
           }
-          nav button {
-            font-size: 10px !important;
-            padding: 6px 8px !important;
+          .mobile-menu-btn {
+            display: block !important;
+          }
+          .mobile-menu-drawer {
+            display: block !important;
           }
         }
       `}</style>
