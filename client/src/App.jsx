@@ -981,14 +981,14 @@ I will share an image of the part. Please help me identify it and suggest the co
         >
           <h1 style={{
             fontFamily: "'Poppins', var(--sans)",
-            fontSize: 'clamp(28px, 3.8vw, 44px)',
+            fontSize: 'clamp(18px, 4.5vw, 44px)',
             fontWeight: '700',
             letterSpacing: '-0.4px',
-            lineHeight: '1.15',
+            lineHeight: '1.3',
             color: 'var(--text)',
             marginTop: '18px',
             marginBottom: '18px',
-            maxWidth: 'clamp(250px, 95%, 760px)',
+            maxWidth: 'clamp(250px, 90%, 760px)',
             marginLeft: 'auto',
             marginRight: 'auto',
             animation: 'fadeUp 420ms ease both',

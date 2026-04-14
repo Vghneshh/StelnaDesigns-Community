@@ -204,6 +204,15 @@ input:-webkit-autofill {
     font-size: inherit;
   }
 
+  /* Responsive headline - ensure 3 lines max on mobile */
+  h1 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+  }
+
   /* Improve touch targets on mobile */
   button, a, input[type="button"], input[type="submit"] {
     min-height: 44px;
