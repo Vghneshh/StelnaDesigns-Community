@@ -26,7 +26,7 @@ const Footer = () => (
 
 export default function App() {
   const detectMobileView = () => {
-    return window.matchMedia('(max-width: 900px), (hover: none) and (pointer: coarse)').matches
+    return window.matchMedia('(max-width: 768px)').matches
   }
 
   const [currentPage, setCurrentPage] = useState('home')
@@ -52,6 +52,25 @@ export default function App() {
 
     return () => window.removeEventListener('resize', handleResize)
   }, [])
+
+  useEffect(() => {
+    if (!isMobile) {
+      setMobileMenuOpen(false)
+    }
+  }, [isMobile])
+
+  useEffect(() => {
+    if (!isMobile) {
+      return undefined
+    }
+
+    const originalOverflow = document.body.style.overflow
+    document.body.style.overflow = mobileMenuOpen ? 'hidden' : originalOverflow
+
+    return () => {
+      document.body.style.overflow = originalOverflow
+    }
+  }, [isMobile, mobileMenuOpen])
 
   // Clear old CAPTCHA session state on app load
   useEffect(() => {
@@ -1604,23 +1623,17 @@ I will share an image of the part. Please help me identify it and suggest the co
         )}
       </nav>
 
-      {/* Mobile Menu Drawer */}
-      {/* Mobile Menu Drawer - only show when mobile menu is open */}
-      {isMobile && mobileMenuOpen && (
-      <div
-        className="mobile-menu-drawer"
-        style={{
-          position: 'absolute',
-          top: '100%',
-          right: 0,
-          left: 0,
-          background: 'var(--bg)',
-          borderBottom: '1px solid var(--border)',
-          boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-          zIndex: 99,
-          animation: 'slideDown 200ms ease forwards',
-        }}
-      >
+      {isMobile && (
+      <>
+        <div
+          className={`mobile-menu-overlay ${mobileMenuOpen ? 'open' : ''}`}
+          onClick={() => setMobileMenuOpen(false)}
+          aria-hidden={!mobileMenuOpen}
+        />
+        <div
+          className={`mobile-menu-drawer ${mobileMenuOpen ? 'open' : ''}`}
+          aria-hidden={!mobileMenuOpen}
+        >
           <div style={{
             display: 'flex',
             flexDirection: 'column',
@@ -1638,6 +1651,7 @@ I will share an image of the part. Please help me identify it and suggest the co
                 onClick={() => {
                   if (item.externalUrl) {
                     window.open(item.externalUrl, '_blank')
+                    setMobileMenuOpen(false)
                     return
                   }
                   window.location.hash = item.page
@@ -1669,6 +1683,7 @@ I will share an image of the part. Please help me identify it and suggest the co
             ))}
           </div>
         </div>
+      </>
       )}
 
       <div style={{ maxWidth: 'clamp(300px, 90%, 1100px)', margin: '0 auto', padding: '0 clamp(12px, 3vw, 24px)', position: 'relative', zIndex: 1, background: 'var(--bg)' }}>
@@ -1985,18 +2000,6 @@ I will share an image of the part. Please help me identify it and suggest the co
 
       </div>
       <style>{`
-        @keyframes slideDown {
-          from {
-            opacity: 0;
-            transform: translateY(-10px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        /* Desktop Default */
         .desktop-nav {
           display: flex;
           gap: 24px;
@@ -2007,41 +2010,61 @@ I will share an image of the part. Please help me identify it and suggest the co
           display: none;
         }
 
-        .mobile-menu-drawer {
-          display: none;
+        .mobile-menu-overlay {
+          position: fixed;
+          top: 89px;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(2, 6, 23, 0.4);
+          opacity: 0;
+          pointer-events: none;
+          transition: opacity 240ms ease;
+          z-index: 115;
         }
 
-        /* Mobile breakpoint - show hamburger, hide desktop nav */
-        @media screen and (max-width: 900px) {
-          .desktop-nav {
-            display: none !important;
-          }
-          .mobile-menu-btn {
-            display: block !important;
-          }
+        .mobile-menu-overlay.open {
+          opacity: 1;
+          pointer-events: auto;
+        }
+
+        .mobile-menu-drawer {
+          position: fixed;
+          top: 89px;
+          left: 0;
+          right: 0;
+          background: var(--bg);
+          border-bottom: 1px solid var(--border);
+          box-shadow: 0 10px 24px rgba(2, 6, 23, 0.12);
+          transform: translateY(-10px);
+          opacity: 0;
+          pointer-events: none;
+          transition: transform 240ms ease, opacity 240ms ease;
+          z-index: 120;
+        }
+
+        .mobile-menu-drawer.open {
+          transform: translateY(0);
+          opacity: 1;
+          pointer-events: auto;
         }
 
         @media screen and (max-width: 768px) {
           nav {
             padding: 12px 16px !important;
           }
-          .desktop-nav {
-            display: none !important;
-          }
-          .mobile-menu-btn {
-            display: block !important;
-          }
-        }
 
-        @media screen and (max-width: 640px) {
-          nav {
-            padding: 12px 16px !important;
-          }
           .desktop-nav {
             display: none !important;
           }
+
           .mobile-menu-btn {
             display: block !important;
+          }
+
+          .mobile-menu-overlay,
+          .mobile-menu-drawer {
+            top: 81px;
           }
         }
 
@@ -2057,21 +2080,6 @@ I will share an image of the part. Please help me identify it and suggest the co
           }
           .sites-strip-wrapper > div {
             min-width: 320px !important;
-          }
-          .desktop-nav {
-            display: none !important;
-          }
-          .mobile-menu-btn {
-            display: block !important;
-          }
-        }
-
-        @media screen and (max-width: 380px) {
-          .desktop-nav {
-            display: none !important;
-          }
-          .mobile-menu-btn {
-            display: block !important;
           }
         }
       `}</style>
