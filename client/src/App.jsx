@@ -1928,7 +1928,8 @@ I will share an image of the part. Please help me identify it and suggest the co
                   transform: 'translateY(-50%)',
                   height: '120%',
                   width: 'auto',
-                  opacity: 0.6,
+                  opacity: 0.25,
+                  filter: 'brightness(1.3)',
                   zIndex: 0,
                   pointerEvents: 'none',
                 }}
