@@ -63,7 +63,7 @@ body {
 
 .flip-container {
   display: inline-block;
-  min-width: 160px;
+  width: 140px;
   height: 1.2em;
   vertical-align: bottom;
   text-align: center;
