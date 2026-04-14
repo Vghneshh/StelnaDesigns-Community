@@ -74,7 +74,7 @@ body {
 
 .flip-word {
   display: inline-block;
-  animation: flipUp 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+  animation: flipUp 0.4s ease-in forwards;
   color: var(--amber);
   white-space: nowrap;
   font-size: 0.92em;
@@ -86,8 +86,14 @@ body {
     transform: rotateX(90deg);
     opacity: 0;
   }
-  60% {
+  1% {
     opacity: 0;
+  }
+  50% {
+    opacity: 0;
+  }
+  51% {
+    opacity: 1;
   }
   100% {
     transform: rotateX(0deg);
