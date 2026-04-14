@@ -1,4 +1,22 @@
+import { useEffect, useState } from 'react'
+
 export default function Navbar({ currentPage, onNavigate }) {
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 900)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+
+  useEffect(() => {
+    const handleResize = () => {
+      const mobile = window.innerWidth < 900
+      setIsMobile(mobile)
+      if (!mobile) {
+        setMobileMenuOpen(false)
+      }
+    }
+
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
   const pages = [
     { id: 'home', label: 'Home' },
     { id: 'search', label: 'Search Parts' },
@@ -9,18 +27,19 @@ export default function Navbar({ currentPage, onNavigate }) {
   ]
 
   return (
-    <nav style={{
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      padding: '16px 24px',
-      background: 'var(--bg)',
-      borderBottom: '1px solid var(--border)',
-      width: '100%',
-      position: 'sticky',
-      top: 0,
-      zIndex: 100,
-    }}>
+    <>
+      <nav style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        padding: '16px 24px',
+        background: 'var(--bg)',
+        borderBottom: '1px solid var(--border)',
+        width: '100%',
+        position: 'sticky',
+        top: 0,
+        zIndex: 100,
+      }}>
       {/* Logo */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '3px', width: '22px' }}>
@@ -54,45 +73,67 @@ export default function Navbar({ currentPage, onNavigate }) {
         </span>
       </div>
 
-      {/* Nav links */}
-      <div style={{ display: 'flex', gap: '24px', alignItems: 'center' }}>
-        {pages.map(page => (
-          <button
-            key={page.id}
-            onClick={() => onNavigate(page.id)}
-            style={{
-              background: 'none',
-              border: 'none',
-              fontFamily: 'Montserrat, var(--sans)',
-              fontSize: '15px',
-              color: currentPage === page.id ? '#0f172a' : '#475569',
-              cursor: 'pointer',
-              letterSpacing: '0',
-              padding: '6px 11px',
-              borderBottom: currentPage === page.id ? '2px solid #0f172a' : '2px solid transparent',
-              transition: 'transform 0.2s ease, color 0.2s ease, border-color 0.2s ease, background-color 0.2s ease',
-              fontWeight: currentPage === page.id ? '700' : '600',
-              borderRadius: '999px',
-            }}
-            onMouseEnter={(e) => {
-              if (currentPage !== page.id) {
-                e.currentTarget.style.color = '#0f172a'
-                e.currentTarget.style.transform = 'translateY(-1px)'
-                e.currentTarget.style.backgroundColor = 'rgba(15, 23, 42, 0.05)'
-              }
-            }}
-            onMouseLeave={(e) => {
-              if (currentPage !== page.id) {
-                e.currentTarget.style.color = '#475569'
-                e.currentTarget.style.transform = 'translateY(0)'
-                e.currentTarget.style.backgroundColor = 'transparent'
-              }
-            }}
-          >
-            {page.label}
-          </button>
-        ))}
-      </div>
+      {/* Desktop links only */}
+      {!isMobile && (
+        <div style={{ display: 'flex', gap: '24px', alignItems: 'center' }}>
+          {pages.map(page => (
+            <button
+              key={page.id}
+              onClick={() => onNavigate(page.id)}
+              style={{
+                background: 'none',
+                border: 'none',
+                fontFamily: 'Montserrat, var(--sans)',
+                fontSize: '15px',
+                color: currentPage === page.id ? '#0f172a' : '#475569',
+                cursor: 'pointer',
+                letterSpacing: '0',
+                padding: '6px 11px',
+                borderBottom: currentPage === page.id ? '2px solid #0f172a' : '2px solid transparent',
+                transition: 'transform 0.2s ease, color 0.2s ease, border-color 0.2s ease, background-color 0.2s ease',
+                fontWeight: currentPage === page.id ? '700' : '600',
+                borderRadius: '999px',
+              }}
+              onMouseEnter={(e) => {
+                if (currentPage !== page.id) {
+                  e.currentTarget.style.color = '#0f172a'
+                  e.currentTarget.style.transform = 'translateY(-1px)'
+                  e.currentTarget.style.backgroundColor = 'rgba(15, 23, 42, 0.05)'
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (currentPage !== page.id) {
+                  e.currentTarget.style.color = '#475569'
+                  e.currentTarget.style.transform = 'translateY(0)'
+                  e.currentTarget.style.backgroundColor = 'transparent'
+                }
+              }}
+            >
+              {page.label}
+            </button>
+          ))}
+        </div>
+      )}
+
+      {/* Burger button only on small screens */}
+      {isMobile && (
+        <button
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          style={{
+            background: 'none',
+            border: 'none',
+            cursor: 'pointer',
+            padding: '8px',
+            color: '#0f172a',
+            fontSize: '24px',
+            lineHeight: 1,
+            fontFamily: 'var(--sans)',
+          }}
+          aria-label="Toggle navigation menu"
+        >
+          ☰
+        </button>
+      )}
 
       {/* Version */}
       <span style={{
@@ -103,6 +144,44 @@ export default function Navbar({ currentPage, onNavigate }) {
       }}>
         v0.1.0
       </span>
-    </nav>
+      </nav>
+
+      {isMobile && mobileMenuOpen && (
+        <div
+          style={{
+            borderBottom: '1px solid var(--border)',
+            background: 'var(--bg)',
+            boxShadow: '0 6px 16px rgba(15, 23, 42, 0.08)',
+          }}
+        >
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            {pages.map(page => (
+              <button
+                key={page.id}
+                onClick={() => {
+                  onNavigate(page.id)
+                  setMobileMenuOpen(false)
+                }}
+                style={{
+                  width: '100%',
+                  textAlign: 'left',
+                  background: 'none',
+                  border: 'none',
+                  borderBottom: '1px solid var(--border)',
+                  padding: '14px 24px',
+                  fontFamily: 'Montserrat, var(--sans)',
+                  fontSize: '14px',
+                  fontWeight: currentPage === page.id ? '700' : '600',
+                  color: currentPage === page.id ? '#0f172a' : '#475569',
+                  cursor: 'pointer',
+                }}
+              >
+                {page.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+    </>
   )
 }
