@@ -1919,7 +1919,7 @@ I will share an image of the part. Please help me identify it and suggest the co
             }}>
               {/* CAD Background Image */}
               <img
-                src="/cad-bg.jpeg"
+                src="/cad-background.png"
                 alt="CAD Background"
                 style={{
                   position: 'absolute',
