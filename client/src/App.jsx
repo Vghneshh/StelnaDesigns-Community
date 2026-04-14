@@ -2323,8 +2323,8 @@ I will share an image of the part. Please help me identify it and suggest the co
           }
 
           .search-bg-image {
-            opacity: 0.25 !important;
-            filter: brightness(1.1) !important;
+            opacity: 0.30 !important;
+            filter: brightness(1.15) !important;
           }
         }
 
