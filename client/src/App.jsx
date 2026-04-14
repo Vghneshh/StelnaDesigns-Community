@@ -2326,8 +2326,8 @@ I will share an image of the part. Please help me identify it and suggest the co
         @media screen and (max-width: 600px) {
           .search-bg-image {
             right: -50px !important;
-            opacity: 0.30 !important;
-            filter: brightness(1.15) !important;
+            opacity: 0.40 !important;
+            filter: brightness(1.0) !important;
           }
         }
 
