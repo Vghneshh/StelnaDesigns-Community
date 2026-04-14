@@ -1504,8 +1504,8 @@ I will share an image of the part. Please help me identify it and suggest the co
   }
 
   const CaseStudiesPage = () => (
-    <div style={{ padding: 'clamp(40px, 8vw, 60px) clamp(12px, 3vw, 24px)', maxWidth: '100%', boxSizing: 'border-box' }}>
-      <div style={{ maxWidth: 'clamp(300px, 90%, 1000px)', margin: '0 auto', width: '100%', boxSizing: 'border-box' }}>
+    <div style={{ width: '100%', boxSizing: 'border-box', padding: '0 clamp(12px, 3vw, 24px)' }}>
+      <div style={{ maxWidth: 'clamp(300px, 100%, 1000px)', margin: '0 auto', padding: 'clamp(40px, 8vw, 60px) 0', width: '100%', boxSizing: 'border-box' }}>
         <h1 style={{ fontFamily: 'var(--sans)', fontSize: '36px', fontWeight: '700', marginBottom: '20px', color: 'var(--text)', textAlign: 'center' }}>
           Case Studies
         </h1>
