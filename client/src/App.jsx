@@ -1813,8 +1813,10 @@ I will share an image of the part. Please help me identify it and suggest the co
             cursor: 'pointer',
             padding: '8px',
             color: 'var(--text)',
-            fontSize: '24px',
+            fontSize: 'clamp(24px, 6vw, 32px)',
             transition: 'transform 0.2s ease',
+            padding: '8px 12px',
+            borderRadius: '6px',
           }}
           className="mobile-menu-btn"
           onMouseEnter={(e) => {
