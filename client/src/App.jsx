@@ -2321,21 +2321,18 @@ I will share an image of the part. Please help me identify it and suggest the co
             opacity: 0.02 !important;
             filter: brightness(2.0) !important;
           }
+        }
 
+        @media screen and (max-width: 600px) {
           .search-bg-image {
+            right: auto !important;
+            left: 50% !important;
+            transform: translate(-50%, -50%) !important;
+            width: 100% !important;
+            height: auto !important;
+            minWidth: 100% !important;
             opacity: 0.30 !important;
             filter: brightness(1.15) !important;
-          }
-
-          @media screen and (max-width: 600px) {
-            .search-bg-image {
-              right: auto !important;
-              left: 50% !important;
-              transform: translate(-50%, -50%) !important;
-              width: 100% !important;
-              height: auto !important;
-              minWidth: 100% !important;
-            }
           }
         }
 
