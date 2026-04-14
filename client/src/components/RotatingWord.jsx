@@ -13,7 +13,7 @@ export default function RotatingWord() {
 
   return (
     <span className="flip-container">
-      <span key={index} className="flip-word">
+      <span className="flip-word">
         {words[index]}
       </span>
     </span>
