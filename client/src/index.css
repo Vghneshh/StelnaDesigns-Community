@@ -63,18 +63,18 @@ body {
 
 .flip-container {
   display: inline-block;
-  width: 160px;
+  min-width: 160px;
   height: 1.2em;
-  overflow: hidden;
   vertical-align: bottom;
   text-align: center;
   white-space: nowrap;
   margin: 0 0px;
+  position: relative;
 }
 
 .flip-word {
   display: inline-block;
-  animation: flipUp 0.6s ease;
+  animation: flipUp 0.6s ease forwards;
   color: var(--amber);
   white-space: nowrap;
   font-size: 0.92em;
