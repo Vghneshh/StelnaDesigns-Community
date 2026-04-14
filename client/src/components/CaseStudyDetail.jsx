@@ -96,50 +96,53 @@ const CaseStudyDetail = ({ caseStudyId, onBack }) => {
   }
 
   return (
-    <div style={{ background: 'var(--bg)' }}>
+    <div style={{ background: 'var(--bg)', width: '100%', boxSizing: 'border-box' }}>
       {/* Back Button */}
       <div style={{
         padding: '20px 0',
-        display: 'flex',
-        alignItems: 'center',
-        gap: '8px',
         borderBottom: '1px solid var(--border)',
         position: 'sticky',
         top: 89,
         background: 'var(--bg)',
-        zIndex: 50
+        zIndex: 50,
+        width: '100%',
+        boxSizing: 'border-box'
       }}>
-        <button
-          onClick={onBack}
-          style={{
-            background: 'none',
-            border: 'none',
-            cursor: 'pointer',
-            fontSize: '16px',
-            color: 'var(--text)',
-            padding: '4px 8px',
-            transition: 'all 0.2s',
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.transform = 'translateX(-2px)'
-            e.currentTarget.style.color = 'var(--amber)'
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.transform = 'translateX(0)'
-            e.currentTarget.style.color = 'var(--text)'
-          }}
-        >
-          ← Back
-        </button>
+        <div style={{ maxWidth: 'clamp(300px, 90%, 1000px)', margin: '0 auto', padding: '0 clamp(12px, 3vw, 24px)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <button
+            onClick={onBack}
+            style={{
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              fontSize: '16px',
+              color: 'var(--text)',
+              padding: '4px 8px',
+              transition: 'all 0.2s',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'translateX(-2px)'
+              e.currentTarget.style.color = 'var(--amber)'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'translateX(0)'
+              e.currentTarget.style.color = 'var(--text)'
+            }}
+          >
+            ← Back
+          </button>
+        </div>
       </div>
 
       {/* Hero Section - Heading Only */}
       <section style={{
         padding: 'clamp(20px, 4vw, 30px) 0',
         borderBottom: '1px solid var(--border)',
-        animation: 'fadeUp 420ms ease both'
+        animation: 'fadeUp 420ms ease both',
+        width: '100%',
+        boxSizing: 'border-box'
       }}>
-        <div style={{ maxWidth: 'clamp(300px, 90%, 1000px)', margin: '0 auto', padding: '0 clamp(12px, 3vw, 24px)' }}>
+        <div style={{ maxWidth: 'clamp(300px, 90%, 1000px)', margin: '0 auto', padding: '0 clamp(12px, 3vw, 24px)', width: '100%', boxSizing: 'border-box' }}>
           <div style={{
             display: 'flex',
             alignItems: 'center',
