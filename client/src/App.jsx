@@ -892,7 +892,7 @@ I will share an image of the part. Please help me identify it and suggest the co
 
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
           gap: '12px',
           marginBottom: '20px',
         }}>
@@ -1890,7 +1890,7 @@ I will share an image of the part. Please help me identify it and suggest the co
       </>
       )}
 
-      <div style={{ maxWidth: 'clamp(300px, 90%, 1100px)', margin: '0 auto', padding: '0 clamp(12px, 3vw, 24px)', position: 'relative', zIndex: 1, background: 'var(--bg)' }}>
+      <div style={{ maxWidth: 'clamp(300px, 90%, 1280px)', margin: '0 auto', padding: '0 clamp(12px, 3vw, 24px)', position: 'relative', zIndex: 1, background: 'var(--bg)' }}>
 
         {selectedCaseStudy && (
           <CaseStudyDetail
@@ -1909,7 +1909,7 @@ I will share an image of the part. Please help me identify it and suggest the co
               background: 'linear-gradient(180deg, rgba(30,107,179,0.035) 0%, rgba(30,107,179,0.01) 40%, transparent 100%)',
               animation: 'searchSectionIn 420ms ease both',
             }}>
-              <div style={{ maxWidth: 'clamp(300px, 95%, 980px)' }}>
+              <div style={{ maxWidth: 'clamp(300px, 95%, 1100px)' }}>
               <h1 className="hero-headline" style={{
                 fontFamily: 'var(--sans)',
                 fontSize: 'clamp(32px, 5vw, 52px)',
@@ -2127,7 +2127,7 @@ I will share an image of the part. Please help me identify it and suggest the co
             {searched && results.length > 0 && (
               <div style={{
                 display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
+                gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
                 gap: '18px',
                 paddingBottom: '56px',
               }}>

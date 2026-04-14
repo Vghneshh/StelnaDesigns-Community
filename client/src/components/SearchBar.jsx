@@ -21,7 +21,7 @@ export default function SearchBar({ onSearch, loading, rateLimitExceeded }) {
   }
 
   return (
-    <div style={{ maxWidth: 'clamp(300px, 90%, 700px)', margin: '0 auto' }}>
+    <div style={{ maxWidth: 'clamp(300px, 90%, 900px)', margin: '0 auto' }}>
       <style>{`
         @keyframes slideDown {
           from { opacity: 0; transform: translateY(-10px); }
