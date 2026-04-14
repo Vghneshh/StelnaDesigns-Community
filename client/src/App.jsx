@@ -3,6 +3,7 @@ import SearchBar from './components/SearchBar'
 import ResultCard from './components/ResultCard'
 import RotatingWord from './components/RotatingWord'
 import LoadingGrid from './components/LoadingGrid'
+import CaseStudyDetail from './components/CaseStudyDetail'
 
 const SITES = ['Thingiverse', 'Cults3D', 'MyMiniFactory', 'Sketchfab']
 
@@ -39,6 +40,7 @@ export default function App() {
   const [fileFilter, setFileFilter] = useState('ALL')
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [isMobile, setIsMobile] = useState(detectMobileView)
+  const [selectedCaseStudy, setSelectedCaseStudy] = useState(null)
   const esRef = useRef(null)
 
   // Handle mobile responsive
@@ -1455,54 +1457,206 @@ I will share an image of the part. Please help me identify it and suggest the co
         Case Studies
       </h1>
       <p style={{ fontFamily: 'var(--mono)', fontSize: '14px', color: 'var(--text2)', lineHeight: '1.8', marginBottom: '40px', textAlign: 'center' }}>
-        Explore how organizations have successfully used BHUVE to streamline their workflows.
+        Explore how we've helped teams transform concepts into manufacturing-ready products.
       </p>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '24px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '24px' }}>
         {[
           {
-            title: 'Aerospace Manufacturing',
-            description: 'Reduced design time by 40% using BHUVE to source and manage engineering components.',
-            company: 'TechAero Solutions'
+            id: 'helmet-mask',
+            title: 'Reverse Engineering Helmet Mask',
+            subtitle: 'From Import to Innovation',
+            description: 'Reduced cost by 60% and lead time to 3-7 days through local manufacturing.',
+            company: 'STELNA Designs',
+            image: '/case-studies/Helmetmask/preview.jpeg',
+            metrics: ['60% Cost Reduction', '3-7 Day Lead Time']
           },
           {
-            title: 'Product Prototyping',
-            description: 'Accelerated prototype development cycle by centralizing CAD model access across teams.',
-            company: 'InnovateTech Labs'
+            id: 'aerospace-parts',
+            title: 'Aerospace Component Design',
+            subtitle: 'Design for Manufacturability',
+            description: 'Optimized production workflow resulting in 40% faster manufacturing cycle.',
+            company: 'STELNA Designs',
+            image: 'https://via.placeholder.com/400x280?text=Aerospace+Case+Study',
+            metrics: ['40% Time Saved', '100% Quality Pass']
           },
           {
-            title: 'Educational Institution',
-            description: 'Enhanced engineering curriculum with comprehensive CAD library access for students.',
-            company: 'University of Design'
+            id: 'rapid-prototype',
+            title: 'Rapid Prototyping Solution',
+            subtitle: 'From Idea to Prototype',
+            description: 'Delivered functional prototypes in 48 hours using advanced manufacturing.',
+            company: 'STELNA Designs',
+            image: 'https://via.placeholder.com/400x280?text=Prototype+Case+Study',
+            metrics: ['48H Delivery', '5 Iterations']
           }
         ].map((study, i) => (
           <div
             key={i}
+            onClick={() => setSelectedCaseStudy(study.id)}
             style={{
-              padding: '24px',
+              padding: '0',
               border: '1px solid var(--border)',
-              borderRadius: '8px',
-              background: 'var(--bg2)',
-              transition: 'all 0.2s',
+              borderRadius: '12px',
+              background: '#fff',
+              overflow: 'hidden',
+              transition: 'all 0.3s ease',
+              cursor: 'pointer',
+              animation: `fadeUp 420ms ease both`,
+              animationDelay: `${200 + (i * 80)}ms`,
+              display: 'flex',
+              flexDirection: 'column'
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.borderColor = 'var(--amber)'
-              e.currentTarget.style.boxShadow = '0 4px 12px rgba(217,119,6,0.1)'
+              e.currentTarget.style.boxShadow = '0 8px 24px rgba(217,119,6,0.12)'
+              e.currentTarget.style.transform = 'translateY(-4px)'
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.borderColor = 'var(--border)'
               e.currentTarget.style.boxShadow = 'none'
+              e.currentTarget.style.transform = 'translateY(0)'
             }}
           >
-            <h3 style={{ fontFamily: 'var(--sans)', fontSize: '18px', fontWeight: '600', color: 'var(--text)', marginBottom: '12px' }}>
-              {study.title}
-            </h3>
-            <p style={{ fontFamily: 'var(--mono)', fontSize: '13px', color: 'var(--text2)', lineHeight: '1.6', marginBottom: '16px' }}>
-              {study.description}
-            </p>
-            <p style={{ fontFamily: 'var(--mono)', fontSize: '11px', color: 'var(--amber)', fontWeight: '600', letterSpacing: '0.5px' }}>
-              — {study.company}
-            </p>
+            {/* Image */}
+            <div style={{
+              width: '100%',
+              height: '200px',
+              background: 'linear-gradient(135deg, #e5d6c3 0%, #d4c4b0 100%)',
+              overflow: 'hidden',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}>
+              <img
+                src={study.image}
+                alt={study.title}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  transition: 'transform 0.3s ease'
+                }}
+                onLoad={(e) => {
+                  e.target.parentElement.parentElement.onMouseEnter = function(ev) {
+                    e.target.style.transform = 'scale(1.05)'
+                    ev.currentTarget.style.borderColor = 'var(--amber)'
+                    ev.currentTarget.style.boxShadow = '0 8px 24px rgba(217,119,6,0.12)'
+                    ev.currentTarget.style.transform = 'translateY(-4px)'
+                  }
+                }}
+              />
+            </div>
+
+            {/* Content */}
+            <div style={{ padding: '24px', flex: 1, display: 'flex', flexDirection: 'column' }}>
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                marginBottom: '12px'
+              }}>
+                <span style={{
+                  fontFamily: 'var(--sans)',
+                  fontSize: '11px',
+                  fontWeight: '700',
+                  color: 'var(--amber)',
+                  letterSpacing: '1px',
+                  textTransform: 'uppercase'
+                }}>
+                  Case Study
+                </span>
+              </div>
+
+              <h3 style={{
+                fontFamily: 'var(--sans)',
+                fontSize: '18px',
+                fontWeight: '700',
+                color: 'var(--text)',
+                marginBottom: '4px',
+                margin: 0,
+                marginBottom: '4px'
+              }}>
+                {study.title}
+              </h3>
+
+              <p style={{
+                fontFamily: 'var(--sans)',
+                fontSize: '12px',
+                color: 'var(--amber)',
+                fontWeight: '600',
+                marginBottom: '12px',
+                margin: 0,
+                marginBottom: '12px'
+              }}>
+                {study.subtitle}
+              </p>
+
+              <p style={{
+                fontFamily: 'var(--sans)',
+                fontSize: '13px',
+                color: 'var(--text2)',
+                lineHeight: '1.6',
+                marginBottom: '16px',
+                flex: 1
+              }}>
+                {study.description}
+              </p>
+
+              {/* Metrics */}
+              <div style={{
+                display: 'flex',
+                gap: '8px',
+                flexWrap: 'wrap',
+                marginBottom: '16px'
+              }}>
+                {study.metrics.map((metric, idx) => (
+                  <span
+                    key={idx}
+                    style={{
+                      fontFamily: 'var(--sans)',
+                      fontSize: '11px',
+                      padding: '4px 10px',
+                      background: 'rgba(217,119,6,0.1)',
+                      color: 'var(--amber)',
+                      borderRadius: '4px',
+                      fontWeight: '600'
+                    }}
+                  >
+                    {metric}
+                  </span>
+                ))}
+              </div>
+
+              {/* Company */}
+              <div style={{
+                paddingTop: '12px',
+                borderTop: '1px solid var(--border)',
+                fontFamily: 'var(--sans)',
+                fontSize: '11px',
+                color: 'var(--text3)',
+                fontWeight: '500'
+              }}>
+                {study.company}
+              </div>
+            </div>
+
+            {/* Read More CTA */}
+            <div style={{
+              padding: '16px 24px',
+              background: 'rgba(217,119,6,0.04)',
+              borderTop: '1px solid var(--border)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              fontFamily: 'var(--sans)',
+              fontSize: '13px',
+              fontWeight: '600',
+              color: 'var(--amber)',
+              transition: 'all 0.2s'
+            }}>
+              <span>Read Case Study</span>
+              <span style={{ fontSize: '16px' }}>→</span>
+            </div>
           </div>
         ))}
       </div>
@@ -1688,9 +1842,16 @@ I will share an image of the part. Please help me identify it and suggest the co
 
       <div style={{ maxWidth: 'clamp(300px, 90%, 1100px)', margin: '0 auto', padding: '0 clamp(12px, 3vw, 24px)', position: 'relative', zIndex: 1, background: 'var(--bg)' }}>
 
-        {currentPage === 'home' && <LandingPage />}
+        {selectedCaseStudy && (
+          <CaseStudyDetail
+            caseStudyId={selectedCaseStudy}
+            onBack={() => setSelectedCaseStudy(null)}
+          />
+        )}
 
-        {currentPage === 'search' && (
+        {!selectedCaseStudy && currentPage === 'home' && <LandingPage />}
+
+        {!selectedCaseStudy && currentPage === 'search' && (
           <>
             <section style={{
               padding: '48px 0 34px',
@@ -1994,8 +2155,8 @@ I will share an image of the part. Please help me identify it and suggest the co
         )}
 
         {/* {currentPage === 'manufacture' && <ManufacturePage />} */}
-        {currentPage === 'case-studies' && <CaseStudiesPage />}
-        {currentPage === 'about' && <LearnMorePage />}
+        {!selectedCaseStudy && currentPage === 'case-studies' && <CaseStudiesPage />}
+        {!selectedCaseStudy && currentPage === 'about' && <LearnMorePage />}
         {/* {currentPage === 'contact' && <ContactPage />} */}
 
       </div>
