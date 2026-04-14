@@ -2317,8 +2317,8 @@ I will share an image of the part. Please help me identify it and suggest the co
           }
 
           .cad-bg-image {
-            opacity: 0.15 !important;
-            filter: brightness(1.3) !important;
+            opacity: 0.08 !important;
+            filter: brightness(1.4) !important;
           }
         }
 
