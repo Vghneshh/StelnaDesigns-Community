@@ -1,18 +1,28 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import ReCAPTCHA from 'react-google-recaptcha'
 
 export default function CaptchaModal({ onSuccess, onClose, sessionId }) {
   const [token, setToken] = useState(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
+  const captchaRef = useRef(null)
 
   const handleCaptchaChange = (value) => {
     setToken(value)
     setError(null)
   }
 
-  async function handleVerifyAndRetry() {
-    if (!token) {
+  // Auto-verify when token is received
+  useEffect(() => {
+    if (token) {
+      handleVerifyAndRetry(token)
+    }
+  }, [token])
+
+  async function handleVerifyAndRetry(tokenToVerify) {
+    const verifyToken = tokenToVerify || token
+
+    if (!verifyToken) {
       setError('Please complete the CAPTCHA verification.')
       return
     }
@@ -25,7 +35,7 @@ export default function CaptchaModal({ onSuccess, onClose, sessionId }) {
       const response = await fetch(`${API_BASE}/api/verify-captcha-and-reset`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ token, sessionId }),
+        body: JSON.stringify({ token: verifyToken, sessionId }),
       })
 
       const data = await response.json()
@@ -38,12 +48,18 @@ export default function CaptchaModal({ onSuccess, onClose, sessionId }) {
         setLoading(false)
         setError(data.error || 'CAPTCHA verification failed. Please try again.')
         setToken(null)
+        if (captchaRef.current) {
+          captchaRef.current.reset()
+        }
       }
     } catch (err) {
       setLoading(false)
       console.error('CAPTCHA verification error:', err)
       setError('Could not verify CAPTCHA. Please try again.')
       setToken(null)
+      if (captchaRef.current) {
+        captchaRef.current.reset()
+      }
     }
   }
 
@@ -141,6 +157,7 @@ export default function CaptchaModal({ onSuccess, onClose, sessionId }) {
             }}
           >
             <ReCAPTCHA
+              ref={captchaRef}
               sitekey={RECAPTCHA_SITEKEY}
               onChange={handleCaptchaChange}
               theme="light"
@@ -218,7 +235,7 @@ export default function CaptchaModal({ onSuccess, onClose, sessionId }) {
           </button>
 
           <button
-            onClick={handleVerifyAndRetry}
+            onClick={() => handleVerifyAndRetry(token)}
             style={{
               flex: 1,
               padding: '10px 16px',
