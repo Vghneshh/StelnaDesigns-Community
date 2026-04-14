@@ -1912,7 +1912,12 @@ I will share an image of the part. Please help me identify it and suggest the co
             <section style={{
               padding: '48px 0 34px',
               borderBottom: 'none',
-              background: 'linear-gradient(180deg, rgba(30,107,179,0.035) 0%, rgba(30,107,179,0.01) 40%, transparent 100%)',
+              background: 'linear-gradient(180deg, rgba(30,107,179,0.035) 0%, rgba(30,107,179,0.01) 40%, transparent 100%), url(/cad-bg.jpeg)',
+              backgroundSize: 'cover',
+              backgroundPosition: 'center right',
+              backgroundRepeat: 'no-repeat',
+              backgroundAttachment: 'fixed',
+              position: 'relative',
               animation: 'searchSectionIn 420ms ease both',
             }}>
               <div style={{ maxWidth: 'clamp(300px, 95%, 1100px)' }}>
