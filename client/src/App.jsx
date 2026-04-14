@@ -25,6 +25,10 @@ const Footer = () => (
 )
 
 export default function App() {
+  const detectMobileView = () => {
+    return window.matchMedia('(max-width: 900px), (hover: none) and (pointer: coarse)').matches
+  }
+
   const [currentPage, setCurrentPage] = useState('home')
   const [results, setResults] = useState([])
   const [loading, setLoading] = useState(false)
@@ -34,15 +38,18 @@ export default function App() {
   const [error, setError] = useState(null)
   const [fileFilter, setFileFilter] = useState('ALL')
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 900)
+  const [isMobile, setIsMobile] = useState(detectMobileView)
   const esRef = useRef(null)
 
   // Handle mobile responsive
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth < 900)
+      setIsMobile(detectMobileView())
     }
+
     window.addEventListener('resize', handleResize)
+    handleResize()
+
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 
