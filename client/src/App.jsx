@@ -1912,15 +1912,29 @@ I will share an image of the part. Please help me identify it and suggest the co
             <section style={{
               padding: '48px 0 34px',
               borderBottom: 'none',
-              background: 'linear-gradient(180deg, rgba(30,107,179,0.035) 0%, rgba(30,107,179,0.01) 40%, transparent 100%), url(/cad-bg.jpeg)',
-              backgroundSize: 'cover',
-              backgroundPosition: 'center right',
-              backgroundRepeat: 'no-repeat',
-              backgroundAttachment: 'fixed',
+              background: 'linear-gradient(180deg, rgba(30,107,179,0.035) 0%, rgba(30,107,179,0.01) 40%, transparent 100%)',
               position: 'relative',
+              overflow: 'hidden',
               animation: 'searchSectionIn 420ms ease both',
             }}>
-              <div style={{ maxWidth: 'clamp(300px, 95%, 1100px)' }}>
+              {/* CAD Background Image */}
+              <img
+                src="/cad-bg.jpeg"
+                alt="CAD Background"
+                style={{
+                  position: 'absolute',
+                  right: 0,
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  height: '120%',
+                  width: 'auto',
+                  opacity: 0.6,
+                  zIndex: 0,
+                  pointerEvents: 'none',
+                }}
+              />
+
+              <div style={{ maxWidth: 'clamp(300px, 95%, 1100px)', position: 'relative', zIndex: 1 }}>
               <h1 className="hero-headline" style={{
                 fontFamily: 'var(--sans)',
                 fontSize: 'clamp(32px, 5vw, 52px)',
