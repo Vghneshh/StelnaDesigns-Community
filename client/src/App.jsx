@@ -77,22 +77,8 @@ export default function App() {
     }
   }, [isMobile, mobileMenuOpen])
 
-  // Clear old CAPTCHA session state on app load
-  useEffect(() => {
-    sessionStorage.removeItem('captcha_verified')
-  }, [])
 
-  // Generate unique session ID for rate limiting
-  useEffect(() => {
-    const storedId = sessionStorage.getItem('search_session_id')
-    if (storedId) {
-      setSessionId(storedId)
-    } else {
-      const newId = 'sess_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now()
-      sessionStorage.setItem('search_session_id', newId)
-      setSessionId(newId)
-    }
-  }, [])
+
 
   // Load page from URL hash on mount
   useEffect(() => {
@@ -965,7 +951,10 @@ I will share an image of the part. Please help me identify it and suggest the co
           padding: '34px 28px 20px',
           border: '1px solid var(--border)',
           borderRadius: '12px',
-          background: 'linear-gradient(180deg, rgba(217,119,6,0.08) 0%, #fff 58%)',
+          background: "linear-gradient(180deg, rgba(255,255,255,0.62) 0%, rgba(255,255,255,0.74) 42%, rgba(255,255,255,0.58) 100%), url('/hom-bg.jpeg')",
+          backgroundSize: 'cover',
+          backgroundPosition: 'center top',
+          backgroundRepeat: 'no-repeat',
           boxShadow: '0 6px 20px rgba(0,0,0,0.04)',
           textAlign: 'center',
           transition: 'transform 0.25s ease, box-shadow 0.25s ease',
@@ -979,20 +968,23 @@ I will share an image of the part. Please help me identify it and suggest the co
           e.currentTarget.style.boxShadow = '0 6px 20px rgba(0,0,0,0.04)'
         }}
         >
-          <h1 style={{
-            fontFamily: "'Poppins', var(--sans)",
-            fontSize: 'clamp(16px, 4vw, 44px)',
-            fontWeight: '700',
-            letterSpacing: '-0.4px',
-            lineHeight: '1.3',
-            color: 'var(--text)',
-            marginTop: '0px',
-            marginBottom: '18px',
-            maxWidth: 'clamp(280px, 90%, 760px)',
-            marginLeft: 'auto',
-            marginRight: 'auto',
-            animation: 'fadeUp 420ms ease both',
-          }}>
+          <h1
+            className="home-hero-flip"
+            style={{
+              fontFamily: "'Poppins', var(--sans)",
+              fontSize: 'clamp(16px, 4vw, 44px)',
+              fontWeight: '700',
+              letterSpacing: '-0.4px',
+              lineHeight: '1.3',
+              color: 'var(--text)',
+              marginTop: '0px',
+              marginBottom: '18px',
+              maxWidth: 'clamp(280px, 90%, 760px)',
+              marginLeft: 'auto',
+              marginRight: 'auto',
+              animation: 'fadeUp 420ms ease both',
+            }}
+          >
             Upload <RotatingWord />{' '}images. Get Manufacturability Analysis in <br /> <span style={{ color: 'var(--amber)', display: 'inline-block', whiteSpace: 'nowrap' }}>4 Hours.</span>
           </h1>
 
@@ -1506,10 +1498,10 @@ I will share an image of the part. Please help me identify it and suggest the co
   const CaseStudiesPage = () => (
     <div style={{ width: '100%', boxSizing: 'border-box', padding: '0 clamp(12px, 3vw, 24px)' }}>
       <div style={{ maxWidth: 'clamp(300px, 100%, 1000px)', margin: '0 auto', padding: 'clamp(12px, 2vw, 20px) 0 clamp(40px, 8vw, 60px) 0', width: '100%', boxSizing: 'border-box' }}>
-        <h1 style={{ fontFamily: 'var(--sans)', fontSize: '36px', fontWeight: '700', marginBottom: '20px', color: 'var(--text)', textAlign: 'center' }}>
+        <h1 style={{ fontFamily: 'Montserrat, Syne, var(--sans)', fontSize: '38px', fontWeight: '800', marginBottom: '18px', color: 'var(--text)', textAlign: 'center', letterSpacing: '-0.5px' }}>
           Case Studies
         </h1>
-        <p style={{ fontFamily: 'var(--mono)', fontSize: '14px', color: 'var(--text2)', lineHeight: '1.8', marginBottom: '40px', textAlign: 'center' }}>
+        <p style={{ fontFamily: 'var(--sans)', fontSize: '16px', color: 'var(--text2)', lineHeight: '1.7', marginBottom: '36px', textAlign: 'center', fontWeight: 500 }}>
           Explore how we've helped teams transform concepts into manufacturing-ready products.
         </p>
 
@@ -1910,7 +1902,11 @@ I will share an image of the part. Please help me identify it and suggest the co
         {!selectedCaseStudy && currentPage === 'search' && (
           <>
             <section style={{
-              padding: '48px 0 34px',
+              padding: '56px 0 42px',
+              minHeight: 'clamp(460px, 62vh, 680px)',
+              width: '100vw',
+              marginLeft: 'calc(50% - 50vw)',
+              marginRight: 'calc(50% - 50vw)',
               borderBottom: 'none',
               background: 'linear-gradient(180deg, rgba(30,107,179,0.035) 0%, rgba(30,107,179,0.01) 40%, transparent 100%)',
               position: 'relative',
@@ -1924,10 +1920,10 @@ I will share an image of the part. Please help me identify it and suggest the co
                 alt="CAD Background"
                 style={{
                   position: 'absolute',
-                  right: 0,
-                  top: '50%',
+                  right: '120px',
+                  top: '54%',
                   transform: 'translateY(-50%)',
-                  height: '140%',
+                  height: '150%',
                   width: 'auto',
                   minWidth: '300px',
                   opacity: 0.30,
@@ -1937,7 +1933,7 @@ I will share an image of the part. Please help me identify it and suggest the co
                 }}
               />
 
-              <div style={{ maxWidth: 'clamp(300px, 95%, 1100px)', position: 'relative', zIndex: 1 }}>
+              <div style={{ maxWidth: 'clamp(300px, 90%, 1280px)', margin: '0 auto', padding: '0 clamp(12px, 3vw, 24px)', boxSizing: 'border-box', position: 'relative', zIndex: 1 }}>
               <h1 className="hero-headline" style={{
                 fontFamily: 'var(--sans)',
                 fontSize: 'clamp(32px, 5vw, 52px)',
@@ -1967,12 +1963,13 @@ I will share an image of the part. Please help me identify it and suggest the co
               </p>
               </div>
 
-              <div style={{ animation: 'fadeUp 560ms ease both', animationDelay: '120ms' }}>
+              <div style={{ maxWidth: 'clamp(300px, 90%, 1280px)', margin: '0 auto', padding: '0 clamp(12px, 3vw, 24px)', boxSizing: 'border-box', animation: 'fadeUp 560ms ease both', animationDelay: '120ms' }}>
                 <SearchBar onSearch={handleSearch} loading={loading} rateLimitExceeded={rateLimitExceeded} />
               </div>
 
               <div className="sites-strip-wrapper" style={{
-                marginTop: '24px',
+                maxWidth: 'clamp(300px, 90%, 1280px)',
+                margin: '24px auto 0',
                 border: '1px solid var(--border)',
                 borderRadius: '10px',
                 overflow: 'auto',
@@ -2089,8 +2086,8 @@ I will share an image of the part. Please help me identify it and suggest the co
                     onClick={() => setFileFilter(ft)}
                     style={{
                       fontFamily: 'var(--sans)',
-                      fontSize: '12px',
-                      padding: '7px 14px',
+                      fontSize: '11px',
+                      padding: '5px 11px',
                       border: `1px solid ${fileFilter === ft ? 'var(--amber)' : 'var(--border)'}`,
                       background: fileFilter === ft ? 'var(--amber-light)' : '#fff',
                       color: fileFilter === ft ? 'var(--amber)' : 'var(--text2)',
