@@ -5,6 +5,7 @@ import RotatingWord from './components/RotatingWord'
 import LoadingGrid from './components/LoadingGrid'
 import CaseStudyDetail from './components/CaseStudyDetail'
 import CaptchaModal from './components/CaptchaModal'
+import ResponsiveComponent from './components/ResponsiveComponent'
 
 const SITES = ['Thingiverse', 'Cults3D', 'MyMiniFactory', 'Sketchfab']
 
@@ -246,7 +247,7 @@ I will share an image of the part. Please help me identify it and suggest the co
     }
 
     return (
-      <div style={{ padding: 'clamp(20px, 5vw, 30px) 0 clamp(40px, 10vw, 60px)', maxWidth: 'clamp(300px, 90%, 560px)', margin: '0 auto' }}>
+      <div style={{ padding: 'clamp(40px, 8vw, 80px) 0 clamp(60px, 16vw, 120px)', maxWidth: 'clamp(400px, 96%, 1200px)', margin: '0 auto' }}>
         <h1 style={{ fontFamily: 'var(--sans)', fontSize: '36px', fontWeight: '700', marginBottom: '10px', color: 'var(--text)', textAlign: 'center' }}>
           Manufacture
         </h1>
@@ -270,7 +271,7 @@ I will share an image of the part. Please help me identify it and suggest the co
           </div>
         )}
 
-        <form onSubmit={handleSubmit} style={{ maxWidth: 'clamp(300px, 95%, 560px)', margin: '0 auto', padding: 'clamp(20px, 5vw, 40px)', border: '1px solid var(--border)', borderRadius: '12px', background: '#fff', boxShadow: '0 2px 8px rgba(0,0,0,0.06)' }}>
+        <form onSubmit={handleSubmit} style={{ maxWidth: 'clamp(400px, 98%, 900px)', margin: '0 auto', padding: 'clamp(32px, 8vw, 64px)', border: '1px solid var(--border)', borderRadius: '16px', background: '#fff', boxShadow: '0 4px 16px rgba(0,0,0,0.08)' }}>
           {/* Name */}
           <div style={{ marginBottom: '20px' }}>
             <label style={{ fontFamily: 'var(--sans)', fontSize: '14px', color: 'var(--text)', fontWeight: '700', display: 'block', marginBottom: '10px', letterSpacing: '0.3px' }}>
@@ -582,7 +583,7 @@ I will share an image of the part. Please help me identify it and suggest the co
     }
 
     return (
-      <div style={{ padding: 'clamp(20px, 5vw, 30px) 0 clamp(40px, 10vw, 60px)', maxWidth: 'clamp(300px, 90%, 500px)', margin: '0 auto' }}>
+      <div style={{ padding: 'clamp(40px, 8vw, 80px) 0 clamp(60px, 16vw, 120px)', maxWidth: 'clamp(400px, 96%, 1000px)', margin: '0 auto' }}>
         <h1 style={{ fontFamily: 'var(--sans)', fontSize: '36px', fontWeight: '700', marginBottom: '10px', color: 'var(--text)', textAlign: 'center' }}>
           Custom Design
         </h1>
@@ -606,7 +607,7 @@ I will share an image of the part. Please help me identify it and suggest the co
           </div>
         )}
 
-        <form onSubmit={handleDesignSubmit} style={{ maxWidth: 'clamp(300px, 95%, 500px)', margin: '0 auto', padding: 'clamp(20px, 5vw, 40px)', border: '1px solid var(--border)', borderRadius: '12px', background: '#fff', boxShadow: '0 2px 8px rgba(0,0,0,0.06)' }}>
+        <form onSubmit={handleDesignSubmit} style={{ maxWidth: 'clamp(400px, 98%, 900px)', margin: '0 auto', padding: 'clamp(32px, 8vw, 64px)', border: '1px solid var(--border)', borderRadius: '16px', background: '#fff', boxShadow: '0 4px 16px rgba(0,0,0,0.08)' }}>
           {/* Name */}
           <div style={{ marginBottom: '20px' }}>
             <label style={{ fontFamily: 'var(--sans)', fontSize: '14px', color: 'var(--text)', fontWeight: '700', display: 'block', marginBottom: '10px', letterSpacing: '0.3px' }}>
@@ -1296,7 +1297,7 @@ I will share an image of the part. Please help me identify it and suggest the co
     }
 
     return (
-      <div style={{ maxWidth: 'clamp(300px, 90%, 640px)', margin: '24px auto', animation: 'fadeUp 420ms ease both' }}>
+      <div style={{ maxWidth: 'clamp(400px, 96%, 1200px)', margin: '40px auto', animation: 'fadeUp 420ms ease both' }}>
         <div style={{
           padding: '12px 20px',
           borderRadius: '16px',
@@ -1337,11 +1338,11 @@ I will share an image of the part. Please help me identify it and suggest the co
         <form
           onSubmit={handleContactSubmit}
           style={{
-            padding: '24px',
-            borderRadius: '16px',
+            padding: 'clamp(32px, 8vw, 64px)',
+            borderRadius: '20px',
             background: '#ffffff',
             border: '1px solid #e5e7eb',
-            boxShadow: '0 8px 24px rgba(0,0,0,0.04)',
+            boxShadow: '0 8px 32px rgba(0,0,0,0.06)',
             animation: 'fadeUp 560ms ease both',
           }}
         >
@@ -1710,8 +1711,52 @@ I will share an image of the part. Please help me identify it and suggest the co
     </div>
   )
 
+  // DEMO: Responsive Techniques Section
+  function ResponsiveDemo() {
+    return (
+      <div style={{ margin: '40px 0', padding: '24px', background: '#f7fafc', borderRadius: '12px' }}>
+        <h2 style={{ fontFamily: 'var(--sans)', fontSize: '22px', fontWeight: 700, marginBottom: '18px' }}>Responsive Techniques Demo</h2>
+        <div style={{ marginBottom: '18px' }}>
+          <strong>1. CSS Media Queries (Grid Demo):</strong>
+          <div className="container">
+            <header className="header">
+              <h3>Responsive Grid Example</h3>
+            </header>
+            <div className="grid">
+              <div className="card">Card 1</div>
+              <div className="card">Card 2</div>
+              <div className="card">Card 3</div>
+            </div>
+          </div>
+        </div>
+        <div style={{ marginBottom: '18px' }}>
+          <strong>2. JavaScript Hook (Dynamic):</strong>
+          <div style={{ border: '1px solid #ddd', borderRadius: '8px', padding: '16px', background: '#fff' }}>
+            {/* ResponsiveComponent uses JS to detect mobile/desktop */}
+            <ResponsiveComponent />
+          </div>
+        </div>
+        <div style={{ marginBottom: '18px' }}>
+          <strong>3. Tailwind CSS (Recommended):</strong>
+          <div style={{ fontSize: '13px', color: '#666' }}>
+            {/* To use Tailwind, install and configure it, then use classes like:
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"> ... </div>
+            */}
+            <span>See guide for Tailwind usage.</span>
+          </div>
+        </div>
+        <div>
+          <strong>4. Container Queries (Modern CSS):</strong>
+          <div className="card-container">
+            <div className="card">Resize me! (Container Query)</div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div style={{ minHeight: '100vh', background: 'var(--bg)', position: 'relative', zIndex: 1 }}>
+    <div style={{ minHeight: '100vh', background: 'var(--bg)', position: 'relative', zIndex: 1, maxWidth: '100vw', overflowX: 'hidden' }}>
       {/* Navigation Bar */}
       <nav style={{
         display: 'flex',
