@@ -73,11 +73,14 @@ export default function LoadingGrid() {
       </div>
 
       {/* Skeleton cards grid */}
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
-        gap: '16px',
-      }}>
+      <div
+        style={{
+          display: 'grid',
+          gap: '16px',
+          gridTemplateColumns: 'repeat(1, 1fr)',
+        }}
+        className="loading-skeleton-grid"
+      >
         <SkeletonCard delay={0} />
         <SkeletonCard delay={0.1} />
         <SkeletonCard delay={0.2} />
@@ -85,6 +88,18 @@ export default function LoadingGrid() {
         <SkeletonCard delay={0.4} />
         <SkeletonCard delay={0.5} />
       </div>
+      <style>{`
+        @media (min-width: 768px) {
+          .loading-skeleton-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+          }
+        }
+        @media (min-width: 1024px) {
+          .loading-skeleton-grid {
+            grid-template-columns: repeat(3, 1fr) !important;
+          }
+        }
+      `}</style>
     </div>
   )
 }
