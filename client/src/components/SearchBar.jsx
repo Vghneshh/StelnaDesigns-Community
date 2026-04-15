@@ -44,21 +44,24 @@ export default function SearchBar({ onSearch, loading, rateLimitExceeded }) {
       `}</style>
 
       {/* Search bar */}
-      <div style={{
-        position: 'relative',
-        width: '100%',
-        boxSizing: 'border-box',
-        background: '#fff',
-        border: `1.5px solid ${focused ? 'var(--amber)' : 'var(--border)'}`,
-        borderRadius: '12px',
-        padding: '8px 10px 8px 12px',
-        marginBottom: '12px',
-        transition: 'all 0.2s ease',
-        boxShadow: focused ? '0 0 0 4px var(--amber-dim), 0 8px 20px rgba(0,0,0,0.05)' : '0 2px 8px rgba(0,0,0,0.04)',
-        display: 'flex',
-        alignItems: 'center',
-      }}>
-
+      <div
+        style={{
+          position: 'relative',
+          width: '100%',
+          boxSizing: 'border-box',
+          background: '#fff',
+          border: `1.5px solid ${focused ? 'var(--amber)' : 'var(--border)'}`,
+          borderRadius: '12px',
+          padding: '8px 10px 8px 12px',
+          marginBottom: '12px',
+          transition: 'all 0.2s ease',
+          boxShadow: focused
+            ? '0 0 0 4px var(--amber-dim), 0 8px 20px rgba(0,0,0,0.05)'
+            : '0 2px 8px rgba(0,0,0,0.04)',
+          display: 'flex',
+          alignItems: 'center',
+        }}
+      >
         {/* Search icon */}
         <span style={{ color: 'var(--text3)', flexShrink: 0, display: 'flex', marginRight: '8px' }}>
           <svg width="18" height="18" viewBox="0 0 20 20" fill="none">
@@ -66,7 +69,6 @@ export default function SearchBar({ onSearch, loading, rateLimitExceeded }) {
             <path d="M14 14L17.5 17.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
           </svg>
         </span>
-
         {/* Input */}
         <input
           type="text"
@@ -95,17 +97,12 @@ export default function SearchBar({ onSearch, loading, rateLimitExceeded }) {
             width: '100%',
           }}
         />
-
-        {/* Search Button - Positioned Absolutely */}
+        {/* Search Button */}
         <button
           className="search-button-mobile"
           onClick={handleSearch}
           disabled={loading || !query.trim()}
           style={{
-            position: 'absolute',
-            right: '8px',
-            top: '50%',
-            transform: 'translateY(-50%)',
             border: '1px solid transparent',
             borderRadius: '8px',
             background: loading || !query.trim() ? 'var(--bg3)' : 'var(--amber)',
@@ -118,6 +115,11 @@ export default function SearchBar({ onSearch, loading, rateLimitExceeded }) {
             transition: 'all 0.2s ease',
             whiteSpace: 'nowrap',
             boxSizing: 'border-box',
+            marginLeft: '8px',
+            height: '100%',
+            alignSelf: 'stretch',
+            display: 'flex',
+            alignItems: 'center',
           }}
           onMouseEnter={(e) => {
             if (!loading && query.trim()) {
