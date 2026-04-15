@@ -2129,6 +2129,7 @@ I will share an image of the part. Please help me identify it and suggest the co
                   <button
                     key={ft}
                     onClick={() => setFileFilter(ft)}
+                    className="filter-chip-btn"
                     style={{
                       fontFamily: 'var(--sans)',
                       fontSize: '11px',
@@ -2143,6 +2144,7 @@ I will share an image of the part. Please help me identify it and suggest the co
                       fontWeight: fileFilter === ft ? '600' : '400',
                       animation: 'filterChipIn 280ms ease both',
                       animationDelay: `${idx * 40}ms`,
+                      marginBottom: '6px',
                     }}
                     onMouseEnter={(e) => {
                       if (fileFilter !== ft) {
