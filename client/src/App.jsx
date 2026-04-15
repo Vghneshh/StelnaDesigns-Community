@@ -2008,7 +2008,7 @@ I will share an image of the part. Please help me identify it and suggest the co
               </p>
               </div>
 
-              <div style={{ maxWidth: 'clamp(300px, 90%, 1280px)', margin: '0 auto', padding: '0 clamp(12px, 3vw, 24px)', boxSizing: 'border-box', animation: 'fadeUp 560ms ease both', animationDelay: '120ms' }}>
+              <div style={{ maxWidth: 'clamp(300px, 90%, 1280px)', margin: '0 auto', padding: '0', boxSizing: 'border-box', animation: 'fadeUp 560ms ease both', animationDelay: '120ms' }}>
                 <SearchBar onSearch={handleSearch} loading={loading} rateLimitExceeded={rateLimitExceeded} />
               </div>
 
