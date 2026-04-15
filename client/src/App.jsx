@@ -1986,11 +1986,11 @@ I will share an image of the part. Please help me identify it and suggest the co
                 }}>
                   {SITES.map((s, idx) => (
                     <div key={s} style={{
-                      flex: '1 0 140px',
-                      padding: '10px 14px',
+                      flex: '1 0 90px',
+                      padding: '8px 6px',
                       textAlign: 'center',
                       fontFamily: 'var(--sans)',
-                      fontSize: '11px',
+                      fontSize: '10px',
                       color: 'var(--text2)',
                       fontWeight: '500',
                       letterSpacing: '0.1px',
@@ -2339,7 +2339,7 @@ I will share an image of the part. Please help me identify it and suggest the co
             align-items: flex-start !important;
           }
           .sites-strip-wrapper > div {
-            min-width: 320px !important;
+            min-width: 180px !important;
           }
         }
       `}</style>
