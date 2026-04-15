@@ -247,7 +247,7 @@ I will share an image of the part. Please help me identify it and suggest the co
     }
 
     return (
-      <div style={{ padding: 'clamp(40px, 8vw, 80px) 0 clamp(60px, 16vw, 120px)', maxWidth: 'clamp(400px, 96%, 1200px)', margin: '0 auto' }}>
+      <div style={{ padding: 'clamp(40px, 8vw, 80px) 0 clamp(60px, 16vw, 120px)', maxWidth: 'clamp(400px, 98%, 1600px)', margin: '0 auto' }}>
         <h1 style={{ fontFamily: 'var(--sans)', fontSize: '36px', fontWeight: '700', marginBottom: '10px', color: 'var(--text)', textAlign: 'center' }}>
           Manufacture
         </h1>
@@ -271,7 +271,7 @@ I will share an image of the part. Please help me identify it and suggest the co
           </div>
         )}
 
-        <form onSubmit={handleSubmit} style={{ maxWidth: 'clamp(400px, 98%, 900px)', margin: '0 auto', padding: 'clamp(32px, 8vw, 64px)', border: '1px solid var(--border)', borderRadius: '16px', background: '#fff', boxShadow: '0 4px 16px rgba(0,0,0,0.08)' }}>
+        <form onSubmit={handleSubmit} style={{ maxWidth: 'clamp(400px, 99%, 1100px)', margin: '0 auto', padding: 'clamp(32px, 8vw, 64px)', border: '1px solid var(--border)', borderRadius: '16px', background: '#fff', boxShadow: '0 4px 16px rgba(0,0,0,0.08)' }}>
           {/* Name */}
           <div style={{ marginBottom: '20px' }}>
             <label style={{ fontFamily: 'var(--sans)', fontSize: '14px', color: 'var(--text)', fontWeight: '700', display: 'block', marginBottom: '10px', letterSpacing: '0.3px' }}>
@@ -583,7 +583,7 @@ I will share an image of the part. Please help me identify it and suggest the co
     }
 
     return (
-      <div style={{ padding: 'clamp(40px, 8vw, 80px) 0 clamp(60px, 16vw, 120px)', maxWidth: 'clamp(400px, 96%, 1000px)', margin: '0 auto' }}>
+      <div style={{ padding: 'clamp(40px, 8vw, 80px) 0 clamp(60px, 16vw, 120px)', maxWidth: 'clamp(400px, 98%, 1600px)', margin: '0 auto' }}>
         <h1 style={{ fontFamily: 'var(--sans)', fontSize: '36px', fontWeight: '700', marginBottom: '10px', color: 'var(--text)', textAlign: 'center' }}>
           Custom Design
         </h1>
@@ -607,7 +607,7 @@ I will share an image of the part. Please help me identify it and suggest the co
           </div>
         )}
 
-        <form onSubmit={handleDesignSubmit} style={{ maxWidth: 'clamp(400px, 98%, 900px)', margin: '0 auto', padding: 'clamp(32px, 8vw, 64px)', border: '1px solid var(--border)', borderRadius: '16px', background: '#fff', boxShadow: '0 4px 16px rgba(0,0,0,0.08)' }}>
+        <form onSubmit={handleDesignSubmit} style={{ maxWidth: 'clamp(400px, 99%, 1100px)', margin: '0 auto', padding: 'clamp(32px, 8vw, 64px)', border: '1px solid var(--border)', borderRadius: '16px', background: '#fff', boxShadow: '0 4px 16px rgba(0,0,0,0.08)' }}>
           {/* Name */}
           <div style={{ marginBottom: '20px' }}>
             <label style={{ fontFamily: 'var(--sans)', fontSize: '14px', color: 'var(--text)', fontWeight: '700', display: 'block', marginBottom: '10px', letterSpacing: '0.3px' }}>
@@ -1297,7 +1297,7 @@ I will share an image of the part. Please help me identify it and suggest the co
     }
 
     return (
-      <div style={{ maxWidth: 'clamp(400px, 96%, 1200px)', margin: '40px auto', animation: 'fadeUp 420ms ease both' }}>
+      <div style={{ maxWidth: 'clamp(400px, 98%, 1600px)', margin: '40px auto', animation: 'fadeUp 420ms ease both' }}>
         <div style={{
           padding: '12px 20px',
           borderRadius: '16px',
@@ -1498,7 +1498,7 @@ I will share an image of the part. Please help me identify it and suggest the co
 
   const CaseStudiesPage = () => (
     <div style={{ width: '100%', boxSizing: 'border-box', padding: '0 clamp(12px, 3vw, 24px)' }}>
-      <div style={{ maxWidth: 'clamp(300px, 100%, 1000px)', margin: '0 auto', padding: 'clamp(12px, 2vw, 20px) 0 clamp(40px, 8vw, 60px) 0', width: '100%', boxSizing: 'border-box' }}>
+      <div style={{ maxWidth: 'clamp(300px, 100%, 1400px)', margin: '0 auto', padding: 'clamp(12px, 2vw, 20px) 0 clamp(40px, 8vw, 60px) 0', width: '100%', boxSizing: 'border-box' }}>
         <h1 style={{ fontFamily: 'Montserrat, Syne, var(--sans)', fontSize: '38px', fontWeight: '800', marginBottom: '18px', color: 'var(--text)', textAlign: 'center', letterSpacing: '-0.5px' }}>
           Case Studies
         </h1>
