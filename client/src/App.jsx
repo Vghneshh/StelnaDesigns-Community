@@ -583,7 +583,7 @@ I will share an image of the part. Please help me identify it and suggest the co
     }
 
     return (
-      <div style={{ padding: 'clamp(40px, 8vw, 80px) 0 clamp(60px, 16vw, 120px)', maxWidth: 'clamp(400px, 98%, 1600px)', margin: '0 auto' }}>
+      <div style={{ padding: 'clamp(40px, 4vw, 80px) 0 clamp(60px, 8vw, 120px)', maxWidth: 'clamp(400px, 99%, 1800px)', margin: '0 auto' }}>
         <h1 style={{ fontFamily: 'var(--sans)', fontSize: '36px', fontWeight: '700', marginBottom: '10px', color: 'var(--text)', textAlign: 'center' }}>
           Custom Design
         </h1>
@@ -1297,7 +1297,7 @@ I will share an image of the part. Please help me identify it and suggest the co
     }
 
     return (
-      <div style={{ maxWidth: 'clamp(400px, 98%, 1600px)', margin: '40px auto', animation: 'fadeUp 420ms ease both' }}>
+      <div style={{ maxWidth: 'clamp(400px, 99%, 1800px)', margin: '40px auto', animation: 'fadeUp 420ms ease both' }}>
         <div style={{
           padding: '12px 20px',
           borderRadius: '16px',
