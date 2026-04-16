@@ -44,86 +44,71 @@ export default function CaptchaModal({ onSuccess, sessionId }) {
         // CAPTCHA verified and rate limit reset
         setLoading(false)
         onSuccess()
-      return (
-        <div className="captcha-modal-overlay">
-          <div className="captcha-modal">
-            {/* Close button removed to enforce CAPTCHA completion */}
-            <h2>Verify You're Human</h2>
-            <p>You've made several searches. Please complete the CAPTCHA below to continue searching.</p>
-            <div style={{ margin: '18px 0' }}>
-              <ReCAPTCHA
-                ref={captchaRef}
-                sitekey={import.meta.env.VITE_RECAPTCHA_SITEKEY}
-                onChange={handleCaptchaChange}
-                theme="light"
-              />
+      } else {
+        setLoading(false)
+        setError(data.error || 'CAPTCHA verification failed. Please try again.')
+        return (
+          <>
+            <div className="captcha-modal-overlay">
+              <div className="captcha-modal">
+                {/* Close button removed to enforce CAPTCHA completion */}
+                <h2>Verify You're Human</h2>
+                <p>You've made several searches. Please complete the CAPTCHA below to continue searching.</p>
+                <div style={{ margin: '18px 0' }}>
+                  <ReCAPTCHA
+                    ref={captchaRef}
+                    sitekey={import.meta.env.VITE_RECAPTCHA_SITEKEY}
+                    onChange={handleCaptchaChange}
+                    theme="light"
+                  />
+                </div>
+                {error && <div style={{ color: 'red', marginBottom: 12 }}>{error}</div>}
+                <div style={{ display: 'flex', gap: 12, marginTop: 8 }}>
+                  <button onClick={() => handleVerifyAndRetry(token)} disabled={loading || !token} style={{ padding: '8px 18px', fontWeight: 600, borderRadius: 6, border: 'none', background: '#2563eb', color: '#fff', cursor: loading ? 'not-allowed' : 'pointer' }}>
+                    {loading ? 'Verifying...' : 'Continue Searching'}
+                  </button>
+                </div>
+                {/* Keyframe animations */}
+                <style>{`
+                  @keyframes fadeIn {
+                    from { opacity: 0; }
+                    to { opacity: 1; }
+                  }
+                  @keyframes slideUp {
+                    from { transform: translate(-50%, calc(-50% + 20px)); opacity: 0; }
+                    to { transform: translate(-50%, -50%); opacity: 1; }
+                  }
+                `}</style>
+              </div>
             </div>
-            {error && <div style={{ color: 'red', marginBottom: 12 }}>{error}</div>}
-            <div style={{ display: 'flex', gap: 12, marginTop: 8 }}>
-              <button onClick={handleVerifyAndRetry} disabled={loading || !token} style={{ padding: '8px 18px', fontWeight: 600, borderRadius: 6, border: 'none', background: '#2563eb', color: '#fff', cursor: loading ? 'not-allowed' : 'pointer' }}>
-                {loading ? 'Verifying...' : 'Continue Searching'}
-              </button>
-            </div>
-          </div>
-        </div>
-      )
-      {/* Backdrop */}
-      <div
-        onClick={onClose}
-        style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          background: 'rgba(0, 0, 0, 0.5)',
-          zIndex: 999,
-          animation: 'fadeIn 200ms ease',
-        }}
-      />
-
-      {/* Modal */}
-      <div
-        style={{
-          position: 'fixed',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          background: 'white',
-          borderRadius: '12px',
-          padding: '32px',
-          maxWidth: '420px',
-          width: '90%',
-          boxShadow: '0 20px 25px rgba(0, 0, 0, 0.15), 0 8px 16px rgba(0, 0, 0, 0.1)',
-          zIndex: 1000,
-          animation: 'slideUp 300ms ease',
-          fontFamily: 'var(--sans)',
+          </>
+        )
         }}
       >
         {/* Close button */}
-        <button
-          onClick={onClose}
-          style={{
-            position: 'absolute',
-            top: '12px',
-            right: '12px',
-            background: 'none',
-            border: 'none',
-            fontSize: '24px',
-            cursor: 'pointer',
-            color: '#999',
-            padding: '4px 8px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          ✕
-        </button>
-
-        {/* Title */}
-        <h2
-          style={{
+        return (
+          <div className="captcha-modal-overlay">
+            <div className="captcha-modal">
+              {/* Close button removed to enforce CAPTCHA completion */}
+              <h2>Verify You're Human</h2>
+              <p>You've made several searches. Please complete the CAPTCHA below to continue searching.</p>
+              <div style={{ margin: '18px 0' }}>
+                <ReCAPTCHA
+                  ref={captchaRef}
+                  sitekey={import.meta.env.VITE_RECAPTCHA_SITEKEY}
+                  onChange={handleCaptchaChange}
+                  theme="light"
+                />
+              </div>
+              {error && <div style={{ color: 'red', marginBottom: 12 }}>{error}</div>}
+              <div style={{ display: 'flex', gap: 12, marginTop: 8 }}>
+                <button onClick={() => handleVerifyAndRetry(token)} disabled={loading || !token} style={{ padding: '8px 18px', fontWeight: 600, borderRadius: 6, border: 'none', background: '#2563eb', color: '#fff', cursor: loading ? 'not-allowed' : 'pointer' }}>
+                  {loading ? 'Verifying...' : 'Continue Searching'}
+                </button>
+              </div>
+            </div>
+          </div>
+        )
             fontSize: '20px',
             fontWeight: '700',
             color: '#0a0a0a',
