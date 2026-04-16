@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import ReCAPTCHA from 'react-google-recaptcha'
 
-export default function CaptchaModal({ onSuccess, onClose, sessionId }) {
+export default function CaptchaModal({ onSuccess, sessionId }) {
   const [token, setToken] = useState(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
@@ -44,29 +44,29 @@ export default function CaptchaModal({ onSuccess, onClose, sessionId }) {
         // CAPTCHA verified and rate limit reset
         setLoading(false)
         onSuccess()
-      } else {
-        setLoading(false)
-        setError(data.error || 'CAPTCHA verification failed. Please try again.')
-        setToken(null)
-        if (captchaRef.current) {
-          captchaRef.current.reset()
-        }
-      }
-    } catch (err) {
-      setLoading(false)
-      console.error('CAPTCHA verification error:', err)
-      setError('Could not verify CAPTCHA. Please try again.')
-      setToken(null)
-      if (captchaRef.current) {
-        captchaRef.current.reset()
-      }
-    }
-  }
-
-  const RECAPTCHA_SITEKEY = import.meta.env.VITE_RECAPTCHA_SITEKEY
-
-  return (
-    <>
+      return (
+        <div className="captcha-modal-overlay">
+          <div className="captcha-modal">
+            {/* Close button removed to enforce CAPTCHA completion */}
+            <h2>Verify You're Human</h2>
+            <p>You've made several searches. Please complete the CAPTCHA below to continue searching.</p>
+            <div style={{ margin: '18px 0' }}>
+              <ReCAPTCHA
+                ref={captchaRef}
+                sitekey={import.meta.env.VITE_RECAPTCHA_SITEKEY}
+                onChange={handleCaptchaChange}
+                theme="light"
+              />
+            </div>
+            {error && <div style={{ color: 'red', marginBottom: 12 }}>{error}</div>}
+            <div style={{ display: 'flex', gap: 12, marginTop: 8 }}>
+              <button onClick={handleVerifyAndRetry} disabled={loading || !token} style={{ padding: '8px 18px', fontWeight: 600, borderRadius: 6, border: 'none', background: '#2563eb', color: '#fff', cursor: loading ? 'not-allowed' : 'pointer' }}>
+                {loading ? 'Verifying...' : 'Continue Searching'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )
       {/* Backdrop */}
       <div
         onClick={onClose}

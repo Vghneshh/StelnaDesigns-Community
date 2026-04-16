@@ -62,6 +62,7 @@ body {
   }
 }
 
+
 .flip-container {
   display: inline-flex;
   align-items: center;
@@ -74,6 +75,12 @@ body {
   margin: 0 6px;
   position: relative;
   line-height: 1;
+}
+
+/* Nudge flipping word up in home hero heading only */
+.home-hero-flip .flip-container {
+  top: -0.18em;
+  position: relative;
 }
 
 @media (max-width: 768px) {

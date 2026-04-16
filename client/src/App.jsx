@@ -43,9 +43,28 @@ export default function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [isMobile, setIsMobile] = useState(detectMobileView)
   const [selectedCaseStudy, setSelectedCaseStudy] = useState(null)
-  const [sessionId, setSessionId] = useState('')
+  // --- SESSION ID PERSISTENCE ---
+  function getOrCreateSessionId() {
+    let sid = localStorage.getItem('sessionId')
+    if (!sid) {
+      // Use crypto.randomUUID if available, else fallback
+      if (window.crypto && window.crypto.randomUUID) {
+        sid = window.crypto.randomUUID()
+      } else {
+        sid = Math.random().toString(36).substr(2, 16) + Date.now()
+      }
+      localStorage.setItem('sessionId', sid)
+    }
+    return sid
+  }
+  const [sessionId, setSessionId] = useState(getOrCreateSessionId())
   const [rateLimitExceeded, setRateLimitExceeded] = useState(false)
   const esRef = useRef(null)
+
+  // Keep sessionId in sync with localStorage if it ever changes (rare)
+  useEffect(() => {
+    if (sessionId) localStorage.setItem('sessionId', sessionId)
+  }, [sessionId])
 
   // Handle mobile responsive
   useEffect(() => {
@@ -2075,7 +2094,6 @@ I will share an image of the part. Please help me identify it and suggest the co
                   setRateLimitExceeded(false)
                   handleSearch(query)
                 }}
-                onClose={() => setRateLimitExceeded(false)}
               />
             )}
 

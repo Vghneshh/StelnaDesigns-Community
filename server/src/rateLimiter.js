@@ -112,4 +112,4 @@ class RateLimiter {
   }
 }
 
-module.exports = new RateLimiter(5, 60 * 1000) // 5 requests per 60 seconds
+module.exports = new RateLimiter(5, 120 * 1000) // 5 requests per 120 seconds (2 minutes)
