@@ -3,7 +3,7 @@ require('dotenv').config()
 
 const express = require('express')
 const cors = require('cors')
-const rateLimit = require('express-rate-limit')
+// Remove express-rate-limit for search endpoints (use only for generic API protection)
 const nodemailer = require('nodemailer')
 const { scrapeAll, searchSketchfab, searchThingiverse, searchMyMiniFactory, searchCults3D } = require('./scraper')
 const searchRateLimiter = require('./rateLimiter')
@@ -186,13 +186,15 @@ app.use((err, req, res, next) => {
   return next(err)
 })
 
-// Rate limiting
-const limiter = rateLimit({
-  windowMs: 60 * 1000,
-  max: 20,
-  message: { error: 'Too many requests, slow down.' }
-})
-app.use('/api', limiter)
+// Generic API rate limiting (optional, not for search endpoints)
+// If you want to keep a global API limiter, uncomment below:
+// const rateLimit = require('express-rate-limit')
+// const limiter = rateLimit({
+//   windowMs: 60 * 1000,
+//   max: 100,
+//   message: { error: 'Too many requests, slow down.' }
+// })
+// app.use('/api', limiter)
 
 // Health check
 app.get('/api/health', (req, res) => {
@@ -280,23 +282,22 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'Internal server error.' })
 })
 
-// Search-specific rate limiting middleware
-function searchRateLimiterMiddleware(req, res, next) {
-  // SessionId can come from query params (EventSource) or headers (fetch)
-  const sessionId = req.query.sessionId || req.headers['x-session-id'] || req.ip || 'unknown'
 
-  if (!searchRateLimiter.checkLimit(sessionId)) {
-    searchRateLimiter.logRequest(sessionId)
-    return res.status(429).json({
-      error: 'Too many search requests',
+// Search-specific rate limiting middleware (Redis-backed)
+async function searchRateLimiterMiddleware(req, res, next) {
+  const key = req.ip || 'unknown'
+
+  try {
+    await searchRateLimiter.consume(key, 1)
+    next()
+  } catch (rlRejected) {
+    // Return 200 with flag — NOT 429 — so frontend can show CAPTCHA cleanly
+    return res.status(200).json({
+      rateLimited: true,
       captchaRequired: true,
-      message: 'You have exceeded the search limit. Please verify you\'re human.'
+      message: 'Too many searches. Please complete the CAPTCHA to continue.'
     })
   }
-
-  // Request is within limit, log it and continue
-  searchRateLimiter.logRequest(sessionId)
-  next()
 }
 
 // ✅ Streaming search endpoint — sends results as each source finishes
@@ -412,45 +413,42 @@ app.post('/api/verify-captcha', async (req, res) => {
   }
 })
 
-// CAPTCHA verification + rate limit reset endpoint
+
+
 app.post('/api/verify-captcha-and-reset', async (req, res) => {
-  const { token, sessionId } = req.body
+  const { token } = req.body  // no longer need sessionId — we use IP
 
   if (!token) {
     return res.status(400).json({ success: false, error: 'No CAPTCHA token provided' })
   }
 
-  if (!sessionId) {
-    return res.status(400).json({ success: false, error: 'No session ID provided' })
-  }
-
   const secretKey = process.env.RECAPTCHA_SECRET_KEY
-
   if (!secretKey) {
-    console.error('❌ RECAPTCHA_SECRET_KEY not configured')
     return res.status(500).json({ success: false, error: 'CAPTCHA not configured' })
   }
 
   try {
+    // 1. Verify with Google
     const response = await fetch('https://www.google.com/recaptcha/api/siteverify', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: `secret=${secretKey}&response=${token}`,
     })
-
     const data = await response.json()
 
-    // Support both v2 (checkbox - no score) and v3 (score-based)
     const isValid = data.success && (data.score === undefined || data.score > 0.5)
 
-    if (isValid) {
-      // CAPTCHA verified successfully — reset rate limit for this session
-      searchRateLimiter.resetLimit(sessionId)
-      console.log(`✅ CAPTCHA verified for session ${sessionId}, rate limit reset`)
-      res.json({ success: true, rateLimitReset: true })
-    } else {
-      res.status(400).json({ success: false, error: 'CAPTCHA verification failed' })
+    if (!isValid) {
+      return res.status(400).json({ success: false, error: 'CAPTCHA verification failed' })
     }
+
+    // 2. Reset rate limit for this IP
+    const key = req.ip || 'unknown'
+    await searchRateLimiter.delete(key)
+    console.log(`✅ CAPTCHA verified, rate limit reset for IP: ${key}`)
+
+    res.json({ success: true, rateLimitReset: true })
+
   } catch (err) {
     console.error('CAPTCHA verification error:', err)
     res.status(500).json({ success: false, error: 'Verification failed' })

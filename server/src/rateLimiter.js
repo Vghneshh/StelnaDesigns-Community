@@ -1,115 +1,37 @@
-/**
- * In-memory rate limiter for search endpoints
- * Tracks requests per session ID with 60-second sliding window
- */
+// rateLimiter.js - Redis-backed rate limiter (falls back to memory in dev)
+const { RateLimiterRedis, RateLimiterMemory } = require('rate-limiter-flexible')
 
-class RateLimiter {
-  constructor(limit = 5, windowMs = 60 * 1000) {
-    this.limit = limit           // 5 requests per window
-    this.windowMs = windowMs     // 60 seconds
-    this.requests = new Map()    // sessionId -> { count, firstRequestTime }
-    this.cleanupInterval = null
-    this.startCleanup()
-  }
+let rateLimiter
 
-  /**
-   * Check if session has exceeded rate limit
-   * Returns true if within limit, false if exceeded
-   */
-  checkLimit(sessionId) {
-    const now = Date.now()
-    const record = this.requests.get(sessionId)
+if (process.env.REDIS_URL) {
+  const Redis = require('ioredis')
+  const redisClient = new Redis(process.env.REDIS_URL, {
+    enableOfflineQueue: false,
+    tls: { rejectUnauthorized: false } // required for Upstash
+  })
 
-    // First request or window expired
-    if (!record || now - record.firstRequestTime > this.windowMs) {
-      this.requests.set(sessionId, { count: 1, firstRequestTime: now })
-      return true
-    }
+  redisClient.on('error', (err) => {
+    console.error('Redis error:', err.message)
+  })
 
-    // Within limit
-    if (record.count < this.limit) {
-      record.count++
-      return true
-    }
+  rateLimiter = new RateLimiterRedis({
+    storeClient: redisClient,
+    keyPrefix: 'rl_search',
+    points: 30,         // 30 searches allowed
+    duration: 60 * 5,  // per 5 minutes
+    blockDuration: 0,  // never hard block, just trigger CAPTCHA
+  })
 
-    // Exceeded limit
-    return false
-  }
+  console.log('✅ Redis rate limiter initialized')
+} else {
+  rateLimiter = new RateLimiterMemory({
+    keyPrefix: 'rl_search',
+    points: 30,
+    duration: 60 * 5,
+    blockDuration: 0,
+  })
 
-  /**
-   * Log a request for a session (increments counter)
-   * Used after middleware passes checkLimit()
-   */
-  logRequest(sessionId) {
-    const now = Date.now()
-    const record = this.requests.get(sessionId)
-
-    if (!record || now - record.firstRequestTime > this.windowMs) {
-      this.requests.set(sessionId, { count: 1, firstRequestTime: now })
-    } else {
-      record.count++
-    }
-  }
-
-  /**
-   * Reset rate limit for a session (called after CAPTCHA verification)
-   */
-  resetLimit(sessionId) {
-    this.requests.delete(sessionId)
-  }
-
-  /**
-   * Get current limit status for a session (for debugging)
-   */
-  getStatus(sessionId) {
-    const record = this.requests.get(sessionId)
-    if (!record) {
-      return { remaining: this.limit, resetTime: null }
-    }
-
-    const now = Date.now()
-    const elapsed = now - record.firstRequestTime
-    const remaining = Math.max(0, this.limit - record.count)
-    const resetTime = new Date(record.firstRequestTime + this.windowMs)
-
-    return {
-      count: record.count,
-      remaining,
-      resetTime,
-      windowExpired: elapsed > this.windowMs
-    }
-  }
-
-  /**
-   * Cleanup expired records periodically (every 2 minutes)
-   */
-  startCleanup() {
-    this.cleanupInterval = setInterval(() => {
-      const now = Date.now()
-      let cleaned = 0
-
-      for (const [sessionId, record] of this.requests.entries()) {
-        if (now - record.firstRequestTime > this.windowMs) {
-          this.requests.delete(sessionId)
-          cleaned++
-        }
-      }
-
-      if (cleaned > 0) {
-        console.log(`[RateLimiter] Cleaned up ${cleaned} expired records`)
-      }
-    }, 2 * 60 * 1000) // 2 minutes
-  }
-
-  /**
-   * Stop cleanup interval (call on server shutdown)
-   */
-  destroy() {
-    if (this.cleanupInterval) {
-      clearInterval(this.cleanupInterval)
-      this.cleanupInterval = null
-    }
-  }
+  console.log('⚠️  Using in-memory rate limiter (set REDIS_URL for persistence)')
 }
 
-module.exports = new RateLimiter(5, 120 * 1000) // 5 requests per 120 seconds (2 minutes)
+module.exports = rateLimiter

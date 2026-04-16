@@ -43,7 +43,10 @@ export default function CaptchaModal({ onSuccess, onClose, sessionId }) {
       if (data.success && data.rateLimitReset) {
         // CAPTCHA verified and rate limit reset
         setLoading(false)
-        onSuccess()
+        // Add small delay to ensure state settles before calling onSuccess
+        setTimeout(() => {
+          onSuccess()
+        }, 300)
       } else {
         setLoading(false)
         setError(data.error || 'CAPTCHA verification failed. Please try again.')
@@ -104,36 +107,48 @@ export default function CaptchaModal({ onSuccess, onClose, sessionId }) {
           </div>
         )}
 
-        {/* Buttons */}
-        <div style={buttonContainerStyles}>
-          <button
-            onClick={onClose}
-            style={cancelButtonStyles}
-            onMouseEnter={(e) => {
-              if (!loading) e.target.style.background = '#efefef'
-            }}
-            onMouseLeave={(e) => {
-              if (!loading) e.target.style.background = '#f5f5f5'
-            }}
-            disabled={loading}
-          >
-            Cancel
-          </button>
+        {/* Loading indicator */}
+        {loading && (
+          <div style={loadingStyles}>
+            <div style={spinnerStyles}></div>
+            <p style={{ margin: '8px 0 0 0', color: '#525252', fontSize: '14px' }}>
+              Verifying...
+            </p>
+          </div>
+        )}
 
-          <button
-            onClick={() => handleVerifyAndRetry(token)}
-            style={submitButtonStyles(loading)}
-            onMouseEnter={(e) => {
-              if (!loading) e.target.style.background = '#154a8a'
-            }}
-            onMouseLeave={(e) => {
-              if (!loading) e.target.style.background = '#1e6bb3'
-            }}
-            disabled={loading || !token}
-          >
-            {loading ? 'Verifying...' : 'Continue Searching'}
-          </button>
-        </div>
+        {/* Buttons */}
+        {!loading && (
+          <div style={buttonContainerStyles}>
+            <button
+              onClick={onClose}
+              style={cancelButtonStyles}
+              onMouseEnter={(e) => {
+                e.target.style.background = '#efefef'
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.background = '#f5f5f5'
+              }}
+              disabled={loading}
+            >
+              Cancel
+            </button>
+
+            <button
+              onClick={() => handleVerifyAndRetry(token)}
+              style={submitButtonStyles(loading)}
+              onMouseEnter={(e) => {
+                if (!loading) e.target.style.background = '#154a8a'
+              }}
+              onMouseLeave={(e) => {
+                if (!loading) e.target.style.background = '#1e6bb3'
+              }}
+              disabled={loading || !token}
+            >
+              {loading ? 'Verifying...' : 'Continue Searching'}
+            </button>
+          </div>
+        )}
 
         {/* Keyframe animations */}
         <style>{`
@@ -144,6 +159,10 @@ export default function CaptchaModal({ onSuccess, onClose, sessionId }) {
           @keyframes slideUp {
             from { transform: translate(-50%, calc(-50% + 20px)); opacity: 0; }
             to { transform: translate(-50%, -50%); opacity: 1; }
+          }
+          @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
           }
           [data-captcha-overlay] {
             animation: fadeIn 0.3s ease-in-out;
@@ -226,6 +245,24 @@ const errorStyles = {
   fontSize: '12px',
   color: '#dc2626',
   fontFamily: 'monospace',
+}
+
+const loadingStyles = {
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+  padding: '24px 0',
+  marginBottom: '16px',
+}
+
+const spinnerStyles = {
+  width: '24px',
+  height: '24px',
+  border: '3px solid #e5e5e5',
+  borderTop: '3px solid #1e6bb3',
+  borderRadius: '50%',
+  animation: 'spin 0.8s linear infinite',
 }
 
 const buttonContainerStyles = {
